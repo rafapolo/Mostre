@@ -1,0 +1,11 @@
+<h3>Meus Links</h3>
+<% if @links.size > 0  %>
+
+  <ul>
+    <%  @links.each do |link| %>
+      <li><%=  link_path(link, true) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p align="center">Você não criou nenhum link</p>
+<% end %>

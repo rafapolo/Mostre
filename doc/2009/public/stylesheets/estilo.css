@@ -1,0 +1,159 @@
+body
+{
+    background:#D9E6F7 url(/assets/old-bg.png) repeat scroll 0 -79px;
+    color: #333;
+    margin: auto;
+    width:550px;
+    padding: 10px;
+}
+
+body, p, ol, ul, td {
+    font-family: verdana, arial, sans-serif;
+    font-size:   13px;
+    line-height: 18px;
+}
+
+input.text
+{
+    margin-top: 4px;
+    font-family: verdana, arial, sans-serif;
+    font-size:   13px;
+    height: 20px;
+    border: 1px solid #A5C1D1;
+}
+
+p.ex
+{
+    color: gray;
+    font-size: 12px;
+    font-family: verdana;
+    font-style: italic;
+}
+
+#status
+{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: #004499;
+    padding: 5px;
+    border: 1px solid white;
+}
+
+.out
+{
+    background-color: #004499;
+    line-height: 30px;
+    color: white;
+    font-size: 12px;
+    border: 1px solid black;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.redondo
+{
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -moz-border-radius-topleft:5px;
+    -moz-border-radius-topright:5px;
+}
+
+#logo
+{
+    position: absolute;
+    padding-left: 5px;
+}
+
+#menu
+{
+    padding-top: 11px;
+    display: inline-block;
+    margin: 20px 0px 8px 0px;
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size:15px;
+    vertical-align: bottom;
+}
+
+.rodape
+{
+    text-align: center;
+    font-size: 11px;
+}
+
+#menu a {padding: 5px;}
+
+h1 {
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size:35px;
+}
+
+h3 {
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size:20px;
+}
+
+#meiuca
+{
+    border: 1px solid gray;
+    padding:25px;
+    background-color: #EFF7FF;
+    -moz-border-radius-bottomright:30px;
+    -moz-border-radius-topleft:30px;
+}
+
+a { color: #000; }
+
+ul {
+list-style-position: inside;
+padding-top: 3px;
+}
+
+.selecionado
+{
+    color: white;
+    background-color: #004499;
+    text-decoration: overline underline;
+}
+
+a:hover { 
+    color: white;
+    background-color:#004499;
+    text-decoration: overline underline;
+}
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#errorExplanation {
+    border: 2px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff;
+}
+
+#errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+#errorExplanation ul li {
+    font-size: 12px;
+    list-style: square;
+}
+

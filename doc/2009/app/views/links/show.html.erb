@@ -1,0 +1,36 @@
+<p>
+  <b><%= (@link.titulo) %></b><br>
+  criado há <%=  time_ago(@link.created_at) %>
+</p>
+
+<p>
+  <b>Link</b><br>
+  <%= href("http://mostre.me/" +@link.atalho)%><br>
+</p>
+
+<p>
+  <b>Para</b><br>
+  <%=  @link.para %>
+</p>
+
+<% if @hrefs.size>0  %>
+  <p>
+    <b>Clicado em</b><br>
+  </p>
+  <% @hrefs.each do |href| %>
+    <p><%= link_to(href.url, href.url)%></p>
+  <% end %>
+<% end %>
+
+<% tuitadas = search_twitter(@link)  %>
+<% if tuitadas.size>0  %>
+  <p>
+    <b>Twitter</b><br>
+  </p>
+  <% tuitadas.each do |t| %>
+    <%= image_tag(t['profile_image_url']) %><br>
+    <%= t['from_user']  %><br>
+    há <%= time_ago(t['created_at'].to_time)%><br>
+    <%= t['text']  %><br><br>
+  <%end%>
+<%end%>
