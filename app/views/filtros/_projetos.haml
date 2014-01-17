@@ -1,0 +1,56 @@
+= javascript_include_tag "filtros/projetos"
+
+#filtros
+	= form_for '/cultura/projetos/', :method=>'get' do	
+
+		%p{:style=>'margin: 0px 2px 6px 2px'} Nome contém
+		.input
+			= text_field_tag :nome, params[:nome]
+
+		%p{:style=>'margin: 0px 2px 6px 2px'} Síntese contém
+		.input
+			= text_field_tag :sintese, params[:sintese]
+
+		%p{:style=>'margin: 0px 2px 6px 2px'} Providência contém
+		.input
+			= text_field_tag :providencia, params[:providencia]	
+
+		.input
+			= check_box_tag :liberados, 1
+		%p.rotulo Somente Liberados
+
+		.input
+			= check_box_tag :apoiado_maior_zero, 1
+		%p.rotulo Apoiado > 0
+
+		.input
+			= check_box_tag :apoiado_maior_aprovado, 1
+		%p.rotulo Apoiado > Aprovado
+
+		.input
+			= check_box_tag :recurso_tesouro, 1
+		%p.rotulo Recurso do Tesouro
+
+		.input
+			= check_box_tag :fnc, 1
+		%p.rotulo Fundo Nacional de Cultura		
+
+		.input
+			= check_box_tag :apoiadores_maior_20, 1
+		%p.rotulo Apoiadores > 20
+
+		/ %button.btn.btn-mini{href: "#"}
+		/ 	%i.icon-zoom-in
+		/ 	Mostrar
+
+		%hr.small
+		#subsub			
+			- if @estado
+				%p.selectable{type: 'estado', type_id: @estado.id, filtering: 1}
+					%span.rotulo= @estado.nome
+					%span.badge.badge-right X
+
+			- if @area
+				%p.selectable{type: 'area', type_id: @area.id, filtering: 1}
+					%span.rotulo= @area.nome
+					%span.badge.badge-right X

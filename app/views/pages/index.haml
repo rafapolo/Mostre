@@ -1,0 +1,35 @@
+= stylesheet_link_tag 'chart'
+
+.manifesto.well.borda
+	Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
+
+%p#chart.borda
+	= javascript_include_tag "d3.v2.js"
+	= javascript_include_tag "chart"
+
+%br
+
+.manifesto.well.borda
+	Os governos e as mídias obscuram e limitam o acesso a informação e o conhecimento da história e a cultura. Não há justiça exercendo leis injustas. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar verdadeiramente.
+
+/todo: sintetizar classe as seguintes classes
+
+%p{style: 'font-size:14px; text-align:center'} Mapeamento de dados do Ministério da Cultura:
+= image_tag asset_path 'esquema.png'
+%br
+
+
+/ #updates
+/ 	%p
+/ 		%i.icon-thumbs-up
+/ 		Z foi aprovado
+/ 		%span.ago há 5 horas
+/ 	%p
+/ 		%i.icon-circle-arrow-right
+/ 		João apoiou R$45.000,00 em Y
+/ 		%span.ago há 12 horas
+/ 	%p
+/ 		%i.icon-plus-sign
+/ 		Empresa Z submeteu o Projeto X
+/ 		%span.ago há 3 dias
+

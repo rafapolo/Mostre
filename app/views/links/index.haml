@@ -1,0 +1,47 @@
+:javascript
+	function urlify(s) {
+		s = s.toLowerCase();             // convert to lowercase
+		s = s.replace(/[áàãâä]/g, 'a')   // remove 'a' acentuado
+		s = s.replace(/[éèêë]/g, 'e')    // remove 'e' acentuado
+		s = s.replace(/[íìîï]/g, 'i')    // remove 'i' acentuado
+		s = s.replace(/[óòõôö]/g, 'o')   // remove 'o' acentuado
+		s = s.replace(/[úùûü]/g, 'u')    // remove 'u' acentuado
+		s = s.replace(/[ç]/g, 'c')       // remove 'c' cedilha
+		s = s.replace(/[ñ]/g, 'n')       // remove 'n' acentuado
+		s = s.replace(/[^-\w\s]/g, '');  // remove unneeded chars
+		s = s.replace(/^\s+|\s+$/g, ''); // trim leading/trailing spaces
+		s = s.replace(/[-\s]+/g, '-');   // convert spaces to hyphens
+		return "http://mostre.me/"+(s);
+	}
+
+	$(document).ready(function(){
+		$('#link_titulo').focus();
+		$('#link_titulo').on('keyup', function(){
+			var urlized = urlify($(this).val());
+			$('#out').text(urlized);
+		})
+		$('#link_titulo').keyup();
+	})
+
+%h3 Criar Link
+
+= form_for @link, :url => { :action => "create" } do |f|
+	- if @link.errors.any?		
+		#errorExplanation
+			Opz!
+			- @link.errors.full_messages.each do |msg|
+				%li= msg
+	
+	Título ->
+	%br/
+	= f.text_field('titulo', {size: 45, maxlength: 35, class: "text"})
+	%br/
+	%br/
+	Para URL ->
+	%br/
+	= f.text_field(:para, :size=>60, :class=>"text")
+		
+	%p#out.out
+
+	%div{align: "right"}
+		= f.submit("Criar", {style: "height: 30px; font-size:25px"})

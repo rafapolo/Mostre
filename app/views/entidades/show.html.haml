@@ -1,0 +1,42 @@
+%p#notice= notice
+
+%p
+  %b Nome:
+  = @entidade.nome
+%p
+  %b Cnpjcpf:
+  = @entidade.cnpjcpf
+%p
+  %b Responsavel:
+  = @entidade.responsavel
+%p
+  %b Logradouro:
+  = @entidade.logradouro
+%p
+  %b Cidade:
+  = @entidade.cidade
+%p
+  %b Cep:
+  = @entidade.cep
+%p
+  %b Uf:
+  = @entidade.uf
+%p
+  %b Email:
+  = @entidade.email
+%p
+  %b Tel res:
+  = @entidade.tel_res
+%p
+  %b Tel cel:
+  = @entidade.tel_cel
+%p
+  %b Tel fax:
+  = @entidade.tel_fax
+%p
+  %b Tel com:
+  = @entidade.tel_com
+
+= link_to 'Edit', edit_entidade_path(@entidade)
+\|
+= link_to 'Back', entidades_path

@@ -1,0 +1,3 @@
+module EntidadesHelper
+
+end

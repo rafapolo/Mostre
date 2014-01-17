@@ -1,0 +1,141 @@
+p{
+    margin-bottom: 2px;
+}
+
+
+body
+{
+    background: #D9E6F7 url(/assets/old-bg.png) repeat scroll 0 -79px;
+    color: #333;
+    margin: auto;
+    width:550px;
+    padding: 30px;
+
+}
+
+h1>a{
+    padding-top: 7px;
+}
+
+
+body, p, ol, ul, td {
+    font-family: verdana, arial, sans-serif;
+    font-size:   13px;
+    line-height: 18px;
+}
+
+input.text
+{
+    margin-top: 4px;
+    font-family: verdana, arial, sans-serif;
+    font-size:   15px;
+    height: 30px;
+    border: 1px solid #A5C1D1;
+}
+
+p.ex
+{
+    color: gray;
+    font-size: 12px;
+    font-family: verdana;
+    font-style: italic;
+}
+
+#status
+{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: #004499;
+    padding: 5px;
+    border: 1px solid white;
+}
+
+.out
+{
+    background-color: #004499;
+    line-height: 30px;
+    color: white;
+    font-size: 12px;
+    border: 1px solid black;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.redondo
+{
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -moz-border-radius-topleft:5px;
+    -moz-border-radius-topright:5px;
+}
+
+#logo
+{
+    position: absolute;
+    padding-left: 5px;
+}
+
+.menu
+{
+    
+    text-align: right;
+}
+
+
+.rodape {
+    text-align: center;
+    font-size: 12px;
+    padding-top: 20px;
+}
+
+h1 {
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size:35px;
+}
+
+h3 {
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size:20px;
+}
+
+#meiuca
+{
+    word-wrap: break-word;
+    border: 1px solid gray;
+    padding:20px;
+    background-color: #EFF7FF;
+    -moz-border-radius-bottomright:30px;
+    -moz-border-radius-topleft:30px;
+}
+
+a { color: #000; }
+
+ul {
+list-style-position: inside;
+padding-top: 3px;
+}
+
+.selecionado
+{
+    color: white;
+    background-color: #004499;
+    text-decoration: overline underline;
+}
+
+a:hover { 
+    color: white;
+    background-color:#004499;
+    text-decoration: overline underline;
+}
+
+#errorExplanation {
+    border: 2px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    padding-left: 70px;
+    background-color: #f0f0f0;
+    color: red;
+}
+

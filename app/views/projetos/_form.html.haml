@@ -1,0 +1,76 @@
+= form_for @projeto, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :nome, :class => 'control-label'
+    .controls
+      = f.text_field :nome, :class => 'text_field'
+  .control-group
+    = f.label :entidade_id, :class => 'control-label'
+    .controls
+      = f.text_field :entidade_id, :class => 'text_field'
+  .control-group
+    = f.label :numero, :class => 'control-label'
+    .controls
+      = f.text_field :numero, :class => 'text_field'
+  .control-group
+    = f.label :uf, :class => 'control-label'
+    .controls
+      = f.text_field :uf, :class => 'text_field'
+  .control-group
+    = f.label :area, :class => 'control-label'
+    .controls
+      = f.text_field :area, :class => 'text_field'
+  .control-group
+    = f.label :mecanismo, :class => 'control-label'
+    .controls
+      = f.text_field :mecanismo, :class => 'text_field'
+  .control-group
+    = f.label :enquadramento, :class => 'control-label'
+    .controls
+      = f.text_field :enquadramento, :class => 'text_field'
+  .control-group
+    = f.label :segmento, :class => 'control-label'
+    .controls
+      = f.text_field :segmento, :class => 'text_field'
+  .control-group
+    = f.label :processo, :class => 'control-label'
+    .controls
+      = f.text_field :processo, :class => 'text_field'
+  .control-group
+    = f.label :situacao_at, :class => 'control-label'
+    .controls
+      = f.text_field :situacao_at, :class => 'text_field'
+  .control-group
+    = f.label :situacao, :class => 'control-label'
+    .controls
+      = f.text_field :situacao, :class => 'text_field'
+  .control-group
+    = f.label :providencia, :class => 'control-label'
+    .controls
+      = f.text_field :providencia, :class => 'text_field'
+  .control-group
+    = f.label :sintese, :class => 'control-label'
+    .controls
+      = f.text_field :sintese, :class => 'text_field'
+  .control-group
+    = f.label :solicitado, :class => 'control-label'
+    .controls
+      = f.text_field :solicitado, :class => 'text_field'
+  .control-group
+    = f.label :aprovado, :class => 'control-label'
+    .controls
+      = f.text_field :aprovado, :class => 'text_field'
+  .control-group
+    = f.label :apoiado, :class => 'control-label'
+    .controls
+      = f.text_field :apoiado, :class => 'text_field'
+  .control-group
+    = f.label :liberado_at, :class => 'control-label'
+    .controls
+      = f.text_field :liberado_at, :class => 'text_field'
+  .control-group
+    = f.label :estado_id, :class => 'control-label'
+    .controls
+      = f.text_field :estado_id, :class => 'text_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), projetos_path, :class => 'btn'

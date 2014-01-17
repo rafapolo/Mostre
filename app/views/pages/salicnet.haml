@@ -1,0 +1,21 @@
+!!!
+%html
+	%head
+		%title= "SalicNet ##{@numero} "
+%body{style:"margin:0px; height:100%"}
+	%iframe#salic{style:"width:100%; height:100%; border:0px"}
+	%form#post{action: "http://sistemas.cultura.gov.br/salicnet/ctrDadosBasicosProjeto/ctrDadosBasicosProjeto.php", method: "post", target: "salic"}
+		%input{name: "nrprojeto", type: "hidden", value: @numero}
+		%input{name: "nm_form_submit", type: 'hidden', value: 1}
+		%input{name: "nmgp_url_saida", type: 'hidden', value: "" }
+		%input{name: "bok", type: 'hidden', value: "OK" }
+		%input{name: "nmgp_opcao", type: 'hidden', value: "alterar" }
+		%input{name: "nmgp_ancora", type: 'hidden', value: "" }
+		%input{name: "nmgp_num_form", type: 'hidden', value: "" }
+		%input{name: "nmgp_parms", type: 'hidden', value: "" }
+		%input{name: "script_case_init", type: 'hidden', value: 1 }
+		%input{name: "nomeprojeto", type: 'hidden', value: ""}
+		%input{name: "nomeprojeto_autocomp", type: 'hidden', value: ""}
+
+	:javascript
+		document.getElementById("post").submit();

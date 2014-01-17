@@ -1,0 +1,24 @@
+%html{:lang => "pt-br", "xml:lang" => "pt-br", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Mostre!me | Crie Referências
+    %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}    
+    %link{:href => '/assets/favicon.ico', :rel => "shortcut icon", :type => "image/x-icon"}
+    = stylesheet_link_tag 'old'
+    = javascript_include_tag :app
+  
+  %body        
+
+    %h1= link_to "Mostre!me", "/links"
+
+    - if flash[:notice] 
+      %p#status.redondo
+        = flash[:notice]
+
+    #meiuca
+      = yield
+
+    .rodape      
+      = "#{Link.count} links referenciados em #{Click.count} acessos | "
+      = link_to "Status", "/links/stats"
+      %span= " | " 
+      = link_to "Mostre!me Cultura (novo)", "/"

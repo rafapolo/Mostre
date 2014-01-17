@@ -1,0 +1,9 @@
+/.bundle
+*.sqlite3
+.DS_Store
+/log
+/tmp
+/test
+/db/backup
+deploy.rb
+public/assets

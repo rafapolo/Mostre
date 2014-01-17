@@ -1,0 +1,109 @@
+- content_for :filtro do
+  = render :partial => 'filtros/projetos'
+
+.well.borda.status
+  = @topo
+
+%table.table.table-striped.table-bordered.table-condensed.borda{style: 'width: 880px'}
+  %thead
+    %tr
+      %th{style: 'width: 220px'} Projeto
+      %th Estado
+      %th Segmento
+      %th#solicitado.reorder Solicitado
+      %th#aprovado.reorder Aprovado
+      %th#apoiado.reorder Apoiado
+      %th#apoiadores.reorder Incentivos
+      %th#liberado_at.reorder{style: 'width: 85px'} Liberado
+    
+  %tbody
+    - @projetos.each do |projeto|
+      %tr        
+        - nome = hl(params[:nome], projeto.nome) if params[:nome]
+        %td
+          = link_to (nome || projeto.nome), projeto_path(projeto)
+          %br
+          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'
+        %td= projeto.estado.sigla
+        %td= projeto.segmento.nome        
+        %td= reais projeto.solicitado
+        - if projeto.aprovado > 0        
+          %td= reais projeto.aprovado
+        - else
+          %td
+            - if especial(projeto)
+              %span -
+            - else
+              %span.badge.badge-important 0
+        %td
+          - if projeto.apoiado > 0
+            = reais projeto.apoiado
+          - else
+            - if projeto.aprovado > 0
+              %span.badge.badge-important 0
+            - else
+              // sem aprovação e sem apoio
+              %span -
+        %td
+          - #todo: visualizar se soma de apoiadores não bate com apoiado.  
+          - if projeto.apoiado > 0 && projeto.apoiadores==0 
+            - if especial(projeto)
+              %span -
+            - else
+              %span.badge.badge-important
+                %i.icon-question-sign
+          - else            
+            - if apoiadores=projeto.apoiadores
+              %span.badge.badge-info= apoiadores
+            - else 
+              - if !apoiadores && !especial(projeto) && projeto.apoiado>0
+                %span.badge.badge-important 0
+              - else
+                %span -
+        %td
+          - if at = projeto.liberado_at
+            %span.badge.badge-success= at
+          - else
+            - if (especial(projeto))
+              %span.badge.badge-success
+                %i.icon-star
+            - else
+              %span.badge.badge-important
+                %i.icon-ban-circle
+
+= pagination @projetos
+
+
+#subfiltros  
+  - unless params[:area_id]
+    #areas
+      .well.borda
+        %i.icon-tags
+        Areas
+        %hr.small
+        
+        - @areas.each do |a|
+          - area = a[0]
+          - count = a[1]
+          %p.selectable{type: 'area', type_id: area.id}
+            %span.rotulo= area.nome
+            - if count > 0
+              %span.badge.badge-right.badge-info= count
+            - else
+              %span.badge.badge-right.badge-important= count
+
+  - unless params[:estado_id]
+    #estados
+      .well.borda
+        %i.icon-globe
+        Estados
+        %hr.small
+        - @estados.each do |e|
+          - estado = e[0]
+          - count = e[1]
+          %p.selectable{type: 'estado', type_id: estado.id}
+            %span.rotulo= estado.nome        
+            - if count > 0
+              %span.badge.badge-right.badge-info= count
+            - else
+              %span.badge.badge-right.badge-important= count

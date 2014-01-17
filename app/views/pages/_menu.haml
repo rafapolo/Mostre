@@ -1,0 +1,61 @@
+.navbar
+  .navbar-inner
+    %ul.nav
+      %li
+        %a{:href => "/", style: 'font-size: 25px; padding-left:25px; padding-right: 30px'}
+          Mostre!me
+
+      %li
+        %a{:href => "/cultura/projetos"}
+          %i.icon-th
+          Projetos         
+
+      %li
+        %a{:href => "/cultura/empresas"} 
+          %i.icon-briefcase
+          Empresas
+
+      %li
+        %a{:href => "/cultura/pessoas"} 
+          %i.icon-user
+          Pessoas
+
+      %li
+        %a{:href => "/cultura/segmentos"} 
+          %i.icon-tag
+          Segmentos          
+
+      / %ul.nav
+      /   // escolas
+      /   %li.dropdown
+      /     %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      /       %i.icon-tag
+      /       Segmentos
+      /       %b.caret
+      /     %ul.dropdown-menu
+      /       %li
+      /         %a{:href => ""} 
+      /           %i.icon-tag
+      /           Música     
+
+      %li
+        %a{:href => "/mapa"} 
+          %i.icon-globe
+          Estados
+                   
+
+    %ul.nav.pull-right      
+
+                  
+      %li
+        %form.form-search
+          .input-append
+            %input.span2.search-query{type: "text"}/
+            %button.btn{type: "submit"}
+              %i.icon-search
+      %li
+        %a{:href => "/cultura/segmentos"} 
+          %i.icon-exclamation-sign
+      %li
+        %a{:href => "/cultura/segmentos"} 
+          %i.icon-comment

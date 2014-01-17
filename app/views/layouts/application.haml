@@ -1,0 +1,57 @@
+!!!
+%html
+	%head
+		%title Mostre!me
+		= stylesheet_link_tag "app", media: "all"
+		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
+		= javascript_include_tag "app"
+		= favicon_link_tag 'm-favicon.ico'
+		= csrf_meta_tags
+	
+	%body
+
+		#todo
+			#lado
+				.logo.well.borda{:href => "/"} 
+					Mostre!me
+				#menu.borda			
+							
+					%ul.nav.nav-tabs.nav-stacked
+						%li
+							%a{:href => "/cultura/projetos"}
+								%i.icon-th
+								Projetos
+								%i.icon-chevron-right.seta-right
+						%li				
+							%a{:href => "/cultura/proponentes"}
+								%i.icon-briefcase
+								Proponentes
+								%i.icon-chevron-right.seta-right
+						%li				
+							%a{:href => "/cultura/patrocinadores"}
+								%i.icon-thumbs-up
+								Patrocinadores
+								%i.icon-chevron-right.seta-right	
+
+						%li
+							%a{:href => "/"}
+								%i.icon-heart
+								Manifesto
+								%i.icon-chevron-right.seta-right								
+
+				- if content_for? :filtro
+					#filtros.well.borda
+						%i.icon-zoom-in
+						%span{:style=>'padding-left: 2px'} Mostrar
+						%span.loading
+							= image_tag asset_path 'load.gif'
+						%hr.small
+						= yield :filtro
+
+					#filtro_estados
+
+			#meio				
+				= yield
+
+		#rodape
+			%p Mostre!me Cultura | Copyfight 2014

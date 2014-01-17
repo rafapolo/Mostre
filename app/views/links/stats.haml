@@ -1,0 +1,27 @@
+
+%h3 Últimos Links
+- @last_links.each do |l|
+	%p= link_to_mostre l, info=true
+	%span{style:"padding-top:2px"}
+		= "#{l.clicks.count}x desde #{l.created_at.strftime("%d/%m/%Y")}"
+
+%br
+%br
+%hr
+
+%h3 Últimos Clicks
+- @last_clicks.each do |c|
+	%p
+		%span= link_to_mostre c.link, info=true
+		%span= "em "
+		%span= link_to c.url, c.url
+
+%br
+%hr
+
+%h3 Top Links
+- @tops.each do |t|
+	%p= link_to_mostre t, info=true
+	%span{style:"padding-top:2px"}
+		= "#{t.clicks_count}x desde #{t.created_at.strftime("%d/%m/%Y")}"
+%br
