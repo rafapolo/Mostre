@@ -5,7 +5,7 @@ p{
 
 body
 {
-    background: #D9E6F7 url(/assets/old-bg.png) repeat scroll 0 -79px;
+    background: #D9E6F7 asset-url('old-bg.png') repeat scroll 0 -79px;
     color: #333;
     margin: auto;
     width:550px;

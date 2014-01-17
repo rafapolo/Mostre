@@ -2,8 +2,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require code
-//= require_self
-//= require_tree .
+
 
 var url_params;
 (window.onpopstate = function() {

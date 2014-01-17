@@ -15,6 +15,7 @@ Mostre::Application.configure do
   config.action_controller.perform_caching = true
   config.cache_store = :file_store, Rails.public_path.join("cache")
 
+  config.assets.precompile << ['*.js', '*.css', '*.png', '*.ico', '*.jpg', '*.png']
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
