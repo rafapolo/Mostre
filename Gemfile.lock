@@ -48,6 +48,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    colored (1.2)
     columnize (0.3.6)
     commonjs (0.2.7)
     debug_inspector (0.0.2)
@@ -173,6 +174,7 @@ DEPENDENCIES
   binding_of_caller
   closure-compiler
   coffee-rails (~> 4.0.0)
+  colored
   erd
   haml-rails
   jquery-rails
