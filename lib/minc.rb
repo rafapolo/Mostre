@@ -129,23 +129,23 @@ class Minc
   def get_page(path, post_data='')
     
     url = 'sistemas.cultura.gov.br'
-    user_agent = {'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
-    
-    http = Net::HTTP.new url
+    http = Net::HTTP.new url # proxy: , nil, '189.112.88.65', 3128
     http.read_timeout = 30
 
     begin
-      resp = http.get path, user_agent
+      resp = http.get path
       headers = {
         'Cookie' => resp.response['set-cookie'],
         'Referer' => url+path,
-        'Content-Type' => 'application/x-www-form-urlencoded'
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
         }
-      resp = http.post(path, post_data, headers, user_agent)
+      resp = http.post(path, post_data, headers)
     rescue Exception
       puts 'Error. Trying again...'.red
       sleep 5
-      resp = http.post(path, post_data, headers, user_agent)
+      binding.pry
+      resp = http.post(path, post_data, headers)
     end
 
     if resp.code.to_i==200
