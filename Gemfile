@@ -16,6 +16,7 @@ gem 'closure-compiler'
 gem 'coffee-rails', '~> 4.0.0'
 gem "twitter-bootstrap-rails"
 gem "less-rails"
+gem "colored"
 
 group :development do
 	gem 'erd'
