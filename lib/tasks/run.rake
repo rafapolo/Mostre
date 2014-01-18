@@ -1,22 +1,30 @@
 #encoding: UTF-8
+desc "Crawleia Minc"
 namespace :minc do
 
-  desc "Crawleia Minc"
-  task :run => :environment do
-    require Rails.root.join('lib', 'minc')
-    
-    puts
-    puts "="*70
-    puts "\t\t\t- Crawleando MinC -".yellow
-    puts "\t\t\t"+Time.new.strftime("%Y-%m-%d %H:%M:%S").yellow
-    puts "="*70
+  require Rails.root.join('lib', 'minc')
+  minc = Minc.new
 
-    minc = Minc.new
+  puts
+  puts "="*70
+  puts "\t\t\t- Crawleando MinC -".yellow
+  puts "\t\t\t"+Time.new.strftime("%Y-%m-%d %H:%M:%S").yellow
+  puts "="*70
 
-    #Entidade.where('year(updated_at)<2014').each{|s| get_proponente(s.cnpjcpf)}
-
+  desc "Update Entidades"
+  task :update_entidades => :environment do    
     Entidade.all.each do |e|
       minc.get_entidade(e.cnpjcpf)
     end
   end
+
+  desc "Pega novos Projetos"
+  task :get_projetos => :environment do    
+    range = 500
+    last_numero = Projeto.order(:numero).last.numero.to_i
+    last_numero.upto(last_numero+range) do |num|
+      minc.get_projeto(num)
+    end    
+  end
+
 end

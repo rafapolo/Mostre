@@ -79,14 +79,14 @@ class Minc
       tel_res = empty(get_field("Residencial"))
       tel_com = empty(get_field("Comercial"))
       tel_cel = empty(get_field("Celular"))
-      tel_fax = empty(get_field("Fax"))
-
-      # proponente = Entidade.create(:cnpjcpf=>cnpjcpf, :nome=>nome, :responsavel=>responsavel, :logradouro=>logradouro, :uf=>uf, :cidade=>cidade,
-      #                                :cep=>cep, :email=>email, :tel_res=>tel_res, :tel_com=>tel_com, :tel_fax=>tel_fax, :tel_cel=>tel_cel)
+      tel_fax = empty(get_field("Fax"))      
       
-      entidade.update(cidade: cidade, nome: nome, uf: uf)
-      puts entidade.nome.green
+      entidade.update(cidade: cidade, nome: nome, uf: uf)      
+    else
+      # cria
+      entidade = Entidade.create(:cnpjcpf=>cnpjcpf, :nome=>nome, :responsavel=>responsavel, :logradouro=>logradouro, :uf=>uf, :cidade=>cidade, :cep=>cep, :email=>email, :tel_res=>tel_res, :tel_com=>tel_com, :tel_fax=>tel_fax, :tel_cel=>tel_cel)
     end
+    puts entidade.nome.green
     entidade
   end
 
