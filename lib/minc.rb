@@ -127,23 +127,25 @@ class Minc
 
     # pega página com POST
   def get_page(path, post_data='')
+    
     url = 'sistemas.cultura.gov.br'
+    user_agent = {'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
+    
     http = Net::HTTP.new url
-    http.initialize_http_header({'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'})
-    http.read_timeout = 5000
+    http.read_timeout = 30
 
     begin
-      resp = http.get path
+      resp = http.get path, user_agent
       headers = {
         'Cookie' => resp.response['set-cookie'],
         'Referer' => url+path,
         'Content-Type' => 'application/x-www-form-urlencoded'
         }
-      resp = http.post(path, post_data, headers)
+      resp = http.post(path, post_data, headers, user_agent)
     rescue Exception
       puts 'Error. Trying again...'.red
       sleep 5
-      resp = http.post(path, post_data, headers)
+      resp = http.post(path, post_data, headers, user_agent)
     end
 
     if resp.code.to_i==200
