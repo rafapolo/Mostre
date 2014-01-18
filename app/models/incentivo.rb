@@ -11,7 +11,8 @@ class Incentivo < ActiveRecord::Base
 
   before_save :update_meta_attrs 
   def update_meta_attrs
-  	self.last_recibo_at = Recibo.where(incentivo_id: self.id).order('data DESC').select(:data).limit(1).take.data
+  	last = Recibo.where(incentivo_id: self.id).order('data DESC').select(:data).limit(1).take
+    self.last_recibo_at = last.data if last
   end
 
 end
