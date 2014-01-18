@@ -1,4 +1,5 @@
 require "net/http"
+require 'colored'
 
 class Minc
 
