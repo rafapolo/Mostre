@@ -40,7 +40,7 @@ class Minc
       # pega proponente
       proponente = get_entidade(clean(cnpjcpf))
 
-      projeto = Projeto.create(:proponente_id=>proponente.id, :nome=>nome, :numero=>num, :uf=>uf, :area=>area, :mecanismo=>mecanismo, :enquadramento=>enquadramento,
+      projeto = Projeto.create(:entidade_id=>proponente.id, :nome=>nome, :numero=>num, :uf=>uf, :area=>Area.find_by_nome(area), :mecanismo=>mecanismo, :enquadramento=>enquadramento,
                                :segmento=>segmento, :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
                                :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
       
@@ -87,7 +87,7 @@ class Minc
       entidade = Entidade.create(:cnpjcpf=>cnpjcpf, :nome=>nome, :responsavel=>responsavel, :logradouro=>logradouro, :uf=>uf, :cidade=>cidade, :cep=>cep, :email=>email, :tel_res=>tel_res, :tel_com=>tel_com, :tel_fax=>tel_fax, :tel_cel=>tel_cel)
     end    
     puts entidade.nome.green
-    
+
     entidade
   end
 
