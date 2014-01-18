@@ -129,6 +129,7 @@ class Minc
   def get_page(path, post_data='')
     url = 'sistemas.cultura.gov.br'
     http = Net::HTTP.new url
+    http.initialize_http_header({'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'})
     http.read_timeout = 5000
 
     begin
