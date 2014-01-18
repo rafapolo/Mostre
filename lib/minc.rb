@@ -63,31 +63,31 @@ class Minc
   end
 
   def get_entidade(cnpjcpf)
-    entidade = Entidade.find_by_cnpjcpf(cnpjcpf)
-    if (entidade)
+    entidade = Entidade.find_by_cnpjcpf(cnpjcpf)    
 
-      puts "==> pegando entidade #{cnpjcpf}...".yellow
-      @page = get_page("/salicnet/conDadosCadastraisProponente/conDadosCadastraisProponente.php", "nmgp_parms=nmgp_lig_edit_lapis?#?S?@?cgccpf?#?#{cnpjcpf}?@?")
+    puts "==> pegando entidade #{cnpjcpf}...".yellow
+    @page = get_page("/salicnet/conDadosCadastraisProponente/conDadosCadastraisProponente.php", "nmgp_parms=nmgp_lig_edit_lapis?#?S?@?cgccpf?#?#{cnpjcpf}?@?")
 
-      nome = get_field("Nome")
-      responsavel = empty(get_field("Responsável"))
-      logradouro = get_field("Logradouro")
-      uf = get_field("UF do Proponente")
-      cidade = get_field("Cidade")
-      cep = get_field("CEP")
-      email = get_from_link("Email")
+    nome = get_field("Nome")
+    responsavel = empty(get_field("Responsável"))
+    logradouro = get_field("Logradouro")
+    uf = get_field("UF do Proponente")
+    cidade = get_field("Cidade")
+    cep = get_field("CEP")
+    email = get_from_link("Email")
 
-      tel_res = empty(get_field("Residencial"))
-      tel_com = empty(get_field("Comercial"))
-      tel_cel = empty(get_field("Celular"))
-      tel_fax = empty(get_field("Fax"))      
-      
+    tel_res = empty(get_field("Residencial"))
+    tel_com = empty(get_field("Comercial"))
+    tel_cel = empty(get_field("Celular"))
+    tel_fax = empty(get_field("Fax"))   
+
+    if (entidade)   
       entidade.update(cidade: cidade, nome: nome, uf: uf)      
     else
-      # cria
       entidade = Entidade.create(:cnpjcpf=>cnpjcpf, :nome=>nome, :responsavel=>responsavel, :logradouro=>logradouro, :uf=>uf, :cidade=>cidade, :cep=>cep, :email=>email, :tel_res=>tel_res, :tel_com=>tel_com, :tel_fax=>tel_fax, :tel_cel=>tel_cel)
-    end
+    end    
     puts entidade.nome.green
+    
     entidade
   end
 
