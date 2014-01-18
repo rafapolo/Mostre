@@ -41,7 +41,7 @@ class Minc
       proponente = get_entidade(clean(cnpjcpf))
 
       projeto = Projeto.create(:entidade_id=>proponente.id, :nome=>nome, :numero=>num, :uf=>uf, :area=>Area.find_by_nome(area), :mecanismo=>mecanismo, :enquadramento=>enquadramento,
-                               :segmento=>segmento, :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
+                               :segmento=>Segmento.find_by_nome(segmento), :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
                                :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
       
       
