@@ -18,12 +18,16 @@ class Entidade < ActiveRecord::Base
 		self.proponente = self.projetos.count>0
 		self.patrocinador = self.incentivos.count>0
 		
-		self.projetos_count = self.projetos.count
-		self.projetos_sum = self.projetos.map(&:apoiado).sum.to_f # &:solicitado para FNC ?
-		self.projetos_liberados = Projeto.where(entidade_id: self.id).where('liberado_at is not null').count
+		if self.proponente
+			self.projetos_count = self.projetos.count
+			self.projetos_sum = self.projetos.map(&:apoiado).sum.to_f # &:solicitado para FNC ?
+			self.projetos_liberados = Projeto.where(entidade_id: self.id).where('liberado_at is not null').count
+		end
 
-		self.incentivos_count = self.incentivos.count
-		self.incentivos_sum = self.incentivos.map(&:valor).sum.to_f
+		if self.patrocinador
+			self.incentivos_count = self.incentivos.count
+			self.incentivos_sum = self.incentivos.map(&:valor).sum.to_f
+		end
 		
 		self.logradouro = self.logradouro.clean_extra_spaces
 		self.nome = self.nome.normalize if self.nome && !self.empresa
