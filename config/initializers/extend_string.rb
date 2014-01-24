@@ -5,7 +5,7 @@ class String
     end
  
     def urlize
-        copy = self.dup.clean_extra_spaces
+        copy = self.dup.downcase.clean_extra_spaces
         accents = { ['á','à','â','ä','ã','Ã','Ä','Â','À'] => 'a',
                     ['é','è','ê','ë','Ë','É','È','Ê','&'] => 'e',
                     ['í','ì','î','ï','I','Î','Ì'] => 'i',
@@ -22,7 +22,7 @@ class String
             copy.gsub!(s, rep)
           end
         end
-        copy.gsub(/[-]+/, '-').downcase
+        copy.gsub(/[-]+/, '-')
     end
 
    # PeDrO DA CosTa => Pedro da Costa

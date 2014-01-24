@@ -17,6 +17,7 @@ class Projeto < ActiveRecord::Base
 
 	def set_meta_attrs
 		self.urlized = self.nome.urlize
+		self.estado_id = Estado.find_by_sigla(self.uf)
 	end
 
 	def to_param		

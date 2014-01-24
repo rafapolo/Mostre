@@ -118,7 +118,7 @@ class Minc
       entidade = get_entidade(clean(info[0]))        
       i = Incentivo.create(:entidade_id=>entidade.id, :projeto_id=>projeto.id, :valor=>to_float(info[2]))
       info = "#{info[1]} => #{info[2]}"
-      puts i.id ? info.red : info.blue
+      puts info.blue
     end
     projeto.update(apoiadores: projeto.incentivos.count)
   end
@@ -141,10 +141,10 @@ class Minc
         'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
         }
       resp = http.post(path, post_data, headers)
-    rescue Exception
-      puts 'Error. Trying again...'.red
-      sleep 5
-      binding.pry
+    rescue Exception => e
+      puts "Error: #{e.message}.".red
+      puts "Trying again in 3 segs...".red
+      sleep 3
       resp = http.post(path, post_data, headers)
     end
 

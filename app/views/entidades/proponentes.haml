@@ -9,9 +9,9 @@
     %tr
       %th{style: 'width: 220px'} Proponente
       %th Estado
-      %th#projetos.reorder Projetos
-      %th#aprovado.reorder Aprovados
-      %th#captado.reorder Captado
+      %th#projetos_count.reorder Projetos
+      %th#projetos_liberados.reorder Aprovados
+      %th#projetos_sum.reorder Captado
     
   %tbody
     - @proponentes.each do |proponente|
@@ -21,76 +21,43 @@
           = link_to (nome || proponente.nome), proponente_path(proponente)
         %td= proponente.uf
         %td= proponente.projetos_count
-        %td= proponente.projetos.where(:created_at).count
-        -# - if proponente.aprovado > 0
+        %td= proponente.projetos_liberados
         %td= reais proponente.incentivos_sum
-        -# - else
-        -#   %td
-        -#     - if especial(proponente)
-        -#       %span -
-        -#     - else
-        -#       %span.badge.badge-important 0
-        
-        -# %td
-        -#   - #todo: visualizar se soma de apoiadores não bate com apoiado.  
-        -#   - if proponente.apoiado > 0 && proponente.apoiadores==0 
-        -#     - if especial(proponente)
-        -#       %span -
-        -#     - else
-        -#       %span.badge.badge-important
-        -#         %i.icon-question-sign
-        -#   - else            
-        -#     - if apoiadores=proponente.apoiadores
-        -#       %span.badge.badge-info= apoiadores
-        -#     - else 
-        -#       - if !apoiadores && !especial(proponente) && proponente.apoiado>0
-        -#         %span.badge.badge-important 0
-        -#       - else
-        -#         %span -
-        -# %td
-        -#   - if at = proponente.liberado_at
-        -#     %span.badge.badge-success= at
-        -#   - else
-        -#     - if (especial(proponente))
-        -#       %span.badge.badge-success
-        -#         %i.icon-star
-        -#     - else
-        -#       %span.badge.badge-important
-        -#         %i.icon-ban-circle
 
+        
 = pagination @proponentes
 
 
--# #subfiltros  
--#   - unless params[:area_id]
--#     #areas
--#       .well.borda
--#         %i.icon-tags
--#         Areas
--#         %hr.small
+#subfiltros  
+  / - unless params[:area_id]
+  /   #areas
+  /     .well.borda
+  /       %i.icon-tags
+  /       Areas
+  /       %hr.small
         
--#         - @areas.each do |a|
--#           - area = a[0]
--#           - count = a[1]
--#           %p.selectable{type: 'area', type_id: area.id}
--#             %span.rotulo= area.nome
--#             - if count > 0
--#               %span.badge.badge-right.badge-info= count
--#             - else
--#               %span.badge.badge-right.badge-important= count
+  /       - @areas.each do |a|
+  /         - area = a[0]
+  /         - count = a[1]
+  /         %p.selectable{type: 'area', type_id: area.id}
+  /           %span.rotulo= area.nome
+  /           - if count > 0
+  /             %span.badge.badge-right.badge-info= count
+  /           - else
+  /             %span.badge.badge-right.badge-important= count
 
--#   - unless params[:estado_id]
--#     #estados
--#       .well.borda
--#         %i.icon-globe
--#         Estados
--#         %hr.small
--#         - @estados.each do |e|
--#           - estado = e[0]
--#           - count = e[1]
--#           %p.selectable{type: 'estado', type_id: estado.id}
--#             %span.rotulo= estado.nome        
--#             - if count > 0
--#               %span.badge.badge-right.badge-info= count
--#             - else
--#               %span.badge.badge-right.badge-important= count
+  - unless params[:estado_id]
+    #estados
+      .well.borda
+        %i.icon-globe
+        Estados
+        %hr.small
+        - @estados.each do |e|
+          - estado = e[0]
+          - count = e[1]
+          %p.selectable{type: 'estado', type_id: estado.id}
+            %span.rotulo= estado.nome        
+            - if count > 0
+              %span.badge.badge-right.badge-info= count
+            - else
+              %span.badge.badge-right.badge-important= count
