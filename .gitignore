@@ -1,9 +1,11 @@
+# remove development files
 /.bundle
 *.sqlite3
 .DS_Store
 /log
 /tmp
 /test
-/db/backup
+/db/bkp
 deploy.rb
+lib/crawler
 public/assets
