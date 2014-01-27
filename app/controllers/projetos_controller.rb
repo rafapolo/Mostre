@@ -1,13 +1,5 @@
 class ProjetosController < ApplicationController
-  before_action :set_projeto, only: [:show, :edit, :update, :destroy]
-
-  def is was    
-    was if params[was.to_sym]=='true'
-  end
-
-  def valor nome
-    !params[nome] || params[nome]=='' ? '' : "'#{params[nome]}'"
-  end  
+  before_action :set_projeto, only: [:show]
 
   def resumo
     estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : '' 
@@ -98,7 +90,6 @@ class ProjetosController < ApplicationController
     end
 
     @topo = resumo
-
     render layout: false if request.xhr?
   end
 
@@ -112,7 +103,7 @@ class ProjetosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_projeto
-      @projeto = Projeto.where(urlized: params[:id]).take
+      @projeto = Projeto.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

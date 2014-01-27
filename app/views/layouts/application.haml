@@ -2,6 +2,7 @@
 %html
 	%head
 		%title Mostre!me
+		%meta{charset: 'utf-8'}
 		= stylesheet_link_tag "app", media: "all"
 		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
 		= javascript_include_tag "app"
@@ -18,6 +19,11 @@
 							
 					%ul.nav.nav-tabs.nav-stacked
 						%li
+							%a{:href => "/"}
+								%i.icon-home
+								Início
+								%i.icon-chevron-right.seta-right					
+						%li
 							%a{:href => "/cultura/projetos"}
 								%i.icon-th
 								Projetos
@@ -32,12 +38,7 @@
 								%i.icon-thumbs-up
 								Patrocinadores
 								%i.icon-chevron-right.seta-right	
-
-						%li
-							%a{:href => "/"}
-								%i.icon-heart
-								Manifesto
-								%i.icon-chevron-right.seta-right								
+			
 
 				- if content_for? :filtro
 					#filtros.well.borda

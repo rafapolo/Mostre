@@ -19,10 +19,23 @@
         - nome = hl(params[:nome], proponente.nome) if params[:nome]
         %td
           = link_to (nome || proponente.nome), proponente_path(proponente)
-        %td= proponente.uf
-        %td= proponente.projetos_count
-        %td= proponente.projetos_liberados
-        %td= reais proponente.incentivos_sum
+        %td= proponente.estado.sigla
+        %td
+          %span.badge.badge-info
+            = proponente.projetos_count
+        %td
+          - if proponente.projetos_liberados && proponente.projetos_liberados > 0
+            %span.badge.badge-success
+              = proponente.projetos_liberados
+          - else
+            %span.badge.badge-important 0 
+            
+        %td
+          - if proponente.projetos_sum == 0
+            %span.badge.badge-important
+              %i.icon-ban-circle
+          - else
+            = reais proponente.projetos_sum
 
         
 = pagination @proponentes

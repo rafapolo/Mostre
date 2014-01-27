@@ -1,5 +1,5 @@
 class EntidadesController < ApplicationController
-  before_action :set_entidade, only: [:show, :edit, :update, :destroy]
+  before_action :set_entidade, only: [:show]
 
   # GET /entidades
   def index
@@ -11,31 +11,33 @@ class EntidadesController < ApplicationController
     @proponente = Entidade.where(urlized: params[:urlized]).take
   end
 
-  # GET /entidades/new
-  def new
-    @entidade = Entidade.new
+  def resumo
+    estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : '' 
+    area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : '' 
+    soma = view_context.number_to_currency(@proponentes.sum(:projetos_sum), :unit => "R$")
+    "#{@proponentes.count} proponentes #{valor('nome')} #{is('liberados')} #{estado} #{area} com #{soma} em apoios."
   end
 
   def impor_filtros!
     #todo: refinar com switch
 
-    if nome = params[:nome] 
-      @projetos = @projetos.where("proponentes.nome like ?", "%#{nome}%")
-    end  
+    # if nome = params[:nome] 
+    #   @projetos = @projetos.where("proponentes.nome like ?", "%#{nome}%")
+    # end  
 
-    # somente liberados
-    if imposed? :liberados
-      @projetos = @projetos.where('liberado_at IS NOT NULL')
-    end
+    # # somente liberados
+    # if imposed? :liberados
+    #   @projetos = @projetos.where('liberado_at IS NOT NULL')
+    # end
     
 
-    if imposed? :area_id
-      @projetos = @projetos.where(area_id: params[:area_id])
-    end
+    # if imposed? :area_id
+    #   @projetos = @projetos.where(area_id: params[:area_id])
+    # end
 
-    if imposed? :estado_id
-      @projetos = @projetos.where(estado_id: params[:estado_id])
-    end    
+    # if imposed? :estado_id
+    #   @projetos = @projetos.where(estado_id: params[:estado_id])
+    # end       
 
   end
 
@@ -48,11 +50,11 @@ class EntidadesController < ApplicationController
 
     impor_filtros!
 
-    @proponentes = Entidade.proponentes.order(ordem).paginate(page: page, per_page: 25)
+    @proponentes = Entidade.proponentes.includes(:estado).order(ordem).paginate(page: page, per_page: 35)
 
     unless params[:estado_id]
       #todo: benchmark group(:estado)
-      por_estados = @proponentes.includes(:estado).select('estado.nome, count(estado_id) DESC as count').group('estados.id').order('count(estado_id) DESC').references(:estados)
+      por_estados = @proponentes.select('estado.nome, count(estado_id) DESC as count').group('estados.id').order('count(estado_id) DESC').references(:estados)
       @estados = {}
       Estado.all.each{|e| @estados[e] = por_estados.count[e.id] || 0}
       @estados = @estados.sort_by{|k, v| v}.reverse
@@ -69,37 +71,11 @@ class EntidadesController < ApplicationController
     #   @area = Area.find params[:area_id]
     # end
 
+    @topo = resumo
+    render layout: false if request.xhr?
+
   end
 
-  # GET /entidades/1/edit
-  def edit
-  end
-
-  # POST /entidades
-  def create
-    @entidade = Entidade.new(entidade_params)
-
-    if @entidade.save
-      redirect_to @entidade, notice: 'Entidade was successfully created.'
-    else
-      render action: 'new'
-    end
-  end
-
-  # PATCH/PUT /entidades/1
-  def update
-    if @entidade.update(entidade_params)
-      redirect_to @entidade, notice: 'Entidade was successfully updated.'
-    else
-      render action: 'edit'
-    end
-  end
-
-  # DELETE /entidades/1
-  def destroy
-    @entidade.destroy
-    redirect_to entidades_url, notice: 'Entidade was successfully destroyed.'
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

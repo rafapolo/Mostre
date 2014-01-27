@@ -123,6 +123,19 @@ th{
 	font-size: 14px
 }
 
+.carousel-caption{
+	position: relative;
+	padding: 10px;
+	margin-top: 1px;	
+}
+.carousel-caption h4 {
+	margin: 0px;
+}
+
+.carousel-indicators{
+	top: 17px;
+}
+
 .pagination > ul{
 	box-shadow: 5px 3px 10px lightgray;
 }

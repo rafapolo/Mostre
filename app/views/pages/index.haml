@@ -1,23 +1,48 @@
-= stylesheet_link_tag 'chart'
+#nav-analises.carousel.slide
+	%ol.carousel-indicators
+		%li.active{"data-slide-to" => "0", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "1", "data-target" => "#nav-analises"}
+		
+	.carousel-inner
+		.item.active
+			.carousel-caption
+				%h4 Cultura
 
-.manifesto.well.borda
-	Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
+			.well{style: 'font-size: 16px; line-height: 19px; margin: 0px 70px 0px 70px'}
+				Na última década, desde 2004, a partir da posse do ministro Gilberto Gil e a devida importância dada aos aspectos da Cultura Digital, 
+				%a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"}
+					[caia dentro]
+				, os dados dos proponentes e patrocinadores dos projetos culturais submetidas ao Ministério da Cultura são publicados 
+				%a{target: '_blank', href: 'http://sistemas.cultura.gov.br/salicnet'} online.	
+				%br
+				%br
+				%p O acesso aos últimos 10 anos de dados relativos as políticas culturais do país e o estimulo a Transparência Pública Federal representam uma vitória para a democracia, apesar do SalicNet apresentar muitas falhas e ter sua última atualização datada há 7 anos, obsoleto comparado as inúmeras evoluções dos sistemas Web e sua real útilidade pública.
+				%br
+				%p Mostre!me Cultura propõe novas formas de vizualizar e conhecer a história dos inventivos culturais ainda em andamento.
+					
+			.carousel-caption
+				%p 2014-02-01 | subversão v0.1
+		.item
+			.carousel-caption
+				%h4 Extração de Dados
 
-%p#chart.borda
-	= javascript_include_tag "d3.v2.js"
-	= javascript_include_tag "chart"
-
-%br
-
-.manifesto.well.borda
-	Os governos e as mídias obscuram e limitam o acesso a informação e o conhecimento da história e a cultura. Não há justiça exercendo leis injustas. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar verdadeiramente.
-
-/todo: sintetizar classe as seguintes classes
-
-%p{style: 'font-size:14px; text-align:center'} Mapeamento de dados do Ministério da Cultura:
-= image_tag asset_path 'esquema.png'
-%br
-
+			= image_tag asset_path 'esquema.png'
+			.carousel-caption
+				%p Os governos e as mídias obscuram e limitam o acesso a informação e o conhecimento da história e a cultura. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar e agir justamente.
+		.item			
+			.carousel-caption
+				%h4 Visualização de Informação
+				
+			%p#chart
+			= stylesheet_link_tag 'chart'
+			= javascript_include_tag "d3.v2.js"
+			= javascript_include_tag "chart"
+			
+			.carousel-caption
+				%p Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
+			
+	%a.carousel-control.left{"data-slide" => "prev", href: "#nav-analises"} ‹
+	%a.carousel-control.right{"data-slide" => "next", href: "#nav-analises"} ›
 
 / #updates
 / 	%p

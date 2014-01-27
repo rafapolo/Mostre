@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails'
 gem 'mysql2'
 
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
-gem 'will_paginate', '~> 3.0.5'
+gem 'will_paginate'
 
 # assets
 gem "therubyracer"
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
 gem 'closure-compiler'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 gem "twitter-bootstrap-rails"
 gem "less-rails"
 gem "colored"

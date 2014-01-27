@@ -15,13 +15,14 @@ Mostre::Application.routes.draw do
   end
   
   get 'visu.json', to: "pages#visu"    
+  get '/grafo', to: "graphs#index"
 
   get '/links', to: "links#index"
   get '/links/stats', to: "links#stats"
   get '/links/info/:link', to: "links#info"
   get '/:link', to: "links#show"
 
-  get '/grafos', to: "graphs#index"
+  
   
   # antigo
   resources :links

@@ -12,4 +12,12 @@ class ApplicationController < ActionController::Base
     return params[id_sym]
   end
 
+  def valor nome
+    !params[nome] || params[nome]=='' ? '' : "'#{params[nome]}'"
+  end  
+
+   def is was    
+    was if params[was.to_sym]=='true'
+  end
+
 end

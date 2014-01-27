@@ -31,3 +31,4 @@ function get_param(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
+$.fn.carousel.defaults = { interval: false }

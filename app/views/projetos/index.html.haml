@@ -7,9 +7,10 @@
 %table.table.table-striped.table-bordered.table-condensed.borda{style: 'width: 880px'}
   %thead
     %tr
-      %th{style: 'width: 220px'} Projeto
+      %th{style: 'width: 220px'} Projeto      
       %th Estado
       %th Segmento
+      %th#situacao_at.reorder Ano
       %th#solicitado.reorder Solicitado
       %th#aprovado.reorder Aprovado
       %th#apoiado.reorder Apoiado
@@ -23,9 +24,11 @@
         %td
           = link_to (nome || projeto.nome), projeto_path(projeto)
           %br
-          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'
+          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'        
         %td= projeto.estado.sigla
         %td= projeto.segmento.nome        
+        %td= projeto.situacao_at.year
+        
         %td= reais projeto.solicitado
         - if projeto.aprovado > 0        
           %td= reais projeto.aprovado

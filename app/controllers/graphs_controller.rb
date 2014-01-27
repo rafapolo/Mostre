@@ -1,5 +1,5 @@
-class GraphsController < ActionController::Base  
-
+class GraphsController < ApplicationController
+  layout "graph"
   def index
 
   end

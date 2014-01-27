@@ -45,7 +45,7 @@
   = " #{enquadramento} » #{@projeto.situacao} » #{@projeto.providencia}"
 
 
-- if count = @projeto.apoiadores
+- if @projeto.apoiadores && @projeto.apoiadores > 0
   %table.table.table-striped.borda
     %thead
       %tr
