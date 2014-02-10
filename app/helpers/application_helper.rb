@@ -25,6 +25,10 @@ module ApplicationHelper
 		link_to "Patrocinadores", "/cultura/patrocinadores"
 	end
 
+	def cidade_path c
+		"/cultura/cidades/#{c.estado.urlized}/#{c.urlized}"
+	end
+
 	def incentivos_path
 		link_to "Incentivos", "/cultura/incentivos"
 	end
@@ -37,16 +41,12 @@ module ApplicationHelper
 		link_to "Proponentes", "/cultura/proponentes"
 	end
 
-	def proponente_path proponente
-		"/cultura/proponente/#{proponente.urlized}"
-	end
-
 	def link_to_entidade entidade
-		link_to entidade.nome, entidade_path(entidade)
+		link_to entidade.nome, "/cultura/entidades/#{entidade.to_param}"
 	end
 
 	def link_to_projeto projeto
-		link_to projeto.nome, projeto_path(projeto)
+		link_to projeto.nome, "/cultura/projetos/#{projeto.to_param}"
 	end
 
 	def especial projeto
@@ -58,7 +58,7 @@ module ApplicationHelper
 		link_to link.titulo, para
 	end
 
- 	# todo: ?
+ 	# todo: refinar
 	  def url_encode(value, key = nil, out_hash = {})    
 	    case value
 	    when Hash then
