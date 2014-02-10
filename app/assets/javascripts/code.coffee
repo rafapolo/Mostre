@@ -1,6 +1,6 @@
 $(document).ready ->
 	
-	$('.logo').click -> location.href = ('/')
+	$('.logo').click -> location.href = ('/cultura')
 	$(document).ajaxStart -> $(".loading").fadeIn 250
 	$(document).ajaxComplete -> $(".loading").fadeOut 250
 
