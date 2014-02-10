@@ -1,4 +1,0 @@
-Sitemap: http://www.mostre.me/sitemap.xml
-
-User-agent: *
-Allow: /

@@ -1,9 +1,0 @@
-xml.instruct!
-xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9" do
-  @links.each do |link|
-    xml.url do
-      xml.loc url_for(:controller => 'links', :action => 'show', :atalho => link.atalho, :only_path => false)
-      xml.lastmod link.created_at.to_date
-    end
-  end
-end
