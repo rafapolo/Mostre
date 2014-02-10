@@ -32,16 +32,16 @@
 			- @link.errors.full_messages.each do |msg|
 				%li= msg
 	
-	Título ->
+	Título:
 	%br/
 	= f.text_field('titulo', {size: 45, maxlength: 35, class: "text"})
 	%br/
 	%br/
-	Para URL ->
+	Redirecionar para:
 	%br/
-	= f.text_field(:para, :size=>60, :class=>"text")
+	= f.text_field(:para, :size=>60, :class=>"text", :value=>'http://')
 		
 	%p#out.out
 
 	%div{align: "right"}
-		= f.submit("Criar", {style: "height: 30px; font-size:25px"})
+		= f.submit("Criar", {style: "height: 30px; font-size:25px; margin-top: 10px"})

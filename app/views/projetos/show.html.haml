@@ -1,9 +1,16 @@
+:javascript
+  $(document).ready(function(){
+    $('th').removeClass('reorder')
+  })
+  
 .well.status.borda
-  %h3.center= @projeto.nome
+  .titulo
+    %i.icon-th.afastado
+    = @projeto.nome
 
 .well.center.borda
   #title{style:"font-size:15px"}
-    %a{href: "/entidades/#{@projeto.entidade.id}"}
+    %a{href: '/cultura/entidades/' + @projeto.entidade.to_param}
       %i.icon-briefcase
       = "#{@projeto.entidade.nome} (#{@projeto.entidade.projetos.count})"  
 
@@ -48,22 +55,22 @@
 - if @projeto.apoiadores && @projeto.apoiadores > 0
   %table.table.table-striped.borda
     %thead
-      %tr
-        %th Valor Total
+      %tr        
         %th
-        %th{style:'text-align:left'} Patrocinadores
+        %th{style:'text-align:left'} Patrocinador
+        %th Valor Total
         %th Depósitos
         %th Último
     %tbody
       - @projeto.incentivos.each do |i|
-        %tr
-          %td= reais i.valor
+        %tr          
           %td
             - if i.entidade.empresa
               %i.icon-briefcase
             - else
               %i.icon-user
-          %td{style:'text-align:left'}= i.entidade.nome
+          %td{style:'text-align:left'}= link_to_entidade i.entidade
+          %td= reais i.valor
           %td= i.recibos_count
           - if last_recibo_at = i.last_recibo_at
             %td= to_date last_recibo_at
@@ -74,3 +81,5 @@
   %a.btn{href: "/cultura/salicnet/#{@projeto.numero}", target:"_blank"} 
     %i.icon-info-sign
     Ver no SalicNet
+  %br
+  %br

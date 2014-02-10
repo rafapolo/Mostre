@@ -1,0 +1,24 @@
+- @patrocinadores ||= patrocinadores
+
+%table.table.table-striped.table-bordered.table-condensed.borda
+  %thead
+    %tr
+      %th{style: 'width: 420px'} Patrocinador
+      %th Estado
+      %th#incentivos_count.reorder Projetos
+      %th#incentivos_sum.reorder Incentivado
+      %th#last_incentivo.reorder Último
+    
+  %tbody
+    - @patrocinadores.each do |patrocinador|
+      %tr        
+        - nome = hl(params[:nome], patrocinador.nome) if params[:nome]
+        %td= link_to (nome || patrocinador.nome), entidade_path(patrocinador)
+        %td= patrocinador.estado.sigla
+        %td
+          %span.badge.badge-info
+            = patrocinador.incentivos_count
+        %td= reais patrocinador.incentivos_sum
+        %td
+          %span.badge.badge-success
+            = patrocinador.last_incentivo

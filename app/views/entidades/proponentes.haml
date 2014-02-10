@@ -1,13 +1,15 @@
+- @proponentes ||= @entidades
+
 - content_for :filtro do
-  = render :partial => 'filtros/proponentes'
+  = render :partial => 'filtros/entidades'
 
 .well.borda.status
   = @topo
 
-%table.table.table-striped.table-bordered.table-condensed.borda{style: 'width: 880px'}
+%table.table.table-striped.table-bordered.table-condensed.borda
   %thead
     %tr
-      %th{style: 'width: 220px'} Proponente
+      %th{style: 'width: 420px'} Proponente
       %th Estado
       %th#projetos_count.reorder Projetos
       %th#projetos_liberados.reorder Aprovados
@@ -17,8 +19,7 @@
     - @proponentes.each do |proponente|
       %tr        
         - nome = hl(params[:nome], proponente.nome) if params[:nome]
-        %td
-          = link_to (nome || proponente.nome), proponente_path(proponente)
+        %td= link_to (nome || proponente.nome), entidade_path(proponente)
         %td= proponente.estado.sigla
         %td
           %span.badge.badge-info

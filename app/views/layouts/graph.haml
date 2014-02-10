@@ -4,11 +4,8 @@
 		%title Mostre!me Incentivos
 		%meta{charset: 'utf-8'}
 		= stylesheet_link_tag "grafo"
-		= javascript_include_tag "http://d3js.org/d3.v3.min.js", "http://cpettitt.github.io/project/dagre-d3/latest/dagre-d3.min.js"
-		= javascript_include_tag "dados"
-		%style
+		= javascript_include_tag "sigmajs/sigma.min", "sigmajs/plugins/sigma.parsers.gexf.min", "grafo"
+	%body
 	
-	%body{onload:"draw()"}
-
-		%svg{width: 800, height: 800}
-			%g{transform: "translate(20,20)"}
+		#sigma-container
+			

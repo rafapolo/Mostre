@@ -1,0 +1,33 @@
+%table.table.table-striped.table-bordered.table-condensed.borda
+	%thead
+		%tr
+			%th{style: 'width:25px'}
+			%th Entidade
+			%th Estado
+			%th Projetos
+			%th Captado
+			%th Incentivos
+			%th Incentivado
+
+	%tbody
+		- @entidades.sort_by{:projetos_sum}.each do |entidade|
+			%tr
+				%td
+					- if entidade.empresa
+						%i.icon-briefcase
+					- else
+						%i.icon-user
+				%td= link_to_entidade entidade
+				%td= entidade.estado.sigla
+				%td
+					- if entidade.projetos_count > 0
+						%span.badge.badge-info= entidade.projetos_count
+					- else
+						%span.badge.badge-important 0
+				%td= reais entidade.projetos_sum
+				%td
+					- if entidade.incentivos_count > 0
+						%span.badge.badge-info= entidade.incentivos_count
+					- else
+						%span.badge.badge-important 0
+				%td= reais entidade.incentivos_sum

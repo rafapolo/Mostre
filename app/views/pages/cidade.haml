@@ -1,0 +1,10 @@
+.well.status
+	.titulo
+		%i.icon-globe
+			= "#{@cidade.nome} - #{@cidade.estado.sigla}"
+
+
+.well.status= @resumo
+
+
+= render 'entidades/list'

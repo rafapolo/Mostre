@@ -1,0 +1,106 @@
+:javascript
+	$(document).ready(function(){
+		$('th').removeClass('reorder')
+	})
+
+.well.status
+	.titulo
+		- if @entidade.empresa
+			%i.icon-briefcase.afastado
+		- else
+			%i.icon-user.afastado
+		= @entidade.nome
+
+.well.center.borda
+	#title{style:"font-size:15px"}
+		%a{href: cidade_path(@entidade.cidade)}
+			%i.icon-globe
+				= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"  
+
+.center{style: "padding-bottom:10px"}
+
+	- if @entidade.projetos_count > 0
+		.label.label-warning= "#{@entidade.projetos_count} projetos"
+		- if @entidade.projetos_liberados > 0
+			.label.label-info= "#{@entidade.projetos_liberados} aprovados"
+		- else
+			.label.label-important= "#{@entidade.projetos_liberados} aprovados"
+	- else
+		.label.label-important= "#{@entidade.projetos_count} projetos"
+
+	- if @entidade.projetos_sum > 0
+		.label.label-success= "#{reais @entidade.projetos_sum} captados"
+
+	- if @entidade.incentivos_count > 0
+		.label.label-info= "#{@entidade.incentivos_count} incentivos"
+
+	- if @entidade.incentivos_sum > 0
+		.label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
+
+- if @entidade.projetos_count > 0
+	= render 'projetos/list', projetos: @entidade.projetos
+
+- if @entidade.incentivos_count > 0
+	.well.borda.status
+		Projetos Incentivados
+
+	%table.table.table-striped.table-bordered.table-condensed.borda
+		%thead
+			%tr
+				%th{style: 'width: 420px'} Projeto
+				%th Estado
+				%th Segmento
+				%th Valor
+				%th Último recibo
+
+		%tbody
+			- @entidade.incentivos.sort_by{:valor}.each do |incentivo|
+				%tr        
+					%td= link_to_projeto incentivo.projeto
+					%td= incentivo.projeto.estado.sigla
+					%td= incentivo.projeto.segmento.nome
+					%td= reais incentivo.valor
+					%td	
+						%span.badge.badge-success
+							= to_date incentivo.last_recibo_at
+
+- similares = @entidade.similares
+- if similares.size > 0
+	.well.borda.status= "Similares (#{similares.size})"
+	- @entidades = @entidade.similares
+	= render 'entidades/list'
+
+
+/ - content_for :dados do
+
+/ 	/ - unless params[:area_id]
+/ 	/   #areas
+/ 	/     .well.borda
+/ 	/       %i.icon-tags
+/ 	/       Areas
+/ 	/       %hr.small
+	    
+/ 	/       - @areas.each do |a|
+/ 	/         - area = a[0]
+/ 	/         - count = a[1]
+/ 	/         %p.selectable{type: 'area', type_id: area.id}
+/ 	/           %span.rotulo= area.nome
+/ 	/           - if count > 0
+/ 	/             %span.badge.badge-right.badge-info= count
+/ 	/           - else
+/ 	/             %span.badge.badge-right.badge-important= count
+
+/ 	#estados
+/ 		.well.borda
+/ 			%i.icon-globe
+/ 			Estados
+/ 			%hr.small
+/ 			- @estados.each do |e|
+/ 				- estado = e[0]
+/ 				- count = e[1]
+/ 				%p.selectable{type: 'estado', type_id: estado.id}
+/ 				%span.rotulo= estado.nome        
+/ 				- if count > 0
+/ 					%span.badge.badge-right.badge-info= count
+/ 				/ - else
+/ 				/ 	%span.badge.badge-right.badge-important= count

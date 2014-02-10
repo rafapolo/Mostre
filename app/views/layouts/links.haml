@@ -1,6 +1,6 @@
 %html{:lang => "pt-br", "xml:lang" => "pt-br", :xmlns => "http://www.w3.org/1999/xhtml"}
   %head
-    %title Mostre!me | Crie Referências
+    %title Mostre!me Links
     %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}    
     %link{:href => '/assets/favicon.ico', :rel => "shortcut icon", :type => "image/x-icon"}
     = stylesheet_link_tag 'old'
@@ -9,6 +9,8 @@
   %body        
 
     %h1= link_to "Mostre!me", "/links"
+    .menu
+      = link_to "Histórico", "/links/stats" unless request.fullpath == "/links/stats" 
 
     - if flash[:notice] 
       %p#status.redondo
@@ -18,7 +20,5 @@
       = yield
 
     .rodape      
-      = "#{Link.count} links referenciados em #{Click.count} acessos | "
-      = link_to "Status", "/links/stats"
-      %span= " | " 
-      = link_to "Mostre!me Cultura (novo)", "/"
+      = "#{Link.count} links referenciados em #{Click.count} acessos | "      
+      = link_to "Mostre!me Cultura", "/cultura"

@@ -4,78 +4,8 @@
 .well.borda.status
   = @topo
 
-%table.table.table-striped.table-bordered.table-condensed.borda{style: 'width: 880px'}
-  %thead
-    %tr
-      %th{style: 'width: 220px'} Projeto      
-      %th Estado
-      %th Segmento
-      %th#situacao_at.reorder Ano
-      %th#solicitado.reorder Solicitado
-      %th#aprovado.reorder Aprovado
-      %th#apoiado.reorder Apoiado
-      %th#apoiadores.reorder Incentivos
-      %th#liberado_at.reorder{style: 'width: 85px'} Liberado
-    
-  %tbody
-    - @projetos.each do |projeto|
-      %tr        
-        - nome = hl(params[:nome], projeto.nome) if params[:nome]
-        %td
-          = link_to (nome || projeto.nome), projeto_path(projeto)
-          %br
-          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'        
-        %td= projeto.estado.sigla
-        %td= projeto.segmento.nome        
-        %td= projeto.situacao_at.year
-        
-        %td= reais projeto.solicitado
-        - if projeto.aprovado > 0        
-          %td= reais projeto.aprovado
-        - else
-          %td
-            - if especial(projeto)
-              %span -
-            - else
-              %span.badge.badge-important 0
-        %td
-          - if projeto.apoiado > 0
-            = reais projeto.apoiado
-          - else
-            - if projeto.aprovado > 0
-              %span.badge.badge-important 0
-            - else
-              // sem aprovação e sem apoio
-              %span -
-        %td
-          - #todo: visualizar se soma de apoiadores não bate com apoiado.  
-          - if projeto.apoiado > 0 && projeto.apoiadores==0 
-            - if especial(projeto)
-              %span -
-            - else
-              %span.badge.badge-important
-                %i.icon-question-sign
-          - else            
-            - if apoiadores=projeto.apoiadores
-              %span.badge.badge-info= apoiadores
-            - else 
-              - if !apoiadores && !especial(projeto) && projeto.apoiado>0
-                %span.badge.badge-important 0
-              - else
-                %span -
-        %td
-          - if at = projeto.liberado_at
-            %span.badge.badge-success= at
-          - else
-            - if (especial(projeto))
-              %span.badge.badge-success
-                %i.icon-star
-            - else
-              %span.badge.badge-important
-                %i.icon-ban-circle
-
+= render :partial => 'list'
 = pagination @projetos
-
 
 #subfiltros  
   - unless params[:area_id]
