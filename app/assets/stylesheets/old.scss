@@ -15,6 +15,16 @@ body
 
 h1>a{
     padding-top: 7px;
+    color: #333
+}
+
+.menu
+{
+    display: inline-block;
+    margin: 5px 20px;
+    font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    float: right;
 }
 
 
@@ -56,30 +66,16 @@ p.ex
     background-color: #004499;
     line-height: 30px;
     color: white;
-    font-size: 12px;
+    font-size: 13px;
     border: 1px solid black;
     text-align: center;
     text-decoration: underline;
-}
-
-.redondo
-{
-    -moz-border-radius-bottomleft:5px;
-    -moz-border-radius-bottomright:5px;
-    -moz-border-radius-topleft:5px;
-    -moz-border-radius-topright:5px;
 }
 
 #logo
 {
     position: absolute;
     padding-left: 5px;
-}
-
-.menu
-{
-    
-    text-align: right;
 }
 
 
@@ -92,6 +88,8 @@ p.ex
 h1 {
     font-family:'Myriad Pro',Helvetica,Arial,sans-serif;
     font-size:35px;
+    display: inline-block;
+    margin-top: 0px;
 }
 
 h3 {
@@ -105,8 +103,8 @@ h3 {
     border: 1px solid gray;
     padding:20px;
     background-color: #EFF7FF;
-    -moz-border-radius-bottomright:30px;
-    -moz-border-radius-topleft:30px;
+    border-radius: 0px 25px 25px 25px;
+    box-shadow: 5px 5px 30px #EFF7FF;
 }
 
 a { color: #000; }

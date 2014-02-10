@@ -33,6 +33,11 @@ form{
 	padding-right:5px;
 }
 
+.carousel-control {
+	top: 50%;
+	line-height: 35px;
+}
+
 span>a:hover{
 	background-color: lightgray;
 }
@@ -81,6 +86,10 @@ rect {
 
 }
 
+.table{
+	min-width: 880px
+}
+
 .table-striped tbody>tr:nth-child(even)>td, .table-striped tbody>tr:nth-child(odd)>th 
 {
 	background-color: white;
@@ -116,7 +125,7 @@ h3{
 }
 
 .nav [class^="icon-"], .nav [class*=" icon-"]{
-	margin-top: 0px
+	margin-top: 3px
 }
 
 th{

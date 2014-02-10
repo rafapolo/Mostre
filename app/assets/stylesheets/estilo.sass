@@ -5,9 +5,9 @@
 
 body
 	background: asset-url('texture-noise.png')
-	font-family: 'Gudea', sans-serif
+	font-family: 'Gudea', sans-serif	
 	font-size: 14px	
-	min-width: 1170px	
+	min-width: 1130px	
 
 a
 	color: #4183c4
@@ -25,24 +25,31 @@ a
 	background-image: -webkit-gradient(linear, 0 0, 0 120%, from(#fff7df), to(#f2f2f2))
 
 #todo
-	width: 1100px
-	margin: auto
-	padding-top: 1px
-	font-family: 'Gudea', sans-serif
-	padding-bottom: 26px
+	padding: 5px 15px 15px 15px
 
 #lado
-	float: left	
 	width: 200px
-	margin-right: 20px
-	margin-bottom: 13px
+	margin-bottom: 20px
+	float: left
+	display: margin-block
+
+.afastado
+	padding-right: 10px
 
 #menu
 	width: inherit
 	
+.titulo
+	font-size: 23px
+	text-align: center
+	padding: 3px
+	color: white
+	background-color: rgb(54,53,49)
+	text-shadow: 2px 3px gray	
+	line-height: 28px
+
 .logo
 	font-size: 25px
-	margin-bottom: 8px	
 	text-align: center
 	color: white
 	background-color: rgb(54,53,49)
@@ -55,6 +62,7 @@ a
 
 #meio
 	font-size: 13px
+	margin-left: 10px
 	margin-left: 220px
 
 #updates
@@ -124,7 +132,7 @@ a
 	font-size: 17px
 	color: white
 	background-color: rgb(54,53,49)
-	text-shadow: 3px 3px gray
+	text-shadow: 3px 2px gray
 	cursor: crosshair
 	margin-bottom: 8px
 
@@ -157,7 +165,13 @@ hr.small
 	display: none	
 
 .center
-	text-align: center	
+	text-align: center
+	.label
+		padding: 5px	
 
 .right
 	float: right
+
+.count
+	font-size: 11px
+	padding-left: 50px
