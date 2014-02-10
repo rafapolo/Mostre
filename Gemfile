@@ -23,6 +23,7 @@ group :development do
 	gem 'pry'
 	gem 'pry-debugger'	
 	gem 'mina'
+	gem 'geocoder'
 	gem 'awesome_print'
 	gem 'rails-erd'
 	gem 'better_errors'
