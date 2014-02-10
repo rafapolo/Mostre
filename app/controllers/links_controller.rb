@@ -5,8 +5,8 @@ class LinksController < ApplicationController
   end
 
   def stats
-    @last_links = Link.order('created_at DESC').limit 5
-    @last_clicks = Click.limit 5
+    @last_links = Link.order('created_at DESC').limit 10
+    @last_clicks = Click.limit 10
     @tops = Link.all(
       :limit=>10,
       :joins=> :clicks,

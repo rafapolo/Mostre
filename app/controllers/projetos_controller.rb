@@ -6,7 +6,6 @@ class ProjetosController < ApplicationController
     area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : '' 
     soma = view_context.number_to_currency(@projetos.sum(:apoiado), :unit => "R$")
     "#{@projetos.count} projetos #{valor('nome')} #{is('liberados')} #{estado} #{area} com #{soma} em apoios."
-    
   end
 
   def impor_filtros!
@@ -61,13 +60,14 @@ class ProjetosController < ApplicationController
   end
   
   def index
+    @title = "Projetos"
     page = params[:page] || 1
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @projetos = Projeto.includes(:entidade).order(ordem).paginate(page: page, per_page: 25)
+    @projetos = Projeto.includes(:entidade).order(ordem).paginate(page: page, per_page: 35)
     impor_filtros!
 
     unless params[:estado_id]
@@ -104,6 +104,7 @@ class ProjetosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_projeto
       @projeto = Projeto.find(params[:id])
+      @title = @projeto.nome
     end
 
     # Only allow a trusted parameter "white list" through.
