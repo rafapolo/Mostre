@@ -7,6 +7,7 @@ class Projeto < ActiveRecord::Base
 	has_many :incentivos
 	# has_many :apoiadores, :source => :entidade, :through => :incentivos
 
+	#default_scope -> {order('situacao_at DESC')}
 	scope :aprovados, -> { where('liberado_at is not null') }
 
 	validates_uniqueness_of :numero
@@ -16,9 +17,9 @@ class Projeto < ActiveRecord::Base
 	before_save :set_meta_attrs
 
 	def set_meta_attrs
-		self.urlized = self.nome.urlize
-		self.estado_id = Estado.find_by_sigla(self.uf).id
-		self.liberado = self.mecanismo == 'FNC' || self.mecanismo == 'Recurso do Tesouro' || self.liberado_at
+		#self.urlized = self.nome.urlize
+		self.estado_id = Estado.find_by_sigla(self.uf).id unless self.estado
+		#self.liberado = self.mecanismo == 'FNC' || self.mecanismo == 'Recurso do Tesouro' || self.liberado_at
 	end
 
 	def to_param		
