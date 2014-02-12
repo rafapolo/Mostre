@@ -1,5 +1,4 @@
 #encoding: utf-8
-require 'pry'
 namespace :map do
   desc "Gerar KML"  
   task :kml => :environment do
