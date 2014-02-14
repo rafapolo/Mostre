@@ -3,9 +3,7 @@ class Estado < ActiveRecord::Base
 	has_many :entidades, through: :projetos
 	has_many :cidades
 
-	def all
-		self.all - [Estado.find_by_sigla('XX')] # remove Estado Desconhecido
-	end
+	default_scope -> {where("sigla != 'XX'")} # remove Estado Desconhecido
 
 	def urlized
 		sigla.downcase
