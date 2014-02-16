@@ -1,5 +1,5 @@
 class Entidade < ActiveRecord::Base
-	
+
 	belongs_to :estado
 	belongs_to :cidade
 
@@ -19,7 +19,7 @@ class Entidade < ActiveRecord::Base
 		self.patrocinador = self.incentivos.count>0		
 
 		estado = Estado.find_by_nome(self.uf)
-		self.estado_id = estado ? estado.id : 0
+		self.estado_id = estado ? estado.id : 100 # desconhecido
 		
 		self.projetos_count = self.projetos.count
 		self.projetos_sum = self.projetos.map(&:apoiado).sum.to_f # &:solicitado para FNC ?
@@ -34,12 +34,12 @@ class Entidade < ActiveRecord::Base
 		self.urlized = self.nome.urlize		
 	end
 
-	def to_param		
-		"#{self.id}-#{self.urlized}"
-	end
-
 	def similares
 		Entidade.where("nome LIKE ?", "%#{self.nome}%") - [self]
 	end
 	
+	def to_param		
+		"#{self.id}-#{self.urlized}"
+	end
+
 end
