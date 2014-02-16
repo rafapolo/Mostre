@@ -13,6 +13,10 @@ module ApplicationHelper
 		will_paginate(collection, options)
 	end
 
+	def link_to_image(path)
+		 link_to image_tag(path), asset_path(path), target: '_blank'
+	end
+
 	def reais valor
 		valor.to_i > 0 ? number_to_currency(valor, :unit => "R$") : '-'
 	end
