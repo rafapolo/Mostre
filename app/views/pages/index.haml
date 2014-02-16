@@ -1,20 +1,24 @@
+:javascript
+	$.fn.carousel.defaults = { interval: false }
+
 #nav-analises.carousel.slide
 	%ol.carousel-indicators
-		%li.active{"data-slide-to" => "0", "data-target" => "#nav-1"}
-		%li{"data-slide-to" => "1", "data-target" => "#nav-2"}
-		%li{"data-slide-to" => "1", "data-target" => "#nav-2"}
-		%li{"data-slide-to" => "1", "data-target" => "#nav-2"}		
-		%li{"data-slide-to" => "1", "data-target" => "#nav-2"}		
+		%li.active{"data-slide-to" => "0", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "1", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "2", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "3", "data-target" => "#nav-analises"}		
+		%li{"data-slide-to" => "4", "data-target" => "#nav-analises"}		
 	.carousel-inner
 		.item.active
 			.carousel-caption
 				%h4 Manifesto | subversão v0.1
 
-			.well{style: 'font-size: 16px; line-height: 19px; margin: 0px 70px 0px 70px'}
+			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; max-width: 1200px'}
 				.center
 					%p.x1 Mostre!me
 					%p.x2 Sistema Experimental em Comunicação e Cultura
 
+				%br
 				%br
 				%p 
 					%span
@@ -31,12 +35,10 @@
 				%p 14.02.2014
 		.item
 			.carousel-caption
-				%h4 Extração de Dados
-			.center
-				%br
-				= image_tag asset_path 'esquema.png'
-				%br
-				%br
+				%h4 Extração de Dados			
+			#esquema{style: 'padding: 80px;'}
+				.center
+					= link_to_image 'esquema.png'
 			.carousel-caption			
 				%p Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
 				
@@ -46,7 +48,7 @@
 				
 			%p#chart
 			= stylesheet_link_tag 'chart'
-			= javascript_include_tag "d3.v2"
+			= javascript_include_tag "d3/d3.v2"
 			= javascript_include_tag "chart"
 			
 			.carousel-caption
@@ -55,19 +57,23 @@
 		.item			
 			.carousel-caption
 				%h4 Análises Públicas
-			
-			%a{href: asset_path('proprietarios.png'), target:'_blank'}
-				= image_tag asset_path('proprietarios.png')
+			.center
+				= link_to_image 'proprietarios.png'
 			
 			.carousel-caption
 				%p 
 					%span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos 
-					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/en/'} Proprietários do Brasil
-					%span representam quase metade de todos incentivos no país na última década. Cada ponto é uma entidade com cor relativa ao seu Estado. Petrobrás e Vale S/A são os dois principais incentivadores visíveis no grafo.
+					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil também atuam no sistema Cultural e surpreendentemente 
+					%span representam quase metade de todos os incentivos do país na última década.
+
+					%a{target: '_blank', href: '/cultura/entidades/98-petroleo-brasileiro-s-a-petrobras'} Petrobrás 
+					e 
+					%a{target: '_blank', href: '/cultura/entidades/314-vale-sa'} Vale S/A
+					, ambas do Rio de Janeiro, são os dois principais incentivadores visíveis na parte de baixo do grafo.
 
 		.item
 			.carousel-caption
-				%h4 Mapa de Contextos Semânticos #beta
+				%h4 Mapa de Contextos #beta
 			.center
 				= image_tag asset_path 'mapa.png'
 			.carousel-caption			

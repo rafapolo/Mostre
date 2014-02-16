@@ -143,6 +143,7 @@ th{
 
 .carousel-indicators{
 	top: 17px;
+	cursor: pointer;
 }
 
 .pagination > ul{
@@ -166,4 +167,3 @@ input[type='text']{
 .label{font-size:15px;}
 
 .alert{margin-bottom: 10px;}
-
