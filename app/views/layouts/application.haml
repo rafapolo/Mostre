@@ -8,8 +8,10 @@
 		%meta{charset: 'utf-8'}
 		= stylesheet_link_tag "app", media: "all"
 		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
-		= javascript_include_tag "app"
+		= javascript_include_tag "app"	
+		= javascript_include_tag "analytics" if Rails.env.production?
 		= favicon_link_tag 'm-favicon.ico'
+		= yield :libs
 		= csrf_meta_tags
 	
 	%body
