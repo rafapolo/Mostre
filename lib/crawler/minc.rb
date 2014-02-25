@@ -11,12 +11,12 @@ class Minc
 
       if @page.index("registros a exibir")!=nil
         puts "Nada".red
-        return 
+        return
       end
 
       # identificação
       num = get_field("Nº Projeto")
-      nome = get_field("Nome do Projeto")
+      nome = get_field("Nome do Projeto")[0..150]
       cnpjcpf = get_from_link("CNPJ / CPF")
       #nome_proponente = get_from_link("Proponente")
       # info
@@ -43,9 +43,9 @@ class Minc
       projeto = Projeto.create(:entidade_id=>proponente.id, :nome=>nome, :numero=>num, :uf=>uf, :area=>Area.find_by_nome(area), :mecanismo=>mecanismo, :enquadramento=>enquadramento,
                                :segmento=>Segmento.find_by_nome(segmento), :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
                                :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
-      
-      
-      if projeto.errors.count>0            
+
+
+      if projeto.errors.count>0
         puts projeto.attributes
         puts 'Opz!'.red
         puts projeto.errors.messages
@@ -57,45 +57,42 @@ class Minc
         get_incentivadores(id)
       end
     else
+      projeto.update(numero: id.to_s) if (id.to_s.size >=6 && projeto.updated_at < 1.day.ago)
       puts "#{projeto.nome}".yellow
     end
     projeto
   end
 
   def get_entidade(cnpjcpf)
-    entidade = Entidade.find_by_cnpjcpf(cnpjcpf)    
+    entidade = Entidade.find_by_cnpjcpf(cnpjcpf)
+    unless entidade
+      puts "==> pegando entidade #{cnpjcpf}...".yellow
+      @page = get_page("/salicnet/conDadosCadastraisProponente/conDadosCadastraisProponente.php", "nmgp_parms=nmgp_lig_edit_lapis?#?S?@?cgccpf?#?#{cnpjcpf}?@?")
 
-    puts "==> pegando entidade #{cnpjcpf}...".yellow
-    @page = get_page("/salicnet/conDadosCadastraisProponente/conDadosCadastraisProponente.php", "nmgp_parms=nmgp_lig_edit_lapis?#?S?@?cgccpf?#?#{cnpjcpf}?@?")
+      nome = get_field("Nome")
+      responsavel = empty(get_field("Responsável"))
+      logradouro = get_field("Logradouro")
+      uf = get_field("UF do Proponente")
+      cidade = Cidade.find_by_nome(get_field("Cidade"))
+      cep = get_field("CEP")
+      email = get_from_link("Email")
 
-    nome = get_field("Nome")
-    responsavel = empty(get_field("Responsável"))
-    logradouro = get_field("Logradouro")
-    uf = get_field("UF do Proponente")
-    cidade = get_field("Cidade")
-    cep = get_field("CEP")
-    email = get_from_link("Email")
+      tel_res = empty(get_field("Residencial"))
+      tel_com = empty(get_field("Comercial"))
+      tel_cel = empty(get_field("Celular"))
+      tel_fax = empty(get_field("Fax"))
 
-    tel_res = empty(get_field("Residencial"))
-    tel_com = empty(get_field("Comercial"))
-    tel_cel = empty(get_field("Celular"))
-    tel_fax = empty(get_field("Fax"))   
-
-    if (entidade)   
-      entidade.update(cidade: cidade, nome: nome, uf: uf)      
-    else
       entidade = Entidade.create(:cnpjcpf=>cnpjcpf, :nome=>nome, :responsavel=>responsavel, :logradouro=>logradouro, :uf=>uf, :cidade=>cidade, :cep=>cep, :email=>email, :tel_res=>tel_res, :tel_com=>tel_com, :tel_fax=>tel_fax, :tel_cel=>tel_cel)
-    end    
+    end
     puts entidade.nome.green
-
     entidade
   end
 
-  def get_recibos(incentivo)      
+  def get_recibos(incentivo)
     num_projeto = incentivo.projeto.numero
     cpfnj = incentivo.entidade.cnpjcpf
     puts "==> pegando recibos de #{cpfnj} em ##{num_projeto}".yellow
-    @page = get_page("/salicnet/conListagemDoIncentivo/conListagemDoIncentivo.php?g_cgccpf=#{cpfnj}&g_nrprojeto=#{num_projeto}")      
+    @page = get_page("/salicnet/conListagemDoIncentivo/conListagemDoIncentivo.php?g_cgccpf=#{cpfnj}&g_nrprojeto=#{num_projeto}")
     linhas = @page.scan(/color="#333333" face="Tahoma, Arial, sans-serif">(\d{2}\/\d{2}\/\d{4}||[\d\.]+,\d{2})<\/font>/mi)
 
     linhas.size.times do |i|
@@ -115,7 +112,7 @@ class Minc
     @page = get_page('/salicnet/conProjetoESeusIncentivadores/conProjetoESeusIncentivadores.php', "nmgp_parms=nmgp_lig_edit_lapis?#?S?@?g_nrprojeto?#?#{num_projeto}?@?")
     incentivadores = @page.scan(/007ba3">(.*?)<\/font>.*?serif">(.*?)<\/FONT>.*?false;">(.*?)<\/a>/m)
     incentivadores.each do |info|
-      entidade = get_entidade(clean(info[0]))        
+      entidade = get_entidade(clean(info[0]))
       i = Incentivo.create(:entidade_id=>entidade.id, :projeto_id=>projeto.id, :valor=>to_float(info[2]))
       info = "#{info[1]} => #{info[2]}"
       puts info.blue
@@ -127,11 +124,9 @@ class Minc
 
     # pega página com POST
   def get_page(path, post_data='')
-    
     url = 'sistemas.cultura.gov.br'
-    http = Net::HTTP.new url # proxy: , nil, '189.112.88.65', 3128
+    http = Net::HTTP.new url #, proxy: , nil, '189.112.88.65', 3128
     http.read_timeout = 30
-
     begin
       resp = http.get path
       headers = {
@@ -158,6 +153,7 @@ class Minc
 
   # 4 => 000004
   def to_count_str(num)
+    return num.to_s if num.to_s.size >= 6
     "0"*(6-(num.to_s.size))+num.to_s
   end
 
@@ -176,7 +172,7 @@ class Minc
     cpfcnpj.gsub(/[-.\/]/, "")
   end
 
-  # se texto é vazio deve ir pro banco como nulo 
+  # se texto é vazio deve ir pro banco como nulo
   def empty(string)
     string == nil || string == "&nbsp;" ? nil : string
   end
@@ -209,4 +205,4 @@ class Minc
     data = @page.scan get_regex("Síntese do Projeto</FONT>.*?serif\">(.*?)</FONT>")
     data[0] && data[0][0] ? data[0][0].to_s : nil
   end
-end  
+end
