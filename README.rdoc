@@ -1,28 +1,13 @@
-== README
+== Acervo MakingOff v0.1 | 2014-02-17
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+MakingOff é um site, uma comunidade, e um acervo avivados no Brasil desde 2006.
 
-Things you may want to cover:
+= situação = análise = diagnóstico = mapeamento = fatos =
 
-* Ruby version
+* 13943 movies
+* 302 sem torrents
+* 6539 seeds > 0
+* 7102 seeds = 0
+* 115 torrents nos zips
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+== Acervo MakingOff
