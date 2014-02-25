@@ -16,7 +16,7 @@ Mostre::Application.routes.draw do
   end
   
   get 'visu.json', to: "pages#visu"    
-  get '/grafo', to: "graphs#index"
+  get '/entidades/grafo/:id.json', to: "graphs#entidade"
 
   get '/links', to: "links#index"
   get '/links/stats', to: "links#stats"
