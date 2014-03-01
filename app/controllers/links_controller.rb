@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  
+
   def index
     @link = Link.new
   end
@@ -19,13 +19,13 @@ class LinksController < ApplicationController
   def info
     param = params[:link]
     @link = Link.find_by_atalho(param)
-    redirect_to "/links", notice: "Link solicitado não existe." unless @link
+    redirect_to "/links", notice: "Link não existe. Crie!" unless @link
   end
 
   def show
     param = params[:link]
     @link = Link.find_by_atalho(param)
-    redirect_to "/links", notice: "Link solicitado não existe." unless @link
+    redirect_to "/links", notice: "Link não existe. Crie!" unless @link
 
     # salva click
     href = request.referer
@@ -41,8 +41,8 @@ class LinksController < ApplicationController
     @link = Link.new(params[:link].permit!)
     respond_to do |format|
       if @link.save
-        flash[:notice] = 'Link foi criado com sucesso.'
-        format.html { redirect_to(:action=>"info", :atalho=>@link.atalho) }
+        flash[:notice] = 'Link criado com sucesso.'
+        format.html { redirect_to("/links/info/#{@link.atalho}" }
       else
         format.html { render :action => "index" }
       end
