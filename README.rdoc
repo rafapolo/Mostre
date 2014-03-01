@@ -1,13 +1,5 @@
-== Acervo MakingOff v0.1 | 2014-02-17
+A partir da devida importância dada aos aspectos da Cultura Digital, o Ministério da Cultura do Brasil em 2004 começa a publicar online os dados de todos (?) os Proponentes e Patrocinadores dos Projetos Culturais submetidos e aprovados no país através do SalicNet.
 
-MakingOff é um site, uma comunidade, e um acervo avivados no Brasil desde 2006.
+Agora, o acesso a informação dos últimos 10 anos sobre as relações que compõe as Políticas Culturais do País é relevante conhecimento para avaliar o que fazem ou devíamos fazer. Porém, o SalicNet apresenta muitas falhas e já tem sua última atualização datada há 7 anos, como o próprio Sistema Federal Brasileiro, obsoleto, comparando a própria evolução da Web como rede de pessoas e tudo que podemos utilizar para melhorarmos, nesse caso, as condições gerais de acesso e utilização dos conhecimentos e culturas.
 
-= situação = análise = diagnóstico = mapeamento = fatos =
-
-* 13943 movies
-* 302 sem torrents
-* 6539 seeds > 0
-* 7102 seeds = 0
-* 115 torrents nos zips
-
-== Acervo MakingOff
+Propomos experimentar novas formas de interação com relevantes dados públicos, explicitando suas reais relações, geralmente ignorada pela corrompida Mídia Brasileira com seu também obsoleto sistema de patrocínios em informação em massa. O que é o Sistema e como melhorá-lo sem violência? Pra que servem os Ministérios?
