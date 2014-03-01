@@ -42,7 +42,7 @@ class LinksController < ApplicationController
     respond_to do |format|
       if @link.save
         flash[:notice] = 'Link criado com sucesso.'
-        format.html { redirect_to("/links/info/#{@link.atalho}" }
+        format.html { redirect_to("/links/info/#{@link.atalho}") }
       else
         format.html { render :action => "index" }
       end
