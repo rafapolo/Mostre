@@ -58,7 +58,7 @@ p.ex
     font-weight: bold;
     background-color: #004499;
     padding: 5px;
-    border: 1px solid white;
+    margin-bottom: 10px;
 }
 
 .out
@@ -104,7 +104,7 @@ h3 {
     padding:20px;
     background-color: #EFF7FF;
     border-radius: 0px 25px 25px 25px;
-    box-shadow: 5px 5px 30px #EFF7FF;
+    box-shadow: 5px 4px 10px #EFF7FF;
 }
 
 a { color: #000; }
@@ -121,7 +121,7 @@ padding-top: 3px;
     text-decoration: overline underline;
 }
 
-a:hover { 
+a:hover {
     color: white;
     background-color:#004499;
     text-decoration: overline underline;
