@@ -3,7 +3,7 @@
   #   container: "sigma-container"
   #   settings:
   #     defaultNodeColor: "#ec5148"
-  
+
   # , (s) ->
   #   s.startForceAtlas2()
   #   setInterval (->
@@ -11,19 +11,19 @@
   #     return
   #   ), 3000
 
-  var nodeMap = {}
-g.eachNode(function (u, name) {
-    nodeMap[u] = {
-        name: name
-    };
-})
-var nodes = d3.values(nodeMap);
-var edges = g.edges().map(function (e) {
-    return {
-        source: nodeMap[g.source(e)],
-        target: nodeMap[g.target(e)]
-    };
-});
+#   var nodeMap = {}
+# g.eachNode(function (u, name) {
+#     nodeMap[u] = {
+#         name: name
+#     };
+# })
+# var nodes = d3.values(nodeMap);
+# var edges = g.edges().map(function (e) {
+#     return {
+#         source: nodeMap[g.source(e)],
+#         target: nodeMap[g.target(e)]
+#     };
+# });
 
 // D3 stuff starts here
 var width = 600,
