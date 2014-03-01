@@ -130,13 +130,12 @@ function display(d) {
 	g.append("rect")
 		.attr("class", "parent")
 		.call(rect)
-		/* open new window based on the json's URL value for leaf nodes */
-		/* Chrome displays this on top */
-		.on("click", function(d) { 
-			if(!d.children){
-				window.open(d.url); 
-			}
-		})
+		
+		// .on("click", function(d) { 
+		// 	if(!d.children){
+		// 		window.open(d.url); 
+		// 	}
+		// })
 		.append("title")
 		.text(function(d) { return d.name + " " + formatNumber(d.size); }); /*should be d.value*/
 		
@@ -148,7 +147,7 @@ function display(d) {
 		/* Firefox displays this on top */
 		.on("click", function(d) { 
 			if(!d.children){
-				window.open(d.url); 
+				//window.open(d.url); 
 		}
 	})
 		.attr("class","foreignobj")

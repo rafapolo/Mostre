@@ -1,7 +1,8 @@
 :javascript
 	$(document).ready(function(){
-		$('th').removeClass('reorder')
+		$('th').removeClass('reorder') // todo: implementar ordem!
 	})
+
 
 .well.status
 	.titulo
@@ -11,64 +12,142 @@
 			%i.icon-user.afastado
 		= @entidade.nome
 
-.well.center.borda
-	#title{style:"font-size:15px"}
-		%a{href: cidade_path(@entidade.cidade)}
-			%i.icon-globe
-				= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"  
+- # Cidade
+#entidade{uid: @entidade.id}
+	.well.center.borda
+		#title{style:"font-size:15px"}
+			%a{href: cidade_path(@entidade.cidade)}
+				%i.icon-globe
+					= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"
 
-.center{style: "padding-bottom:10px"}
-
-	- if @entidade.projetos_count > 0
-		.label.label-warning= "#{@entidade.projetos_count} projetos"
-		- if @entidade.projetos_liberados > 0
-			.label.label-info= "#{@entidade.projetos_liberados} aprovados"
+	- # Labels
+	.center{style: "padding-bottom:10px"}
+		- if @entidade.projetos_count > 0
+			.label.label-warning= "#{@entidade.projetos_count} projetos"
+			- if @entidade.projetos_liberados > 0
+				.label.label-info= "#{@entidade.projetos_liberados} aprovados"
+			- else
+				.label.label-important= "#{@entidade.projetos_liberados} aprovados"
 		- else
-			.label.label-important= "#{@entidade.projetos_liberados} aprovados"
-	- else
-		.label.label-important= "#{@entidade.projetos_count} projetos"
+			.label.label-important= "#{@entidade.projetos_count} projetos"
 
-	- if @entidade.projetos_sum > 0
-		.label.label-success= "#{reais @entidade.projetos_sum} captados"
+		- if @entidade.projetos_sum > 0
+			.label.label-success= "#{reais @entidade.projetos_sum} captados"
 
+		- if @entidade.incentivos_count > 0
+			.label.label-info= "#{@entidade.incentivos_count} incentivos"
+
+		- if @entidade.incentivos_sum > 0
+			.label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
+
+	- # Projetos
+	- if @entidade.projetos_count > 0
+		= render 'projetos/list', projetos: @entidade.projetos
+
+	- # Incentivos
 	- if @entidade.incentivos_count > 0
-		.label.label-info= "#{@entidade.incentivos_count} incentivos"
+		%table.table.table-striped.table-bordered.table-condensed.borda
+			%thead
+				%tr
+					%th{style: 'width: 420px'} Incentivou
+					%th Segmento
+					%th Valor
+					%th Último recibo
 
-	- if @entidade.incentivos_sum > 0
-		.label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
+			%tbody
+				- @entidade.incentivos.sort_by{:valor}.each do |incentivo|
+					%tr
+						%td= link_to_projeto incentivo.projeto
+						%td= incentivo.projeto.segmento.nome
+						%td= reais incentivo.valor
+						%td
+							%span.badge.badge-success
+								= to_date incentivo.last_recibo_at
 
-- if @entidade.projetos_count > 0
-	= render 'projetos/list', projetos: @entidade.projetos
+	- # Similares
+	- similares = @entidade.similares
+	- if similares.size > 0
+		.well.borda.status= "Similares (#{similares.size})"
+		- @entidades = @entidade.similares
+		= render 'entidades/list'
 
-- if @entidade.incentivos_count > 0
-	.well.borda.status
-		Projetos Incentivados
+	/ - content_for :libs do
+	/ 	= javascript_include_tag "d3/d3.v3.min", "d3/dagre-d3.min" #, "grafo"
+	/ 	= stylesheet_link_tag "grafo"
+	/ 	/ = javascript_include_tag "sigmajs/sigma.min", "sigmajs/plugins/sigma.parsers.json.min", "sigmajs/plugins//sigma.layout.forceAtlas2.min"
 
-	%table.table.table-striped.table-bordered.table-condensed.borda
-		%thead
-			%tr
-				%th{style: 'width: 420px'} Projeto
-				%th Estado
-				%th Segmento
-				%th Valor
-				%th Último recibo
+	/ #sigma-container
+	/ 	#svg-container
+	/ 		%svg
+	/ 			%g{transform: "translate(10,10)"}
 
-		%tbody
-			- @entidade.incentivos.sort_by{:valor}.each do |incentivo|
-				%tr        
-					%td= link_to_projeto incentivo.projeto
-					%td= incentivo.projeto.estado.sigla
-					%td= incentivo.projeto.segmento.nome
-					%td= reais incentivo.valor
-					%td	
-						%span.badge.badge-success
-							= to_date incentivo.last_recibo_at
+	/ :javascript
+	/ 	$(document).ready(function() {
+	/ 		var g, h, renderer, size, w;
+	/ 		g = new dagreD3.Digraph();
+	/ 		g.addNode("self", {label: "#{@entidade.nome}"});
 
-- similares = @entidade.similares
-- if similares.size > 0
-	.well.borda.status= "Similares (#{similares.size})"
-	- @entidades = @entidade.similares
-	= render 'entidades/list'
+	/ 		#{
+	/ 			js = @entidade.incentivos.to_a
+	/ 			js.map{ |i| "g.addNode('i#{i.id}', {label: '#{i.projeto.nome}'}); g.addEdge(null, 'self', 'i#{i.id}', {label: '#{i.valor}'});" }.join ' '
+	/ 		}
+
+	/ 		console.log(g)
+	/ 		console.log(g.nodes)
+	/ 		console.log(g.edges)
+
+	/ 		var width = 960,
+	/ 		    height = 500;
+
+	/ 		var force = d3.layout.force()
+	/ 		    .nodes(nodes)
+	/ 		    .links(links)
+	/ 		    .linkDistance(120)
+	/ 		    .size([width, height])
+	/ 		    .on("tick", tick);
+
+	/ 			var svg = d3.select("#graph").append("svg")
+	/ 			    .attr("width", width)
+	/ 			    .attr("height", height);
+
+	/ 			var node = svg.selectAll(".node")
+	/ 			    .filter(function(d) { return d.active; })
+	/ 			    .data(force.nodes());
+
+	/ 			var link = svg.selectAll(".link")
+	/ 			    .filter(function(d) {
+	/ 			          var show =  d.source.active && d.target.active;
+	/ 			          if (show)
+	/ 			              console.log("kept", d);
+	/ 			          else
+	/ 			              console.log("excluded", d);
+	/ 			          return show;
+	/ 			      })
+	/ 			      .data(force.links());
+
+
+	/ 			link.enter().insert("line", ".node").attr("class", "link");
+	/ 			link.exit().remove();
+
+	/ 			node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 8)
+	/ 			node.exit().remove();
+
+	/ 			force.start();
+
+	/ 			function tick() {
+	/ 			    node.attr("cx", function(d) { return d.x; })
+	/ 			      .attr("cy", function(d) { return d.y; })
+
+	/ 			    link.attr("x1", function(d) { return d.source.x; })
+	/ 			      .attr("y1", function(d) { return d.source.y; })
+	/ 			      .attr("x2", function(d) { return d.target.x; })
+	/ 			      .attr("y2", function(d) { return d.target.y; });
+	/ 			}
+
+
+
+
+	/ 	});
 
 
 / - content_for :dados do
@@ -79,7 +158,7 @@
 / 	/       %i.icon-tags
 / 	/       Areas
 / 	/       %hr.small
-	    
+
 / 	/       - @areas.each do |a|
 / 	/         - area = a[0]
 / 	/         - count = a[1]
@@ -99,7 +178,7 @@
 / 				- estado = e[0]
 / 				- count = e[1]
 / 				%p.selectable{type: 'estado', type_id: estado.id}
-/ 				%span.rotulo= estado.nome        
+/ 				%span.rotulo= estado.nome
 / 				- if count > 0
 / 					%span.badge.badge-right.badge-info= count
 / 				/ - else

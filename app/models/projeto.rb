@@ -1,5 +1,5 @@
 class Projeto < ActiveRecord::Base
-	belongs_to :entidade
+	belongs_to :entidade, :touch => true
 	belongs_to :estado
 	belongs_to :segmento
 	belongs_to :area
@@ -11,18 +11,18 @@ class Projeto < ActiveRecord::Base
 	scope :aprovados, -> { where('liberado_at is not null') }
 
 	validates_uniqueness_of :numero
-	validates_presence_of :nome, :numero, :entidade_id, :uf, :area, :segmento, :processo, :mecanismo, :sintese, :solicitado, 
+	validates_presence_of :nome, :numero, :entidade_id, :uf, :area, :segmento, :processo, :mecanismo, :sintese, :solicitado,
 		:aprovado, :apoiado, :sintese
 
 	before_save :set_meta_attrs
 
 	def set_meta_attrs
-		#self.urlized = self.nome.urlize
+		self.urlized = self.nome.urlize
 		self.estado_id = Estado.find_by_sigla(self.uf).id unless self.estado
 		#self.liberado = self.mecanismo == 'FNC' || self.mecanismo == 'Recurso do Tesouro' || self.liberado_at
 	end
 
-	def to_param		
+	def to_param
 		"#{self.id}-#{self.urlized}"
 	end
 
