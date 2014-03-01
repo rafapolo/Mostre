@@ -6,8 +6,8 @@
 		%li.active{"data-slide-to" => "0", "data-target" => "#nav-analises"}
 		%li{"data-slide-to" => "1", "data-target" => "#nav-analises"}
 		%li{"data-slide-to" => "2", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "3", "data-target" => "#nav-analises"}		
-		%li{"data-slide-to" => "4", "data-target" => "#nav-analises"}		
+		%li{"data-slide-to" => "3", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "4", "data-target" => "#nav-analises"}
 	.carousel-inner
 		.item.active
 			.carousel-caption
@@ -20,54 +20,54 @@
 
 				%br
 				%br
-				%p 
+				%p
 					%span
 						A partir da devida importância dada aos aspectos da Cultura Digital, o Ministério da Cultura do Brasil em 2004 começa a publicar online os dados de todos (?) os Proponentes e Patrocinadores dos Projetos Culturais submetidos e aprovados no país através do
-					%a{target: '_blank', href: 'http://sistemas.cultura.gov.br/salicnet'} SalicNet. 
+					%a{target: '_blank', href: 'http://sistemas.cultura.gov.br/salicnet'} SalicNet.
 
 				%p Agora, o acesso a informação dos últimos 10 anos sobre as relações que compõe as Políticas Culturais do País é relevante conhecimento para avaliar o que fazem ou devíamos fazer. Porém, o SalicNet apresenta muitas falhas e já tem sua última atualização datada há 7 anos, como o próprio Sistema Federal Brasileiro, obsoleto, comparando a própria evolução da Web como rede de pessoas e tudo que podemos utilizar para melhorarmos, nesse caso, as condições gerais de acesso e utilização dos conhecimentos e culturas.
 
 				%p Propomos experimentar novas formas de interação com relevantes dados públicos, explicitando suas reais relações, geralmente ignorada pela corrompida Mídia Brasileira com seu também obsoleto sistema de patrocínios em informação em massa. O que é o Sistema e como melhorá-lo sem violência? Pra que servem os Ministérios?
 
 				//%a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
-					
+
 			.carousel-caption
 				%p 14.02.2014
 		.item
 			.carousel-caption
-				%h4 Extração de Dados			
+				%h4 Extração de Dados
 			#esquema{style: 'padding: 80px;'}
 				.center
 					= link_to_image 'esquema.png'
-			.carousel-caption			
+			.carousel-caption
 				%p Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
-				
-		.item			
+
+		.item
 			.carousel-caption
 				%h4 Visualização de Informação
-				
+
 			%p#chart
 			= stylesheet_link_tag 'chart'
 			= javascript_include_tag "d3/d3.v2"
 			= javascript_include_tag "chart"
-			
+
 			.carousel-caption
 				%p Nossos governos e as mídias atuais obscuram o acesso a informação e limitam o conhecimento da história e da cultura. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar e agir justamente.
 
-		.item			
+		.item
 			.carousel-caption
 				%h4 Análises Públicas
 			.center
 				= link_to_image 'proprietarios.png'
-			
-			.carousel-caption
-				%p 
-					%span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos 
-					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil também atuam no sistema Cultural e surpreendentemente 
-					%span representam quase metade de todos os incentivos do país na última década.
 
-					%a{target: '_blank', href: '/cultura/entidades/98-petroleo-brasileiro-s-a-petrobras'} Petrobrás 
-					e 
+			.carousel-caption
+				%p
+					%span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos
+					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil
+					%span também atuam no Sistema Cultural e representam quase metade de todos os incentivos do país na última década.
+
+					%a{target: '_blank', href: '/cultura/entidades/98-petroleo-brasileiro-s-a-petrobras'} Petrobrás
+					e
 					%a{target: '_blank', href: '/cultura/entidades/314-vale-sa'} Vale S/A
 					, ambas do Rio de Janeiro, são os dois principais incentivadores visíveis na parte de baixo do grafo.
 
@@ -76,10 +76,10 @@
 				%h4 Mapa de Contextos #beta
 			.center
 				= image_tag asset_path 'mapa.png'
-			.carousel-caption			
+			.carousel-caption
 				%p Exemplos: Quais cidades nunca tiveram incentivo em Música? Onde concentram projetos da Igreja Universal ou com nome "Deus"? Mostre cidades com mais patrocinadores em Arquitetura. Cidades onde pessoas sem empresa incentiveram em projetos de outros estados com mais de 50 mil reais? Onde há mais Incentivadores que Proponentes?
 
-			
+
 	%a.carousel-control.left{"data-slide" => "prev", href: "#nav-analises"} ‹
 	%a.carousel-control.right{"data-slide" => "next", href: "#nav-analises"} ›
 
