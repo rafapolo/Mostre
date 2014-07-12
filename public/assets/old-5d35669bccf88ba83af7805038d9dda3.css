@@ -1,0 +1,147 @@
+/* line 1, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+p {
+  margin-bottom: 2px;
+}
+
+/* line 7, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+body {
+  background: #d9e6f7 url(/assets/old-bg.png) repeat scroll 0 -79px;
+  color: #333;
+  margin: auto;
+  width: 550px;
+  padding: 30px;
+}
+
+/* line 16, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+h1 > a {
+  padding-top: 7px;
+  color: #333333;
+}
+
+/* line 22, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+.menu {
+  display: inline-block;
+  margin: 5px 20px;
+  font-family: 'Myriad Pro',Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  float: right;
+}
+
+/* line 31, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+body, p, ol, ul, td {
+  font-family: verdana, arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 38, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+input.text {
+  margin-top: 4px;
+  font-family: verdana, arial, sans-serif;
+  font-size: 15px;
+  height: 30px;
+  border: 1px solid #A5C1D1;
+}
+
+/* line 47, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+p.ex {
+  color: gray;
+  font-size: 12px;
+  font-family: verdana;
+  font-style: italic;
+}
+
+/* line 55, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+#status {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  background-color: #004499;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+/* line 65, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+.out {
+  background-color: #004499;
+  line-height: 30px;
+  color: white;
+  font-size: 13px;
+  border: 1px solid black;
+  text-align: center;
+  text-decoration: underline;
+}
+
+/* line 76, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+#logo {
+  position: absolute;
+  padding-left: 5px;
+}
+
+/* line 82, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+.rodape {
+  text-align: center;
+  font-size: 12px;
+  padding-top: 20px;
+}
+
+/* line 88, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+h1 {
+  font-family: 'Myriad Pro',Helvetica,Arial,sans-serif;
+  font-size: 35px;
+  display: inline-block;
+  margin-top: 0px;
+}
+
+/* line 95, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+h3 {
+  font-family: 'Myriad Pro',Helvetica,Arial,sans-serif;
+  font-size: 20px;
+}
+
+/* line 101, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+#meiuca {
+  word-wrap: break-word;
+  border: 1px solid gray;
+  padding: 20px;
+  padding-top: 5px;
+  background-color: #EFF7FF;
+  border-radius: 0px 25px 25px 25px;
+  box-shadow: 5px 3px 15px #EFF7FF;
+}
+
+/* line 111, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+a {
+  color: #000;
+}
+
+/* line 113, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+ul {
+  list-style-position: inside;
+  padding-top: 3px;
+}
+
+/* line 119, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+.selecionado {
+  color: white;
+  background-color: #004499;
+  text-decoration: overline underline;
+}
+
+/* line 125, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+a:hover {
+  color: white;
+  background-color: #004499;
+  text-decoration: overline underline;
+}
+
+/* line 131, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/old.scss */
+#errorExplanation {
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  padding-left: 70px;
+  background-color: #f0f0f0;
+  color: red;
+}

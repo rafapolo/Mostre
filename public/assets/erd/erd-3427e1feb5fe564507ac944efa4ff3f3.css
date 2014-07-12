@@ -1,0 +1,773 @@
+/* line 134, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+html, body, p, ul, ol, dl, p, li, dt, dd, tr, td, form {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 139, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+li {
+  list-style-type: none;
+}
+
+/* line 145, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.cancel {
+  display: block;
+  margin: 0.4em auto 0;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  width: 70px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  text-decoration: none;
+  line-height: 1.8;
+  text-align: center;
+  color: white;
+  position: relative;
+  padding: 2px 0 0 8px;
+  text-shadow: none;
+}
+/* line 159, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.cancel:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+/* line 162, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.cancel:before {
+  content: "";
+  display: block;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTExMTA1MjMzRUMxMTFFMkJDNjQ4QUM5N0I1ODJDNUMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTExMTA1MjQzRUMxMTFFMkJDNjQ4QUM5N0I1ODJDNUMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1MTExMDUyMTNFQzExMUUyQkM2NDhBQzk3QjU4MkM1QyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1MTExMDUyMjNFQzExMUUyQkM2NDhBQzk3QjU4MkM1QyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pjsg+BcAAADiSURBVHjavNaBDcIgEADAtnEBVnCFruAKrkBHcBZdwRFcQVfREV5QSID24Z9//eRTCuQvbcKHEQCGf8RUvFuXs1LtvJb/opAWvvF0OSfzPbmqFReOkIcEsxu1TFw0Lu8KWIlAmMt+nRRDkRKSYFVkC+rBmggGcTASUoMoGBlpQTXsxEEoEIaxECrUwiylxkTsWy+XV2T+QaogOIysQ92L3LiYpK2cOZiorXAwCcLCpAgZ00BImBbSxOKGgwJSw/bYBiu8nKS1/HjYJU1iCU/fUi7Cq9ZSjscfXiBN6IWfeAswAPwFJ+lOAhBOAAAAAElFTkSuQmCC);
+  background-size: 10px 10px;
+  background-position: center center;
+}
+
+/* line 178, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd_box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+}
+
+/* line 182, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd_container {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+}
+
+/* line 187, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_migration,
+#close_migration {
+  position: fixed;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  width: 80px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  z-index: 5;
+}
+/* line 196, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_migration:hover,
+#close_migration:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+/* line 199, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_migration img,
+#close_migration img {
+  width: 16px;
+  height: 27px;
+  display: block;
+  margin: 16px auto;
+}
+
+/* line 207, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_migration {
+  right: 15px;
+}
+
+/* line 210, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migrate_form {
+  position: relative;
+}
+/* line 212, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migrate_form #open_buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/* line 216, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migrate_form #open_buttons li {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
+
+/* line 223, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration {
+  padding: 10px 10px;
+  min-width: 500px;
+  overflow-x: auto;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -ms-box-sizing: content-box;
+  -o-box-sizing: content-box;
+  box-sizing: content-box;
+  position: relative;
+  display: none;
+}
+/* line 232, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table,
+#migration th,
+#migration td {
+  border: 1px #444444 solid;
+  border-collapse: collapse;
+}
+/* line 236, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table {
+  width: 100%;
+  margin: 0 0 0.6em;
+}
+/* line 239, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table caption {
+  font-weight: bold;
+  margin: 0 0 0.5em;
+}
+/* line 246, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table thead td {
+  text-align: center;
+}
+/* line 248, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table thead td button {
+  padding: 3px 30px;
+}
+/* line 253, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table td {
+  font-size: 12px;
+  padding: 2px 0.8em;
+  line-height: 1.4;
+}
+/* line 257, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table td.migrations {
+  background: #444444;
+  color: white;
+}
+/* line 261, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table td.migration_file_name {
+  white-space: normal !important;
+  word-break: break-all;
+  -ms-word-wrap: break-word;
+  max-width: 200px;
+}
+/* line 268, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table th {
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -moz-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -ms-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -o-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  font-size: 13px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  line-height: 2.2;
+  padding: 0 0.8em;
+}
+/* line 270, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table th.status {
+  width: 60px;
+}
+/* line 273, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration table th.version {
+  width: 140px;
+}
+/* line 278, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration #changes_form {
+  margin: 0 0 20px;
+}
+
+/* line 283, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status {
+  width: 386px;
+}
+/* line 286, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status td.migration_file_name {
+  word-break: break-all;
+}
+/* line 289, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status td label {
+  white-space: nowrap;
+}
+/* line 295, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up, #migration_status tr.down {
+  font-size: 0;
+  height: 2px;
+  overflow: hidden;
+}
+/* line 299, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up *, #migration_status tr.down * {
+  font-size: 0;
+  overflow: hidden;
+}
+/* line 303, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up input, #migration_status tr.down input {
+  display: none;
+}
+/* line 306, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up:hover, #migration_status tr.up.active, #migration_status tr.up.open, #migration_status tr.down:hover, #migration_status tr.down.active, #migration_status tr.down.open {
+  height: auto;
+  background: white;
+}
+/* line 70, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up:hover *, #migration_status tr.up.active *, #migration_status tr.up.open *, #migration_status tr.down:hover *, #migration_status tr.down.active *, #migration_status tr.down.open * {
+  font-size: small;
+  height: auto;
+  overflow: auto;
+}
+/* line 75, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up:hover td, #migration_status tr.up.active td, #migration_status tr.up.open td, #migration_status tr.down:hover td, #migration_status tr.down.active td, #migration_status tr.down.open td {
+  padding: 4px 0.8em;
+}
+/* line 78, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up:hover input, #migration_status tr.up.active input, #migration_status tr.up.open input, #migration_status tr.down:hover input, #migration_status tr.down.active input, #migration_status tr.down.open input {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
+/* line 309, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status tr.up.active, #migration_status tr.down.active {
+  background: #fffebe;
+}
+/* line 316, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status.show_all_migrations .up,
+#migration_status.show_all_migrations .down {
+  height: auto;
+  background: white;
+}
+/* line 70, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status.show_all_migrations .up *,
+#migration_status.show_all_migrations .down * {
+  font-size: small;
+  height: auto;
+  overflow: auto;
+}
+/* line 75, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status.show_all_migrations .up td,
+#migration_status.show_all_migrations .down td {
+  padding: 4px 0.8em;
+}
+/* line 78, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#migration_status.show_all_migrations .up input,
+#migration_status.show_all_migrations .down input {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
+
+/* line 322, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd {
+  overflow: auto;
+  position: relative;
+  background-color: #3aade3;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTExMTA1MUYzRUMxMTFFMkJDNjQ4QUM5N0I1ODJDNUMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTExMTA1MjAzRUMxMTFFMkJDNjQ4QUM5N0I1ODJDNUMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDNEZGNDMzQTNFQUExMUUyQkM2NDhBQzk3QjU4MkM1QyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1MTExMDUxRTNFQzExMUUyQkM2NDhBQzk3QjU4MkM1QyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PolLCroAAAAhSURBVHjaYvj//78KEDMQwkwMRIJRhXgBC5RWIaQQIMAA1wEePzIPm4IAAAAASUVORK5CYII=);
+}
+/* line 327, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd form {
+  display: none;
+}
+/* line 330, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model {
+  background-color: white;
+  position: absolute;
+  border: 1px #444444 solid;
+  cursor: move;
+  z-index: 1;
+}
+/* line 336, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model:hover {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0 2px 2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0 2px 2px;
+  -ms-box-shadow: rgba(0, 0, 0, 0.7) 0 2px 2px;
+  -o-box-shadow: rgba(0, 0, 0, 0.7) 0 2px 2px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0 2px 2px;
+}
+/* line 339, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name {
+  border-bottom: 1px #444444 solid;
+  cursor: pointer;
+  margin: 1px 5px 0 5px auto;
+}
+/* line 343, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name .model_name_text {
+  text-align: center;
+  display: block;
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -moz-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -ms-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -o-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  font-size: 13px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  line-height: 2.2;
+  padding: 0 0.8em;
+}
+/* line 347, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name .model_name_text.unsaved {
+  background: #fffebe;
+  position: relative;
+  background: #fffebe;
+  position: relative;
+}
+/* line 108, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name .model_name_text.unsaved:before {
+  content: "!";
+  display: block;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #ec7500;
+  left: -14px;
+  top: 6px;
+  text-align: center;
+  line-height: 18px;
+  color: white;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+  border-radius: 100px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -ms-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -o-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+}
+/* line 127, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name .model_name_text.unsaved:hover {
+  background: #f9f8b8;
+}
+/* line 353, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name form {
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -moz-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -ms-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: -o-linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  background: linear-gradient(top, #eeeeee 0%, #d0d0d0 88%);
+  font-size: 13px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  line-height: 2.2;
+  padding: 0 0.8em;
+  padding: 8px;
+}
+/* line 357, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model .model_name > div.model_name_text:hover {
+  background: -webkit-linear-gradient(top, #b9e0f5 0%, #9bc2d7 88%);
+  background: -moz-linear-gradient(top, #b9e0f5 0%, #9bc2d7 88%);
+  background: -ms-linear-gradient(top, #b9e0f5 0%, #9bc2d7 88%);
+  background: -o-linear-gradient(top, #b9e0f5 0%, #9bc2d7 88%);
+  background: linear-gradient(top, #b9e0f5 0%, #9bc2d7 88%);
+}
+/* line 361, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model a.close {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 2;
+  background-color: #444444;
+  border: 1px solid #444444;
+  display: block;
+  width: 16px;
+  height: 13px;
+  text-align: center;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  -ms-border-radius: 9px;
+  -o-border-radius: 9px;
+  border-radius: 9px;
+  padding: 3px 0 0;
+}
+/* line 374, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model a.close:hover {
+  background: #767676;
+}
+/* line 377, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#erd .model a.close img {
+  width: 10px;
+  height: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* line 387, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.add_column_box {
+  text-align: center;
+}
+/* line 389, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.add_column_box a.add_column {
+  font-size: small;
+  display: block;
+  padding: 0 5px;
+  line-height: 2;
+  background: #444444;
+  color: white;
+  text-decoration: none;
+}
+/* line 399, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.add_column_box a.add_column:hover {
+  background: #3a3a3a;
+}
+
+/* line 405, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.add_column_form {
+  background: #444444;
+  color: white;
+  padding: 8px;
+}
+
+/* line 412, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column {
+  border-bottom: dotted 1px #cccccc;
+  padding: 0 0.8em;
+  clear: both;
+  line-height: 28px;
+  font-size: 14px;
+}
+/* line 418, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column table {
+  width: 100%;
+}
+/* line 421, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column:nth-child(even) {
+  background: #f9f9f9;
+}
+/* line 424, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column:last-child {
+  border-bottom: none;
+}
+/* line 428, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_name_text,
+.columns .column .column_type_text {
+  cursor: pointer;
+}
+/* line 431, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_name_text {
+  margin: 0 1.4em 0 0;
+}
+/* line 433, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_name_text:hover {
+  text-decoration: underline;
+}
+/* line 437, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column.unsaved {
+  background: #fffebe;
+  position: relative;
+}
+/* line 108, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column.unsaved:before {
+  content: "!";
+  display: block;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #ec7500;
+  left: -14px;
+  top: 6px;
+  text-align: center;
+  line-height: 18px;
+  color: white;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+  border-radius: 100px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -ms-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  -o-box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 1px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+}
+/* line 127, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column.unsaved:hover {
+  background: #f9f8b8;
+}
+/* line 440, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .rename_column_form {
+  padding: 8px;
+}
+/* line 443, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text {
+  font-size: 10px;
+  float: right;
+  display: block;
+  line-height: 16px;
+  margin: 5px 0 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  width: 70px;
+  text-align: center;
+  border-color: #e98c60;
+  background: #f9eee9;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text:hover {
+  border-color: #e36c33;
+  background: #edd0c2;
+}
+/* line 458, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.date, .columns .column .column_type_text.time, .columns .column .column_type_text.timestamp, .columns .column .column_type_text.datetime {
+  border-color: #da6272;
+  background: #f3e2e4;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.date:hover, .columns .column .column_type_text.time:hover, .columns .column .column_type_text.timestamp:hover, .columns .column .column_type_text.datetime:hover {
+  border-color: #d0394d;
+  background: #e4bec3;
+}
+/* line 461, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.boolean {
+  border-color: #45a1cf;
+  background: #c7dce6;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.boolean:hover {
+  border-color: #2e87b3;
+  background: #a3c6d7;
+}
+/* line 464, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.text {
+  border-color: #dab24f;
+  background: #efe7d3;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.text:hover {
+  border-color: #cb9d2b;
+  background: #e1d2ae;
+}
+/* line 467, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.decimal {
+  border-color: #8e8e08;
+  background: #dfdf50;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.decimal:hover {
+  border-color: #5e5e05;
+  background: #d5d527;
+}
+/* line 470, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.float {
+  border-color: #85616b;
+  background: silver;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.float:hover {
+  border-color: #684b53;
+  background: #a6a6a6;
+}
+/* line 473, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.integer {
+  border-color: #7c80aa;
+  background: #dfdfe0;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.integer:hover {
+  border-color: #606493;
+  background: #c5c5c7;
+}
+/* line 476, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.primary_key {
+  border-color: #ea9a5d;
+  background: #f9efe7;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.primary_key:hover {
+  border-color: #e47e30;
+  background: #eed3bf;
+}
+/* line 479, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.string {
+  border-color: #a4c520;
+  background: #d3e09e;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.string:hover {
+  border-color: #7f9919;
+  background: #c1d477;
+}
+/* line 482, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.unsaved {
+  border-color: #a55d00;
+  background: #eca952;
+  color: #444444;
+  border-style: solid;
+}
+/* line 99, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .column_type_text.unsaved:hover {
+  border-color: #724000;
+  background: #e79224;
+}
+/* line 486, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column .alter_column_form {
+  padding: 8px;
+}
+/* line 489, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+.columns .column:hover {
+  background-color: #ebebeb;
+}
+
+/* line 495, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed, #failed {
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+/* line 500, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed h2, #failed h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  color: white;
+}
+/* line 509, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed h3, #failed h3 {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+/* line 514, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed ul li, #failed ul li {
+  margin-left: 25px;
+  font-size: 12px;
+  list-style: square;
+}
+
+/* line 521, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed {
+  border: 2px lime solid;
+}
+/* line 523, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#executed h2 {
+  background-color: #00cc00;
+}
+
+/* line 528, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#failed {
+  border: 2px red solid;
+}
+/* line 530, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#failed h2 {
+  background-color: #cc0000;
+}
+
+/* line 535, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#model_name_changes, #column_name_changes {
+  display: none;
+}
+
+/* line 539, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_create_model_dialog {
+  position: fixed;
+  right: 15px;
+  top: 70px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+}
+/* line 548, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#open_create_model_dialog:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* line 553, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_form {
+  font-size: 14px;
+}
+
+/* line 556, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table {
+  margin: 12px auto;
+  border-spacing: 0;
+  width: 100%;
+}
+/* line 562, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table tr:nth-child(odd) td {
+  background: #f8f8f8;
+}
+/* line 567, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table tr:nth-child(even) td {
+  background: #eee;
+}
+/* line 571, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table tr td {
+  padding: 6px 12px;
+}
+/* line 573, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table tr td input {
+  width: 100%;
+  box-sizing: border-box;
+}
+/* line 577, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#create_model_table tr td.separator {
+  padding: 6px 0;
+}
+
+/* line 583, /Users/polo/.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/erd-0.3.2/app/assets/stylesheets/erd/erd.css.scss */
+#new_model_add_column {
+  margin: 10px auto 0;
+  display: block;
+  width: 160px;
+  padding: 2px 10px;
+  text-decoration: none;
+}

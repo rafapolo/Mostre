@@ -1,0 +1,43 @@
+/* line 1, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+#sigma-container {
+  background-color: white;
+  border: 1px solid lightgrey;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* line 8, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+#svg-container {
+  margin: auto;
+  padding: 30px;
+}
+
+/* line 12, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+svg {
+  overflow: hidden;
+}
+
+/* line 15, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+text {
+  font-size: 15px;
+}
+
+/* line 19, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+.node rect {
+  stroke: #333333;
+  stroke-width: 1.5px;
+  fill: white;
+}
+
+/* line 24, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+.edgeLabel rect {
+  fill: white;
+}
+
+/* line 27, /Users/polo/Projetos/Mostre.me/Mostre/app/assets/stylesheets/grafo.sass */
+.edgePath {
+  stroke: #333333;
+  stroke-width: 1.5px;
+  fill: none;
+}
