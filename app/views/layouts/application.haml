@@ -1,58 +1,58 @@
 !!!
 %html
-	%head		
+	%head
 		- if @title
 			%title= "Mostre!me - #{@title}"
 		- else
-			%title Mostre!me 
+			%title Mostre!me
 		%meta{charset: 'utf-8'}
 		= stylesheet_link_tag "app", media: "all"
 		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
-		= javascript_include_tag "app"	
+		= javascript_include_tag "app"
 		= javascript_include_tag "analytics" if Rails.env.production?
 		= favicon_link_tag 'm-favicon.ico'
 		= yield :libs
 		= csrf_meta_tags
-	
+
 	%body
 		#todo
 			#lado
-				.logo.well.borda{:href => "/cultura"} 
+				.logo.well.borda{:href => "/cultura"}
 					Mostre!me
-		
-				#menu.borda			
+
+				#menu.borda
 					%ul.nav.nav-tabs.nav-stacked
 						%li
 							%a{:href => "/cultura"}
 								%i.icon-home
 								Início
-								%i.icon-chevron-right.seta-right					
+								%i.icon-chevron-right.seta-right
 						%li
 							%a{:href => "/cultura/projetos"}
 								%i.icon-th
 								Projetos
 								%i.icon-chevron-right.seta-right
-						%li				
+						%li
 							%a{:href => "/cultura/proponentes"}
 								%i.icon-briefcase
 								Proponentes
 								%i.icon-chevron-right.seta-right
-						%li				
+						%li
 							%a{:href => "/cultura/patrocinadores"}
 								%i.icon-thumbs-up
 								Patrocinadores
 								%i.icon-chevron-right.seta-right
-						/ %li				
+						/ %li
 						/ 	%a{:href => "/cultura/patrocinadores"}
 						/ 		%i.icon-eye-open
 						/ 		Análises
 						/ 		%i.icon-chevron-right.seta-right
-						/ %li				
+						/ %li
 						/ 	%a{:href => "/cultura/patrocinadores"}
 						/ 		%i.icon-globe
 						/ 		Mapa
 						/ 		%i.icon-chevron-right.seta-right
-								 
+
 
 				- if content_for? :filtro
 					#filtros.well.borda
@@ -64,7 +64,23 @@
 						= yield :filtro
 
 					#filtro_estados
-				= yield :dados					
+				= yield :dados
+
+				- if request.fullpath == "/cultura"
+					.well{style: 'text-align: center'}
+						%p{style:"margin:0px"} Desenvolvimento Web
+						%a{target: '_blank', href: 'http://extrapolo.com'}
+							%img{src: "/assets/polo.png", style:'width: 115px'}
+					/ .well
+					/ 	%p{style: 'text-align: center'} Patrocinadores
+					/ 	%a{target: '_blank', href: 'http://www.marinapolo.com/'}
+					/ 		%img{src: 'http://cdn3.kawek.com.br/usuario/51f9535d74328116.jpg', style: 'width: 45px; padding-right: 10px; float:left'}
+					/ 		.lados{style: 'font-size: 12px'}
+					/ 			%p{style: 'margin: 0px'} Marina Polo
+					/ 			%p{style: 'margin: 0px'} R$500,00
+					/ 	%hr{style: 'margin: 10px'}
+					/ 	#mais{style: 'text-align: center'}
+					/ 		%a{target: '_blank', href: '/patrocinar'} [ Patrocinar ]
 
 			#meio
 				= yield

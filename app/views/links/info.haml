@@ -2,26 +2,29 @@
   %b= @link.titulo
   %br/
   criado em #{@link.created_at.strftime("%d/%m/%Y %I:%M%p")}
-%p
-  %b Link
-  %br/
-  = link_to "http://mostre.me/#{@link.atalho}", "http://mostre.me/#{@link.atalho}"
-  %br/
+
 %p
   %b Para
-  %br/
-  = link_to @link.para, @link.para
+  %span
+    = link_to @link.para, @link.para
 
-%br
 - clicks = @link.clicks
 - if clicks.count>0
   %p
-    %b= "Referenciado #{clicks.count} x"
+    %b= "Referenciado #{clicks.count} vezes em"
+    - @link.clicks_domains.each do |domain, count|
+      %br/
+      %span= "+ #{count} -> #{domain}"
     %br/
+  %br/
+
+  %hr
+  %br
+  %b= "Histórico"
   - clicks.each do |c|
     %p
       %span= c.created_at.strftime("%d/%m/%Y %I:%M%p")
       %span ->
       %span= link_to(c.url, c.url)
 
-      
+

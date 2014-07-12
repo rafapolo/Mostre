@@ -1,0 +1,34 @@
+%html{:lang => "pt-br", "xml:lang" => "pt-br", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Mostre!me
+    %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}
+    %link{:href => '/assets/favicon.ico', :rel => "shortcut icon", :type => "image/x-icon"}
+    = stylesheet_link_tag 'old'
+
+  %body
+
+    %h1 Mostre!me
+    .menu
+      Incubadora de Ferramentas Sociais
+
+    #meiuca{style: 'text-align: justify'}
+      = yield
+
+      %h3= link_to "Cultura", "/cultura"
+      %p
+        %span Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar os milhares de dados dos projetos aprovados pelo Ministério da Cultura e divulgados no sistema oficial - o SalicNet. Desde então diversas análises, consultas iterativas e visualizações são melhor realizadas publicamente nessa plataforma.
+        %span= "Atualmente são #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados pelo Brasil desde o ano 2000."
+
+      %p
+      %p
+
+      %h3= link_to "Links", "/links"
+      %p
+        %span Online desde 2009, o primeiro e ainda ativo projeto em Mostre!me é um simples "Criador de Referências", onde se cria links mostre.me para qualquer URL na Web, permitindo registrar publicamente "quando e onde" foram clicados; explorando os princípios do nosso cotidiano Protocolo de Transferência de Hipertexto - o HTTP.
+        %span= "Desde então foram #{Link.count} links referenciados em #{Click.count} clicks pela Web."
+      %p
+
+    .rodape
+      %span Copyleft
+      %span= link_to "ExtraPolo!", "http://extrapolo.com/"
+      %span desde 2008

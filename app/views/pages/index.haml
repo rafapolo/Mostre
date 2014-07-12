@@ -1,6 +1,7 @@
 :javascript
 	$.fn.carousel.defaults = { interval: false }
 
+
 #nav-analises.carousel.slide
 	%ol.carousel-indicators
 		%li.active{"data-slide-to" => "0", "data-target" => "#nav-analises"}
@@ -8,34 +9,37 @@
 		%li{"data-slide-to" => "2", "data-target" => "#nav-analises"}
 		%li{"data-slide-to" => "3", "data-target" => "#nav-analises"}
 		%li{"data-slide-to" => "4", "data-target" => "#nav-analises"}
+		%li{"data-slide-to" => "5", "data-target" => "#nav-analises"}
 	.carousel-inner
 		.item.active
 			.carousel-caption
-				%h4 Manifesto | subversão v0.1
+				%h4 Manifesto
 
-			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; max-width: 1200px'}
+			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; padding-bottom:50px; max-width: 1200px; text-align: justify'}
 				.center
 					%p.x1 Mostre!me
 					%p.x2 Sistema Experimental em Comunicação e Cultura
 
 				%br
 				%br
-				%p
-					%span
-						A partir da devida importância dada aos aspectos da Cultura Digital, o Ministério da Cultura do Brasil em 2004 começa a publicar online os dados de todos (?) os Proponentes e Patrocinadores dos Projetos Culturais submetidos e aprovados no país através do
-					%a{target: '_blank', href: 'http://sistemas.cultura.gov.br/salicnet'} SalicNet.
+				%p Mostre!me Cultura integra os dados dos últimos 10 anos do Ministério da Cultura publicados no Salic Web, Sistema de apoio às leis de incentivo à cultura, criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
 
-				%p Agora, o acesso a informação dos últimos 10 anos sobre as relações que compõe as Políticas Culturais do País é relevante conhecimento para avaliar o que fazem ou devíamos fazer. Porém, o SalicNet apresenta muitas falhas e já tem sua última atualização datada há 7 anos, como o próprio Sistema Federal Brasileiro, obsoleto, comparando a própria evolução da Web como rede de pessoas e tudo que podemos utilizar para melhorarmos, nesse caso, as condições gerais de acesso e utilização dos conhecimentos e culturas.
+				%p Motivados pelas muitas falhas do Sistema Web oficial, cuja última atualização data de 7 anos atrás - tão obsoleto e corrompido quanto o próprio Sistema Federal Brasileiro - propomos experimentar novas formas de interação dos Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
 
-				%p Propomos experimentar novas formas de interação com relevantes dados públicos, explicitando suas reais relações, geralmente ignorada pela corrompida Mídia Brasileira com seu também obsoleto sistema de patrocínios em informação em massa. O que é o Sistema e como melhorá-lo sem violência? Pra que servem os Ministérios?
+				%p A transparente relação e divulgação dos dados estruturados - que deveriam ser públicos em todos os Ministérios Nacionais - é indicador essencial para o diagnóstico das políticas e ações governamentais, muitas vezes cegas. Enfatizamos a utilização dos conhecimentos técnicos, científicos e culturais mais recentes para possibilitar a participação e fiscalização cívil dos Ministérios, contribuindo para o redesign efetivo desses mecanismos.
 
-				//%a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
+				%br
+				contato@mostre.me
+				%br
+				Julho de 2014
+
+				// %a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
 
 			.carousel-caption
-				%p 14.02.2014
+				%p subversão v0.1
 		.item
 			.carousel-caption
-				%h4 Extração de Dados
+				%h4 Extração de Dados | SalicWeb MinC
 			#esquema{style: 'padding: 80px;'}
 				.center
 					= link_to_image 'esquema.png'
@@ -44,7 +48,7 @@
 
 		.item
 			.carousel-caption
-				%h4 Visualização de Informação
+				%h4 Visualização de Informação | click para interagir
 
 			%p#chart
 			= stylesheet_link_tag 'chart'
@@ -56,9 +60,10 @@
 
 		.item
 			.carousel-caption
-				%h4 Análises Públicas
+				%h4 Análises Públicas | click para interagir (4MB)
 			.center
-				= link_to_image 'proprietarios.png'
+				%a{target: '_blank', href: 'http://extrapolo.com/labs/proprietarios/#'}
+					%img{src:'assets/proprietarios.png'}
 
 			.carousel-caption
 				%p
@@ -73,12 +78,37 @@
 
 		.item
 			.carousel-caption
-				%h4 Mapa de Contextos #beta
+				%h4 Mapa de Contextos | #beta
 			.center
 				= image_tag asset_path 'mapa.png'
 			.carousel-caption
 				%p Exemplos: Quais cidades nunca tiveram incentivo em Música? Onde concentram projetos da Igreja Universal ou com nome "Deus"? Mostre cidades com mais patrocinadores em Arquitetura. Cidades onde pessoas sem empresa incentiveram em projetos de outros estados com mais de 50 mil reais? Onde há mais Incentivadores que Proponentes?
 
+		.item
+			.carousel-caption
+				%h4 Newsletter
+
+			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; max-width: 1200px'}
+
+				- if session[:email]
+					%p Cadastrado, obrigado!
+				- else
+					.center
+						%p.x1 Inscreva-se
+						%p.x2 e receba em primeira mão notícias exclusivas sobre novos dados e funcionalidades
+					%br
+					%p Mostre!me, além dos dados do Ministério da Cultura, pretende investigar e propor visualizações com os dados do Ministério da Educação e dos últimos 10 anos das doações Eleitorais no país. Dependendo de novos recursos pra construir essas funcionalidades e refinar outras, inscreva-se para ser notificado sobre elas.
+					%br
+
+					%p Seu e-mail:
+					%form{action:'/cultura/inscrever', method:'post'}
+						%input{name: 'email', type: 'text', style:'width:150px', style:'margin: 0px'}
+						%input.btn.btn-mini{type: 'submit', value: 'Inscrever'}
+
+			.carousel-caption
+				%p Seu email não será divulgado ou compartilhado. Escrevê-lo-emos quando tivermos novas informações.
+
+				// %a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
 
 	%a.carousel-control.left{"data-slide" => "prev", href: "#nav-analises"} ‹
 	%a.carousel-control.right{"data-slide" => "next", href: "#nav-analises"} ›
