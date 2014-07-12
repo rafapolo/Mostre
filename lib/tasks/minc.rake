@@ -1,9 +1,8 @@
 #encoding: UTF-8
-
 namespace :minc do
   require Rails.root.join('lib', 'crawler', 'minc')
 
-  task :dot => :environment do       
+  task :dot => :environment do
     def escape str
       str.gsub('"', '')
     end
@@ -14,7 +13,7 @@ namespace :minc do
     puts "Gerando..."
     incentivos = Incentivo.find_by_sql('select i.*, p.id, p.nome, e.id, e.nome, e.projetos_count, e.projetos_sum from projetos p, entidades e, incentivos i where p.apoiado>0 and p.id=i.projeto_id and e.id=i.entidade_id ')
 
-    File.open('graph2013.dot', 'w') do |g|  
+    File.open('graph2013.dot', 'w') do |g|
       g.puts "digraph G {"
       g.puts 'nodesep = "2.0";'
       g.puts 'ratio = "expand";'
@@ -31,7 +30,7 @@ namespace :minc do
       end
       g.puts '}'
       puts "Ok!"
-    end  
+    end
 
   end
 
@@ -66,12 +65,12 @@ namespace :minc do
       g.puts '}'
     end
   end
-  
-  desc "Crawleia Minc"  
+
+  desc "Crawleia Minc"
   namespace :update do
-  
+
     desc "Update Entidades"
-    task :entidades => :environment do    
+    task :entidades => :environment do
       minc = Minc.new
 
       Entidade.where("updated_at < '2014-01-24 12:06:21'").each do |e|
@@ -80,7 +79,7 @@ namespace :minc do
     end
 
     desc "Pega novos Projetos"
-    task :projetos => :environment do    
+    task :projetos => :environment do
       minc = Minc.new
 
       puts
@@ -93,11 +92,7 @@ namespace :minc do
       last_numero = Projeto.order(:numero).last.numero.to_i
       last_numero.upto(last_numero+range) do |num|
         minc.get_projeto(num)
-      end    
+      end
     end
-
   end
-
-
-
 end

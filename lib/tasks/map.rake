@@ -1,6 +1,6 @@
 #encoding: utf-8
 namespace :map do
-  desc "Gerar KML"  
+  desc "Gerar KML"
   task :kml => :environment do
 	def icon i
 	    image = 0
@@ -21,7 +21,7 @@ namespace :map do
 	    "/assets/maps/#{image}.png"
 	  end
 
-  	overlay = Kamel::Overlay.new
+  overlay = Kamel::Overlay.new
 	overlay.name = 'Instituições de Ensino Superior do Brasil'
 	query = Instituicao.joins(:endereco).where('enderecos.latitude')
 	count = query.count
@@ -37,7 +37,7 @@ namespace :map do
 				  )
 			printf("\rProgresso: %d%", 100*(x+=1)/count)
 		#end
-	end	
+	end
 	kml = overlay.to_kml.gsub('-style', 'style').gsub('http://earth.google.com/kml/2.1', 'http://www.opengis.net/kml/2.2')
 	File.open('public/mapa.kml','w') do |f| f.write(kml) end
 	puts

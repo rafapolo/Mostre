@@ -7,7 +7,7 @@ development:
   username: root
   password:
   host: localhost
-  socket: /tmp/mysql.sock
+  socket: /usr/local/Cellar/mysql/5.6.19/mysqld.sock
 
 production:
   adapter: sqlite3
