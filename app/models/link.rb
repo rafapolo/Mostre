@@ -12,4 +12,14 @@ class Link < ActiveRecord::Base
     self.atalho = self.titulo.urlize
   end
 
+  def clicks_domains
+    hosts = {}
+    self.clicks.pluck(:url).each do |domain|
+     parsed = URI.parse(domain).host.gsub('www.', '')
+     hosts[parsed] = hosts[parsed] ? hosts[parsed]+=1 : 1
+   end
+    hosts.delete "mostre.me"
+    hosts.sort_by { |domain, count| count }.reverse
+  end
+
 end

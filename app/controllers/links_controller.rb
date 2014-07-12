@@ -7,13 +7,7 @@ class LinksController < ApplicationController
   def stats
     @last_links = Link.order('created_at DESC').limit 10
     @last_clicks = Click.limit 10
-    @tops = Link.all(
-      :limit=>10,
-      :joins=> :clicks,
-      :group=>"links.id",
-      :select=>"*, COUNT(clicks.id) as clicks_count",
-      :order=>"clicks_count DESC"
-    )
+    @tops = Link.joins(:clicks).group('links.id').select('*, COUNT(clicks.id) as clicks_count').order('clicks_count DESC').limit(10)
   end
 
   def info
@@ -32,8 +26,8 @@ class LinksController < ApplicationController
     if @link && href
       @click = Click.new({:link=>@link, :url =>href})
       @click.save!
+      @link.update_attribute(:last_referer_at, Time.now)
     end
-    @link.update_attribute(:last_referer_at, Time.now)
     redirect_to @link.para
   end
 
