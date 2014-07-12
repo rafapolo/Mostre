@@ -8,20 +8,25 @@ gem 'actionpack-action_caching'
 gem 'will_paginate'
 
 # assets
-gem "therubyracer"
+gem 'therubyracer'
 gem 'jquery-rails'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'closure-compiler'
 gem 'coffee-rails'
-gem "twitter-bootstrap-rails"
-gem "less-rails"
-gem "colored"
+gem 'twitter-bootstrap-rails'
+gem 'less-rails'
+gem 'colored'
+
+# parallel jobs
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 group :development do
 	gem 'erd'
-	gem 'pry'
-	gem 'pry-debugger'	
+	# gem 'pry'
+	# gem 'pry-debugger'
 	gem 'mina'
 	gem 'geocoder'
 	gem 'awesome_print'
