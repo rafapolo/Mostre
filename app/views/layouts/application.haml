@@ -6,6 +6,8 @@
 		- else
 			%title Mostre!me
 		%meta{charset: 'utf-8'}
+		%meta{:property=>"og:description", :content=>"Mostre!me integra os dados do Sistema de apoio às leis de incentivo à Cultura do Brasil, propondo modernas formas de interação e visualização, permitindo a melhor compreensão de muitos aspectos dessas relações."}
+		%meta{:property=>"og:image", :content=>asset_path('mapa.png')}
 		= stylesheet_link_tag "app", media: "all"
 		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
 		= javascript_include_tag "app"
@@ -67,10 +69,18 @@
 				= yield :dados
 
 				- if request.fullpath == "/cultura"
+					.well
+						%p{style: "text-align: center"} Compartilhe nas Redes
+						.social
+							%iframe{allowtransparency: "true", frameborder: "0", scrolling: "no", src: "//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fmostre.me%2Fcultura&width&layout=button_count&action=like&show_faces=false&share=true", style: "border:none; overflow:hidden; height:25px"}
+						.social
+							%iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-share-button.twitter-count-horizontal{allowtransparency: "true", "data-twttr-rendered" => "true", frameborder: "0", scrolling: "no", src: "https://platform.twitter.com/widgets/tweet_button.1404859412.html#_=1405261013250&count=horizontal&id=twitter-widget-0&lang=en&url=http%3A%2F%2Fmostre.me%2Fcultura", style: "width: 107px; height: 20px;", title: "Tweet!"}
+
 					.well{style: 'text-align: center'}
 						%p{style:"margin:0px"} Desenvolvimento Web
 						%a{target: '_blank', href: 'http://extrapolo.com'}
 							= image_tag(asset_path('polo.png'), style:'width: 115px')
+
 					/ .well
 					/ 	%p{style: 'text-align: center'} Patrocinadores
 					/ 	%a{target: '_blank', href: 'http://www.marinapolo.com/'}

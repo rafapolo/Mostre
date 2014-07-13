@@ -62,11 +62,15 @@ module ApplicationHelper
 		link_to link.titulo, para
 	end
 
+	def pontua_numero num
+		number_with_delimiter(num, delimiter: ".")
+	end
+
  	# todo: refinar
-	  def url_encode(value, key = nil, out_hash = {})    
+	  def url_encode(value, key = nil, out_hash = {})
 	    case value
 	    when Hash then
-	      value.each do |root_key,key| 
+	      value.each do |root_key,key|
 	      	append_key(key,k)
 	      	apk = root_key.nil? ? :"#{key}" : :"#{root_key}[#{key.to_s}]"
 	      	encode(key, apk, out_hash)

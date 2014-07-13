@@ -15,25 +15,26 @@
 			.carousel-caption
 				%h4 Manifesto
 
-			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; padding-bottom:50px; max-width: 1200px; text-align: justify'}
+			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 45px 80px 25px 80px; max-width: 1200px; text-align: justify'}
 				.center
 					%p.x1 Mostre!me
 					%p.x2 Sistema Experimental em Comunicação e Cultura
 
 				%br
-				%br
-				%p Mostre!me Cultura integra os dados dos últimos 10 anos do Ministério da Cultura publicados no Salic Web, Sistema de apoio às leis de incentivo à cultura, criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
+				%p Mostre!me Cultura integra os dados dos últimos 14 anos do Ministério da Cultura publicados no SalicWeb - Sistema de apoio às leis de incentivo à cultura - criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
 
-				%p Motivados pelas muitas falhas do Sistema Web oficial, cuja última atualização data de 7 anos atrás - tão obsoleto e corrompido quanto o próprio Sistema Federal Brasileiro - propomos experimentar novas formas de interação dos Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
+				%p Motivados pelas muitas falhas do Sistema Web oficial, cuja última atualização data de 7 anos atrás - tão obsoleto quanto o próprio Sistema Federal Brasileiro - propomos experimentar novas formas de interação com os Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
 
-				%p A transparente relação e divulgação dos dados estruturados - que deveriam ser públicos em todos os Ministérios Nacionais - é indicador essencial para o diagnóstico das políticas e ações governamentais, muitas vezes cegas. Enfatizamos a utilização dos conhecimentos técnicos, científicos e culturais mais recentes para possibilitar a participação e fiscalização cívil dos Ministérios, contribuindo para o redesign efetivo desses mecanismos.
+				%p A transparente relação e divulgação dos dados estruturados - que deveriam ser Públicos em todos os Ministérios Nacionais - é indicador essencial para o diagnóstico das políticas e ações governamentais, muitas vezes cegas e corrompidas. Enfatizamos a utilização dos conhecimentos técnicos, científicos e culturais mais recentes para possibilitar a participação e fiscalização cívil dos Ministérios, contribuindo para o redesign efetivo desses mesmos mecanismos.
+
+				%p= "Atualizado automaticamente toda semana, obtemos e melhor divulgamos os dados relativos aos #{pontua_numero Incentivo.count} Incentivos no valor de #{reais Incentivo.sum(:valor)} distribuídos por #{pontua_numero Entidade.patrocinadores.count} Patrocinadores aos #{pontua_numero Projeto.aprovados.count} Projetos aprovados do ano 2000 até hoje."
+
+				%p Com uma equipe interdisciplinar, podemos elaborar relatórios e visualizações precisas sobre a correlação entre quaisquer aspecto do Incentivo à Cultura do País, potencializando Projetos, Patrocinadores e Secretarias. Interessados em consultorias ou parcerias, entrem em contato; buscamos investimentos que mantenham a evolução da plataforma pública e aberta.
 
 				%br
 				contato@mostre.me
 				%br
 				Julho de 2014
-
-				// %a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
 
 			.carousel-caption
 				%p subversão v0.1
@@ -78,7 +79,7 @@
 
 		.item
 			.carousel-caption
-				%h4 Mapa de Contextos | #beta
+				%h4 Mapa de Contextos | por consultoria
 			.center
 				= image_tag asset_path 'mapa.png'
 			.carousel-caption
@@ -97,7 +98,7 @@
 						%p.x1 Inscreva-se
 						%p.x2 e receba em primeira mão notícias exclusivas sobre novos dados e funcionalidades
 					%br
-					%p Mostre!me, além dos dados do Ministério da Cultura, pretende investigar e propor visualizações com os dados do Ministério da Educação e dos últimos 10 anos das doações Eleitorais no país. Dependendo de novos recursos pra construir essas funcionalidades e refinar outras, inscreva-se para ser notificado sobre elas.
+					%p Mostre!me, além dos dados do Ministério da Cultura, pretende investigar e propor visualizações com os relevantes dados do Ministério da Educação e dos últimos 10 anos das doações Eleitorais no país. Dependendo de novos recursos pra construir essas funcionalidades e refinar outras, inscreva-se para ser notificado sobre elas.
 					%br
 
 					%p Seu e-mail:
@@ -107,8 +108,6 @@
 
 			.carousel-caption
 				%p Seu email não será divulgado ou compartilhado. Escrevê-lo-emos quando tivermos novas informações.
-
-				// %a{target: '_blank', href: "http://www.slideshare.net/slideshow/embed_code/6612105"} caia dentro
 
 	%a.carousel-control.left{"data-slide" => "prev", href: "#nav-analises"} ‹
 	%a.carousel-control.right{"data-slide" => "next", href: "#nav-analises"} ›

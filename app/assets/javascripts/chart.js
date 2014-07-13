@@ -1,7 +1,7 @@
 
-if(parent.document.getElementsByTagName("iframe")[0]) {
-	 parent.document.getElementsByTagName("iframe")[0].setAttribute('style', 'height: 700px !important');
- }
+// if(parent.document.getElementsByTagName("iframe")[0]) {
+// 	 parent.document.getElementsByTagName("iframe")[0].setAttribute('style', 'height: 700px !important');
+//  }
 
 var margin = {top: 20, right: 0, bottom: 0, left: 0},
 width = 880,
@@ -110,7 +110,7 @@ function display(d) {
 	var g = g1.selectAll("g")
 		.data(d.children)
 		.enter().append("g");
-		
+
 	/* transition on child click */
 	g.filter(function(d) { return d.children; })
 		.classed("children", true)
@@ -124,36 +124,36 @@ function display(d) {
 		   .call(rect)
 		   .append("title")
 		   .text(function(d) { return d.name + " " + formatNumber(d.size); });
-		   
+
 
 	/* write parent rectangle */
 	g.append("rect")
 		.attr("class", "parent")
 		.call(rect)
-		
-		// .on("click", function(d) { 
+
+		// .on("click", function(d) {
 		// 	if(!d.children){
-		// 		window.open(d.url); 
+		// 		window.open(d.url);
 		// 	}
 		// })
 		.append("title")
 		.text(function(d) { return d.name + " " + formatNumber(d.size); }); /*should be d.value*/
-		
+
 
 	/* Adding a foreign object instead of a text object, allows for text wrapping */
 	g.append("foreignObject")
 		.call(rect)
 		/* open new window based on the json's URL value for leaf nodes */
 		/* Firefox displays this on top */
-		.on("click", function(d) { 
+		.on("click", function(d) {
 			if(!d.children){
-				//window.open(d.url); 
+				//window.open(d.url);
 		}
 	})
 		.attr("class","foreignobj")
-		.append("xhtml:div") 
+		.append("xhtml:div")
 		.attr("dy", ".75em")
-		.html(function(d) { return d.name; 
+		.html(function(d) { return d.name;
 		})
 		.attr("class","textdiv"); //textdiv class allows us to style the text easily with CSS
 
@@ -189,7 +189,7 @@ function display(d) {
 		t1.selectAll(".textdiv").style("display", "none"); /* added */
 		t1.selectAll(".foreignobj").call(foreign); /* added */
 		t2.selectAll(".textdiv").style("display", "block"); /* added */
-		t2.selectAll(".foreignobj").call(foreign); /* added */ 
+		t2.selectAll(".foreignobj").call(foreign); /* added */
 
 		// Remove the old node when the transition is finished.
 		t1.remove().each("end", function() {
