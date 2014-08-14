@@ -66,7 +66,8 @@
 						= yield :filtro
 					#filtro_estados
 				- else
-					= render :partial => 'pages/adsense'
+					#ad{style:"height:400px; width:200px"}
+						= render :partial => 'pages/adsense'
 
 				= yield :dados
 
