@@ -11,22 +11,24 @@ namespace :minc do
     include ActionView::Helpers::NumberHelper
 
     puts "Gerando..."
-    incentivos = Incentivo.find_by_sql('select i.*, p.id, p.nome, e.id, e.nome, e.projetos_count, e.projetos_sum from projetos p, entidades e, incentivos i where p.apoiado>0 and p.id=i.projeto_id and e.id=i.entidade_id ')
+    incentivos = Incentivo.find_by_sql("select i.*, p.id, p.nome, e.id, e.nome, e.projetos_count, e.projetos_sum from projetos p, entidades e, incentivos i where p.apoiado>0 and p.id=i.projeto_id and e.id=i.entidade_id and p.area_id=1 and p.liberado_at is not null and p.uf = 'RJ'")
 
-    File.open('graph2013.dot', 'w') do |g|
+    File.open('artevisual.dot', 'w') do |g|
       g.puts "digraph G {"
-      g.puts 'nodesep = "2.0";'
-      g.puts 'ratio = "expand";'
-      g.puts 'splines = "true";'
-      g.puts 'node[ color  =  "#000000" , style  =  "filled" , penwidth  =  "2" , fillcolor  =  "lightgray"];'
-      g.puts 'overlap = "false";'
 
       incentivos.each do |i|
         financiador = i.entidade
-        g.puts "\"e#{financiador.id}\" [label = \"#{escape financiador.nome}\", size = \"#{financiador.incentivos_sum}\", estado = \"#{financiador.estado.sigla}\"];"
+        g.puts "\"e#{financiador.id}\" [label = \"#{escape financiador.nome}\", financiador = true, soma = #{financiador.incentivos_sum.to_i}, estado = \"#{financiador.estado.sigla}\"];"
+
+        projeto = i.projeto
+        g.puts "\"p#{projeto.id}\" [label = \"#{escape projeto.nome}\", apoiado = #{projeto.apoiado.to_i}, estado = \"#{projeto.uf}\", segmento = \"#{escape projeto.segmento.nome}\"];"
+
+        g.puts "\"e#{financiador.id}\" -> \"p#{projeto.id}\";"
+
         proponente = i.projeto.entidade
-        g.puts "\"e#{proponente.id}\" [label = \"#{escape proponente.nome}\" fillcolor = \"#ffeecc\" size = \"#{proponente.projetos_sum}\", estado = \"#{proponente.estado.sigla}\"];"
-        g.puts "\"e#{financiador.id}\" -> \"e#{proponente.id}\" [weight = \"#{i.valor.to_i}\", label = \"#{reais (i.valor)}\", labeldistance = \"10\", style = \"bold\", fontcolor = \"#215E21\"];"
+        g.puts "\"e#{proponente.id}\" [label = \"#{escape proponente.nome}\" financiador = false, soma = #{proponente.projetos_sum.to_i}, estado = \"#{proponente.estado.sigla}\"];"
+
+        g.puts "\"e#{proponente.id}\" -> \"p#{projeto.id}\";"
       end
       g.puts '}'
       puts "Ok!"
