@@ -64,8 +64,10 @@
 							= image_tag asset_path 'load.gif'
 						%hr.small
 						= yield :filtro
-
 					#filtro_estados
+				- else
+					= render :partial => 'pages/adsense'
+
 				= yield :dados
 
 				- if request.fullpath == "/cultura"
