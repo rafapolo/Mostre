@@ -66,8 +66,9 @@
 						= yield :filtro
 					#filtro_estados
 				- else
-					#ad{style:"height:400px; width:200px"}
-						= render :partial => 'pages/adsense'
+					- if request.fullpath != "/cultura"
+						#ad{style:"height:400px; width:200px"}
+							= render :partial => 'pages/adsense'
 
 				= yield :dados
 
