@@ -3,7 +3,7 @@
 %table.table.table-striped.table-bordered.table-condensed.borda
   %thead
     %tr
-      %th{style: 'width: 420px'} Projeto      
+      %th{style: 'width: 420px'} Projeto
       %th Estado
       %th Segmento
       %th#situacao_at.reorder Ano
@@ -12,25 +12,25 @@
       %th#apoiado.reorder Apoiado
       %th#apoiadores.reorder Incentivos
       %th#liberado_at.reorder{style: 'width: 85px'} Liberado
-  
+
   %tbody
     - @projetos.each do |projeto|
-      %tr        
+      %tr
         - nome = hl(params[:nome], projeto.nome) if params[:nome]
         %td
           = link_to (nome || projeto.nome), projeto_path(projeto)
           %br
-          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'        
+          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'
         %td= projeto.estado.sigla
-        %td= projeto.segmento.nome        
+        %td= projeto.segmento.nome
         %td
           - if projeto.situacao_at
             = projeto.situacao_at.year
           - else
             %span.badge.badge-warning em avaliação
-        
+
         %td= reais projeto.solicitado
-        - if projeto.aprovado > 0        
+        - if projeto.aprovado > 0
           %td= reais projeto.aprovado
         - else
           %td
@@ -48,17 +48,17 @@
               // sem aprovação e sem apoio
               %span -
         %td
-          - #todo: visualizar se soma de apoiadores não bate com apoiado.  
-          - if projeto.apoiado > 0 && projeto.apoiadores==0 
+          - #todo: visualizar se soma de apoiadores não bate com apoiado.
+          - if projeto.apoiado > 0 && projeto.apoiadores==0
             - if especial(projeto)
               %span -
             - else
               %span.badge.badge-important
                 %i.icon-question-sign
-          - else            
+          - else
             - if apoiadores=projeto.apoiadores
               %span.badge.badge-info= apoiadores
-            - else 
+            - else
               - if !apoiadores && !especial(projeto) && projeto.apoiado>0
                 %span.badge.badge-important 0
               - else
@@ -68,7 +68,7 @@
             %span.badge.badge-success= at
           - else
             - if (especial(projeto))
-              %span.badge.badge-success
+              %span.badge.badge-warning
                 %i.icon-star
             - else
               %span.badge.badge-important
