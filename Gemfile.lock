@@ -134,8 +134,6 @@ GEM
       activesupport (>= 3.0)
       choice (~> 0.1.6)
       ruby-graphviz (~> 1.0.4)
-    rails-observers (0.1.2)
-      activemodel (~> 4.0)
     railties (4.1.4)
       actionpack (= 4.1.4)
       activesupport (= 4.1.4)
@@ -220,7 +218,6 @@ DEPENDENCIES
   puma
   rails
   rails-erd
-  rails-observers
   sass-rails
   sidekiq
   sinatra

@@ -4,7 +4,6 @@ gem 'rails'
 gem 'mysql2'
 
 gem 'will_paginate'
-gem 'rails-observers'
 gem 'actionpack-page_caching'
 
 # assets
