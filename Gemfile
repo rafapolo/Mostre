@@ -7,6 +7,7 @@ gem 'will_paginate'
 gem 'actionpack-page_caching'
 
 # assets
+gem 'impressionist'
 gem 'therubyracer'
 gem 'jquery-rails'
 gem 'haml-rails'
@@ -26,7 +27,6 @@ group :development do
 	gem 'erd'
 	gem 'pry'
 	gem 'pry-debugger'
-	gem 'impressionist'
 	gem 'mina'
 	gem 'geocoder'
 	gem 'awesome_print'
