@@ -2,15 +2,15 @@ class EntidadesController < ApplicationController
   before_action :set_entidade, only: [:show]
 
   def define_resumo! # nos índices (_list)
-    estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : '' 
-    area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : '' 
+    estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''
+    area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : ''
     tipo = request.path.index("proponente") ? 'proponentes' : 'patrocinadores'
     if tipo == 'proponentes'
       soma = view_context.number_to_currency(@entidades.sum(:projetos_sum), :unit => "R$")
     else
       soma = view_context.number_to_currency(@entidades.sum(:incentivos_sum), :unit => "R$")
     end
-    
+
     @topo = "#{@entidades.count} #{tipo} #{valor('nome')} #{is('liberados')} #{estado} #{area} com #{soma} em apoios."
   end
 
@@ -21,12 +21,13 @@ class EntidadesController < ApplicationController
     # @estados = @estados.sort_by{|k, v| v}.reverse
 
     #@resumo = "#{@entidade.cidade} - #{@entidade.estado.sigla}"
+    impressionist @entidade
   end
 
 
   def impor_filtros!
-    #todo: refinar com switch    
-    if nome = params[:nome]      
+    #todo: refinar com switch
+    if nome = params[:nome]
       @entidades = @entidades.where("entidades.nome like ?", "%#{nome}%")
     end
 
@@ -36,8 +37,8 @@ class EntidadesController < ApplicationController
 
     if imposed? :estado_id
       @entidades = @entidades.where(estado_id: params[:estado_id])
-    end   
- 
+    end
+
   end
 
   def patrocinadores
@@ -46,7 +47,7 @@ class EntidadesController < ApplicationController
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
-    end    
+    end
 
     @entidades = Entidade.patrocinadores.includes(:estado).order(ordem).paginate(page: page, per_page: 35)
     impor_filtros!
@@ -63,7 +64,6 @@ class EntidadesController < ApplicationController
 
     define_resumo!
     render layout: false if request.xhr?
-
   end
 
   def proponentes
@@ -72,7 +72,7 @@ class EntidadesController < ApplicationController
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
-    end    
+    end
 
     @entidades = Entidade.proponentes.includes(:estado).order(ordem).paginate(page: page, per_page: 35)
     impor_filtros!
@@ -104,7 +104,7 @@ class EntidadesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_entidade      
+    def set_entidade
       @entidade = Entidade.find(params[:id])
       @title = @entidade.nome
     end

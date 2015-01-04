@@ -7,6 +7,8 @@ class Projeto < ActiveRecord::Base
 	has_many :incentivos
 	# has_many :apoiadores, :source => :entidade, :through => :incentivos
 
+	is_impressionable :counter_cache => true, :column_name => :counte_cache, :unique => true
+
 	#default_scope -> {order('situacao_at DESC')}
 	scope :aprovados, -> { where('liberado_at is not null') }
 

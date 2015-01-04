@@ -2,8 +2,8 @@ class ProjetosController < ApplicationController
   before_action :set_projeto, only: [:show]
 
   def resumo
-    estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : '' 
-    area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : '' 
+    estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''
+    area = params[:area_id] ? "para " + Area.find(params[:area_id]).nome : ''
     soma = view_context.number_to_currency(@projetos.sum(:apoiado), :unit => "R$")
     "#{@projetos.count} projetos #{valor('nome')} #{is('liberados')} #{estado} #{area} com #{soma} em apoios."
   end
@@ -11,23 +11,23 @@ class ProjetosController < ApplicationController
   def impor_filtros!
     #todo: refinar com switch
 
-    if nome = params[:nome] 
+    if nome = params[:nome]
       @projetos = @projetos.where("projetos.nome like ?", "%#{nome}%")
     end
 
-    if sintese = params[:sintese] 
+    if sintese = params[:sintese]
       @projetos = @projetos.where("projetos.sintese like ?", "%#{sintese}%")
     end
 
-    if providencia = params[:providencia] 
+    if providencia = params[:providencia]
       @projetos = @projetos.where("projetos.providencia like ?", "%#{providencia}%")
-    end    
+    end
 
     # somente liberados
     if imposed? :liberados
       @projetos = @projetos.where('liberado_at IS NOT NULL')
     end
-    
+
     if imposed? :fnc
       @projetos = @projetos.where('mecanismo = "FNC"')
     end
@@ -55,10 +55,10 @@ class ProjetosController < ApplicationController
 
     if imposed? :estado_id
       @projetos = @projetos.where(estado_id: params[:estado_id])
-    end    
+    end
 
   end
-  
+
   def index
     @title = "Projetos"
     page = params[:page] || 1
@@ -97,6 +97,7 @@ class ProjetosController < ApplicationController
   def show
     apoiadores = "com #{@projeto.apoiadores} apoiadores" if @projeto.apoiadores
     @resumo = "Projeto em #{@projeto.estado.nome} #{apoiadores} por #{@projeto.mecanismo} em #{@projeto.area.nome} - #{@projeto.segmento.nome}"
+    impressionist @projeto
   end
 
 

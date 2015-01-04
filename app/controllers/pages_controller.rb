@@ -41,6 +41,7 @@ class PagesController < ApplicationController
 		proponentes_sum = view_context.number_to_currency(@entidades.sum(:projetos_sum), :unit => "R$")
 		incentivos_sum = view_context.number_to_currency(@entidades.sum(:incentivos_sum), :unit => "R$")
 		@resumo = "#{proponentes_count} Proponentes captaram #{proponentes_sum} e #{patrocinadores_count} Patrocinadores incentivaram #{incentivos_sum} na cidade"
+		impressionist @cidade
 	end
 
 	def visu

@@ -25,8 +25,9 @@ gem 'slim'
 
 group :development do
 	gem 'erd'
-	# gem 'pry'
-	# gem 'pry-debugger'
+	gem 'pry'
+	gem 'pry-debugger'
+	gem 'impressionist'
 	gem 'mina'
 	gem 'geocoder'
 	gem 'awesome_print'
