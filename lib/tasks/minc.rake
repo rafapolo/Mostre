@@ -71,12 +71,20 @@ namespace :minc do
   desc "Crawleia Minc"
   namespace :update do
 
-    desc "Update Entidades"
-    task :entidades => :environment do
+    desc "Update Projetos"
+    task :projetos => :environment do
       minc = Minc.new
+      ago = Time.now - 1.year
+      Projeto.where("situacao_at > ? OR situacao_at is NULL AND updated_at < ?", ago, ago).each do |p|
+        minc.get_projeto(p.numero)
+      end
+    end
 
-      Entidade.where("updated_at < '2014-01-24 12:06:21'").each do |e|
-        minc.get_entidade(e.cnpjcpf)
+    desc "Update Recibos"
+    task :recibos => :environment do
+      minc = Minc.new
+      Incentivo.where('valor > 0 and recibos_count = 0').each do |i|
+        minc.get_recibos i
       end
     end
 

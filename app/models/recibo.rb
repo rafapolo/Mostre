@@ -1,5 +1,6 @@
 class Recibo < ActiveRecord::Base
-	belongs_to :incentivo
+
+	belongs_to :incentivo, :touch => true
 	has_one :entidade, :through=>:incentivo
 	has_one :projeto, :through=>:incentivo
 

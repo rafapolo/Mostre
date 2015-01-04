@@ -1,67 +1,68 @@
 require "net/http"
 require 'colored'
+require 'digest/md5'
 
 class Minc
 
   def get_projeto(id)
     projeto = Projeto.find_by_numero(id)
-    unless projeto
-      puts "==> pegando projeto #{id}...".yellow
-      @page = get_page("/salicnet/conDadosBasicosProjeto/conDadosBasicosProjeto.php", "nrprojeto=#{id}")
 
-      if @page.index("registros a exibir")!=nil
-        puts "Nada".red
-        return
-      end
+    puts "==> pegando projeto #{id}...".yellow
+    @page = get_page("/salicnet/conDadosBasicosProjeto/conDadosBasicosProjeto.php", "nrprojeto=#{id}")
 
-      # identificação
-      num = get_field("Nº Projeto")
-      nome = get_field("Nome do Projeto")[0..150]
-      cnpjcpf = get_from_link("CNPJ / CPF")
-      #nome_proponente = get_from_link("Proponente")
-      # info
-      uf = get_field("UF do Projeto")
-      area = get_field("Área Cultural")
-      segmento = get_field("Segmento")
-      processo = get_field("Processo")
-      mecanismo = get_field("Mecanismo")
-      enquadramento = empty(get_field("Enquadramento"))
-      # situação
-      situacao_at = to_date(empty(get_field("Dt.Situação")))
-      situacao = get_field("Situação")
-      providencia = get_field("Providência Tomada")
-      sintese = get_sintese
-      # valores
-      solicitado = to_float(get_field('Solicitado R\$'))
-      aprovado = to_float(get_from_link('Aprovado R\$'))
-      apoiado = to_float(get_from_link('Apoiado R\$'))
-      liberado_at = get_liberado_at
+    if @page.index("registros a exibir")!=nil
+      puts "Nada".red
+      return
+    end
 
-      # pega proponente
+    # identificação
+    num = get_field("Nº Projeto")
+    nome = get_field("Nome do Projeto")[0..150]
+    cnpjcpf = get_from_link("CNPJ / CPF")
+    #nome_proponente = get_from_link("Proponente")
+    # info
+    uf = get_field("UF do Projeto")
+    area = get_field("Área Cultural")
+    segmento = get_field("Segmento")
+    processo = get_field("Processo")
+    mecanismo = get_field("Mecanismo")
+    enquadramento = empty(get_field("Enquadramento"))
+    # situação
+    situacao_at = to_date(empty(get_field("Dt.Situação")))
+    situacao = get_field("Situação")
+    providencia = get_field("Providência Tomada")
+    sintese = get_sintese
+    # valores
+    solicitado = to_float(get_field('Solicitado R\$'))
+    aprovado = to_float(get_from_link('Aprovado R\$'))
+    apoiado = to_float(get_from_link('Apoiado R\$'))
+    liberado_at = get_liberado_at
+
+    if projeto
+      # update
+      projeto.update(:situacao_at=>situacao_at, :situacao=>situacao, :sintese=>sintese, :providencia=>providencia, :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
+    else
+      # create
       proponente = get_entidade(clean(cnpjcpf))
-
       projeto = Projeto.create(:entidade_id=>proponente.id, :nome=>nome, :numero=>num, :uf=>uf, :area=>Area.find_by_nome(area), :mecanismo=>mecanismo, :enquadramento=>enquadramento,
-                               :segmento=>Segmento.find_by_nome(segmento), :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
-                               :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
-
-
-      if projeto.errors.count>0
-        puts projeto.attributes
-        puts 'Opz!'.red
-        puts projeto.errors.messages
-        #binding.pry
-      end
-
+                  :segmento=>Segmento.find_by_nome(segmento), :processo=>processo, :situacao_at=>situacao_at, :situacao=>situacao, :providencia=>providencia, :sintese=>sintese,
+                  :solicitado=>solicitado, :aprovado=>aprovado, :apoiado=>apoiado, :liberado_at=>liberado_at)
       puts "Projeto: #{projeto.nome}".green
       if (apoiado && apoiado>0)
         get_incentivadores(id)
       end
-    else
-      projeto.update(numero: id.to_s) if (id.to_s.size >=6 && projeto.updated_at < 1.day.ago)
-      puts "#{projeto.nome}".yellow
     end
+
+    # errors?
+    if projeto.errors.count>0
+      puts projeto.attributes
+      puts 'Opz!'.red
+      puts projeto.errors.messages
+    end
+
     projeto
   end
+
 
   def get_entidade(cnpjcpf)
     entidade = Entidade.find_by_cnpjcpf(cnpjcpf)
@@ -116,6 +117,7 @@ class Minc
       i = Incentivo.create(:entidade_id=>entidade.id, :projeto_id=>projeto.id, :valor=>to_float(info[2]))
       info = "#{info[1]} => #{info[2]}"
       puts info.blue
+      get_recibos(i)
     end
     projeto.update(apoiadores: projeto.incentivos.count)
   end
@@ -160,6 +162,10 @@ class Minc
   # "20.000,00" => 20,000.00
   def to_float(string)
     string.gsub(".", "").gsub(",", ".").to_f if string
+  end
+
+  def md5 data
+    Digest::MD5.hexdigest data.to_s
   end
 
   # converto texto em data
