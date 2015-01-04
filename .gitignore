@@ -6,5 +6,6 @@
 /db/bkp
 deploy.rb
 public/assets
+public/cache
 puma.rb
 .DS_Store

@@ -1,14 +1,12 @@
-if Rails.env.development?
-  require 'sidekiq/web'
-end
+require 'sidekiq/web' if Rails.env.development?
 
 Mostre::Application.routes.draw do
 
   mount Sidekiq::Web, at: "/sidekiq" if Rails.env.development?
 
-  resources :projetos
-  resources :entidades
-  resources :patrocinadors
+  # resources :projetos
+  # resources :entidades
+  # resources :patrocinadors
 
   scope '/cultura' do
     get '', to: "pages#index"
@@ -29,9 +27,8 @@ Mostre::Application.routes.draw do
   get '/links/stats', to: "links#stats"
   get '/links/info/:link', to: "links#info"
   get '/:link', to: "links#show"
-
-  # links
   resources :links
-  root to: 'pages#root' #redirect('/cultura')
+
+  root to: 'pages#root'
 
 end

@@ -1,8 +1,6 @@
 class PagesController < ApplicationController
 	 skip_before_filter :verify_authenticity_token, :only => [:inscrever]
-
-	#caches_page :visu
-
+	 caches_page :cidade
 
 	def root
 		render layout: false
@@ -37,7 +35,7 @@ class PagesController < ApplicationController
 		proponentes_count = Entidade.proponentes.where(cidade_id: @cidade.id).count
 		patrocinadores_count = Entidade.patrocinadores.where(cidade_id: @cidade.id).count
 		@title = @cidade.nome
-		@entidades = Entidade.where(cidade_id: @cidade.id)
+		@entidades = Entidade.where(cidade_id: @cidade.id).where('projetos_liberados > 0').order(:nome)
 		proponentes_sum = view_context.number_to_currency(@entidades.sum(:projetos_sum), :unit => "R$")
 		incentivos_sum = view_context.number_to_currency(@entidades.sum(:incentivos_sum), :unit => "R$")
 		@resumo = "#{proponentes_count} Proponentes captaram #{proponentes_sum} e #{patrocinadores_count} Patrocinadores incentivaram #{incentivos_sum} na cidade"

@@ -10,8 +10,6 @@ GEM
       activesupport (= 4.1.4)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    actionpack-action_caching (1.1.1)
-      actionpack (>= 4.0.0, < 5.0)
     actionpack-page_caching (1.0.2)
       actionpack (>= 4.0.0, < 5)
     actionview (4.1.4)
@@ -136,6 +134,8 @@ GEM
       activesupport (>= 3.0)
       choice (~> 0.1.6)
       ruby-graphviz (~> 1.0.4)
+    rails-observers (0.1.2)
+      activemodel (~> 4.0)
     railties (4.1.4)
       actionpack (= 4.1.4)
       activesupport (= 4.1.4)
@@ -200,7 +200,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionpack-action_caching
   actionpack-page_caching
   awesome_print
   better_errors
@@ -221,6 +220,7 @@ DEPENDENCIES
   puma
   rails
   rails-erd
+  rails-observers
   sass-rails
   sidekiq
   sinatra

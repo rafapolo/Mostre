@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'mysql2'
 
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
 gem 'will_paginate'
+gem 'rails-observers'
+gem 'actionpack-page_caching'
 
 # assets
 gem 'therubyracer'

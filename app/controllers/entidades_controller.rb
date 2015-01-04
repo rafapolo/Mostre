@@ -1,5 +1,6 @@
 class EntidadesController < ApplicationController
   before_action :set_entidade, only: [:show]
+  caches_page :show
 
   def define_resumo! # nos índices (_list)
     estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''

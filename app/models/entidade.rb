@@ -11,7 +11,7 @@ class Entidade < ActiveRecord::Base
 	scope :empresas, -> {where(empresa: 1)}
 	scope :pessoas, -> {where(empresa: 0)}
 
-	is_impressionable :counter_cache => true, :column_name => :counte_cache, :unique => true
+	is_impressionable :counter_cache => true, :unique => true
 
 	before_save :set_meta_attrs
 	# deduz meta-informações. é proponente? empresa? soma apoios, etc.
@@ -39,6 +39,11 @@ class Entidade < ActiveRecord::Base
 	def similares
 		Entidade.where("nome LIKE ?", "%#{self.nome}%") - [self]
 	end
+
+  def expire_cache
+    cache = "#{ActionController::Base.cache_store.cache_path}/cultura/entidades/#{self.to_param}.html"
+    File.delete cache if File.exists? cache
+  end
 
 	def to_param
 		"#{self.id}-#{self.urlized}"

@@ -1,5 +1,6 @@
 class ProjetosController < ApplicationController
   before_action :set_projeto, only: [:show]
+  caches_page :show
 
   def resumo
     estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''
@@ -93,13 +94,11 @@ class ProjetosController < ApplicationController
     render layout: false if request.xhr?
   end
 
-  # GET /projetos/1
   def show
     apoiadores = "com #{@projeto.apoiadores} apoiadores" if @projeto.apoiadores
     @resumo = "Projeto em #{@projeto.estado.nome} #{apoiadores} por #{@projeto.mecanismo} em #{@projeto.area.nome} - #{@projeto.segmento.nome}"
     impressionist @projeto
   end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
