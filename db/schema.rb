@@ -22,17 +22,35 @@ ActiveRecord::Schema.define(version: 20150104111709) do
 
   create_table "cidades", force: true do |t|
     t.integer "estado_id"
-    t.string  "nome",                                  default: "", null: false
+    t.string  "nome",                                       default: "", null: false
     t.string  "urlized"
-    t.decimal "latitude",     precision: 11, scale: 8
-    t.decimal "longitude",    precision: 11, scale: 8
-    t.integer "counte_cache",                          default: 0
+    t.decimal "latitude",          precision: 11, scale: 8
+    t.decimal "longitude",         precision: 11, scale: 8
+    t.integer "impressions_count",                          default: 0
   end
 
   create_table "clicks", force: true do |t|
     t.integer  "link_id",    null: false
     t.string   "url",        null: false
     t.datetime "created_at"
+  end
+
+  create_table "cursos", force: true do |t|
+    t.string   "nome"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "urlized"
+  end
+
+  create_table "enderecos", force: true do |t|
+    t.string   "endereco"
+    t.string   "complemento"
+    t.string   "bairro"
+    t.string   "cep"
+    t.integer  "numero"
+    t.integer  "city_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "entidades", force: true do |t|
@@ -62,7 +80,7 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.integer  "projetos_liberados"
     t.date     "last_incentivo"
     t.integer  "cidade_id"
-    t.integer  "counte_cache",                                           default: 0
+    t.integer  "impressions_count",                                      default: 0
   end
 
   create_table "estados", force: true do |t|
@@ -107,12 +125,48 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.date     "last_recibo_at"
   end
 
+  create_table "institucionalizations", force: true do |t|
+    t.integer "instituicao_id"
+    t.integer "curso_id"
+    t.string  "grau"
+    t.string  "modalidade"
+    t.integer "cod_mec"
+    t.string  "liberado_at"
+    t.integer "endereco_id"
+  end
+
+  create_table "instituicaos", force: true do |t|
+    t.datetime "liberada_at"
+    t.integer  "cod_mec"
+    t.integer  "mantenedora_id"
+    t.integer  "endereco_id"
+    t.string   "site"
+    t.string   "sigla"
+    t.string   "nome"
+    t.string   "telefone"
+    t.string   "org"
+    t.string   "categoria"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "emails"
+    t.string   "urlized"
+  end
+
   create_table "links", force: true do |t|
     t.string   "titulo",          limit: 45, null: false
     t.string   "atalho",          limit: 45, null: false
     t.string   "para",                       null: false
     t.datetime "created_at"
     t.datetime "last_referer_at"
+  end
+
+  create_table "mantenedoras", force: true do |t|
+    t.integer  "cod_mec"
+    t.string   "cnpj"
+    t.string   "natureza"
+    t.string   "representante"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "newsletters", force: true do |t|
@@ -123,18 +177,18 @@ ActiveRecord::Schema.define(version: 20150104111709) do
   create_table "projetos", force: true do |t|
     t.string  "nome"
     t.integer "entidade_id"
-    t.string  "numero",        limit: 11
-    t.string  "uf",            limit: 2
+    t.string  "numero",            limit: 11
+    t.string  "uf",                limit: 2
     t.string  "mecanismo"
     t.string  "enquadramento"
     t.string  "processo"
     t.date    "situacao_at"
     t.string  "situacao"
-    t.string  "providencia",   limit: 500
+    t.string  "providencia",       limit: 500
     t.text    "sintese"
-    t.decimal "solicitado",                precision: 11, scale: 2
-    t.decimal "aprovado",                  precision: 11, scale: 2
-    t.decimal "apoiado",                   precision: 11, scale: 2
+    t.decimal "solicitado",                    precision: 11, scale: 2
+    t.decimal "aprovado",                      precision: 11, scale: 2
+    t.decimal "apoiado",                       precision: 11, scale: 2
     t.date    "liberado_at"
     t.integer "estado_id"
     t.date    "created_at"
@@ -143,7 +197,7 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.integer "apoiadores"
     t.integer "area_id"
     t.string  "urlized"
-    t.integer "counte_cache",                                       default: 0
+    t.integer "impressions_count",                                      default: 0
   end
 
   create_table "recibos", force: true do |t|
