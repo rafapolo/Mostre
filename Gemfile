@@ -27,6 +27,7 @@ group :development do
 	gem 'erd'
 	gem 'pry'
 	gem 'pry-debugger'
+	gem 'mechanize'
 	gem 'mina'
 	gem 'geocoder'
 	gem 'awesome_print'
