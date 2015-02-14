@@ -1,7 +1,10 @@
-== Mostre!me Cultura
+== Mostre!me
 
-Mostre!me Cultura integra os dados dos últimos 10 anos do Ministério da Cultura publicados no Salic Web, Sistema de apoio às leis de incentivo à cultura, criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
+= Links
+Desde 2009 online, o primeiro e ainda ativo projeto em Mostre!me é utilizado para criar "apontamentos" mostre.me para qualquer URL na Web - um "Criador de Referências" - registrando todo "onde" e "quando" o link criado é clicado sem guardar dados do visitante, explorando os princípios do nosso cotidiano Protocolo de Transferência de Hipertexto - o HTTP.
 
-Motivados pelas muitas falhas do Sistema Web oficial, cuja última atualização data de 7 anos atrás - tão obsoleto e corrompido quanto o próprio Sistema Federal Brasileiro - propomos experimentar novas formas de interação dos Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
+= Cultura
+Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar todos as informações dos Projetos e Patrocinadores da última década do Ministério da Cultura e divulgados no sistema oficial, o SalicNet. A partir de 2013 é integrado ao Mostre!me, permitindo a navegação desses relevantes dados Públicos através de consultas iterativas e visualizações efetivas.
 
-A transparente relação e divulgação dos dados estruturados - que deveriam ser públicos em todos os Ministérios Nacionais - é indicador essencial para o diagnóstico das políticas e ações governamentais, muitas vezes cegas. Enfatizamos a utilização dos conhecimentos técnicos, científicos e culturais mais recentes para possibilitar a participação e fiscalização cívil dos Ministérios, contribuindo para o redesign efetivo desses mecanismos.
+= Educação
+Inspirado no Mostre!me Cultura, em 2015 é iniciado o mapeamento dos dados do tosco eMec, o Sistema do Ministério da Educação, para melhor representar e evidenciar as principais Entidades e Cursos do complexo Sistema Nacional de Educação Pública e Privada.
