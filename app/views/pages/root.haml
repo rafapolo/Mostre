@@ -1,34 +1,47 @@
 %html{:lang => "pt-br", "xml:lang" => "pt-br", :xmlns => "http://www.w3.org/1999/xhtml"}
   %head
     %title Mostre!me
+    = stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
     %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}
     %link{:href => '/assets/favicon.ico', :rel => "shortcut icon", :type => "image/x-icon"}
-    = stylesheet_link_tag 'old'
-
+    :css
+      * {margin: 0px}
+      body {padding:30px; width:800px; margin:0px auto; background-color: #fff; font-family: 'Gudea', sans-serif; background:url('http://mostre.me/assets/texture-noise-2e4e34d06b2e16b8e733f4004df39dfe.png')}
+      h1 {text-align: center; font-size:52px; font-family:'Myriad Pro',Helvetica,Arial,sans-serif; color: #363531;}
+      h2 {text-align: center; font-size:22px;}
+      h3 {padding-bottom:5px}
+      .fundo {color:white; width: 100%; background-color:#363531; padding:3px}
+      .rodape { text-align: center; font-size: 13px}
+      .box {margin: 30px; padding:15px; background-color: #f9f9f9; font-size: 15px; box-shadow: 5px 5px 8px #ccc; border:1px solid #ccc; }
+      .rodape>span>a {color: white}
+      a {color:rgb(58, 135, 173)}
   %body
 
     %h1 Mostre!me
-    .menu
-      Incubadora de Ferramentas Sociais
+    %h2.fundo Incubadora de Ferramentas Sociais
 
     #meiuca{style: 'text-align: justify'}
       = yield
 
-      %h3= link_to "Cultura", "/cultura"
-      %p
-        %span Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar os milhares de dados dos projetos aprovados pelo Ministério da Cultura e divulgados no sistema oficial - o SalicNet - que rendeu diversas análises, consultas iterativas e visualizações. A partir de 2013 foi integrado como Mostre!me Cultura o sistema que possibilita a navegação desses relevantes dados públicos.
-        %span= "Atualmente são #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados pelo Brasil desde o ano 2000."
+      .box
+        %h3= link_to "Links", "/links"
+        %p
+          %span Desde 2009 online, o primeiro e ainda ativo projeto em Mostre!me é utilizado para criar "apontamentos" mostre.me para qualquer URL na Web - um "Criador de Referências" - registrando todo "onde" e "quando" o link criado é clicado sem guardar dados do visitante, explorando os princípios do nosso cotidiano Protocolo de Transferência de Hipertexto - o HTTP.
+          %span= "Há #{Link.count} links referenciados por Mostre!me em #{Click.count} clicks pela Web."
 
-      %p
-      %p
+      .box
+        %h3= link_to "Cultura", "/cultura"
+        %p
+          %span Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar todos as informações dos Projetos e Patrocinadores da última década do Ministério da Cultura e divulgados no sistema oficial, o SalicNet. A partir de 2013 é integrado ao Mostre!me, permitindo a navegação desses relevantes dados Públicos através de consultas iterativas e visualizações efetivas.
+          %span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde 2000."
 
-      %h3= link_to "Links", "/links"
-      %p
-        %span Online desde 2009, o primeiro e ainda ativo projeto em Mostre!me é um simples "Criador de Referências", onde se cria links mostre.me para qualquer URL na Web, permitindo registrar publicamente "quando e onde" foram clicados; explorando os princípios do nosso cotidiano Protocolo de Transferência de Hipertexto - o HTTP.
-        %span= "Desde então foram #{Link.count} links referenciados em #{Click.count} clicks pela Web."
-      %p
+      .box
+        %h3= link_to "Educação", "/educacao"
+        %p
+          %span Inspirado no Mostre!me Cultura, em 2015 é iniciado o mapeamento dos dados do tosco eMec, o Sistema do Ministério da Educação, para melhor representar e evidenciar as principais Entidades e Cursos do complexo Sistema Nacional de Educação Pública e Privada.
+          //%span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde 2000."
 
-    .rodape
+    .rodape.fundo
       %span Copyleft
-      %span= link_to "ExtraPolo!", "http://extrapolo.com/"
+      %span= link_to "ExtraPolo!", "http://extrapolo.com/", target:"_blank"
       %span desde 2008
