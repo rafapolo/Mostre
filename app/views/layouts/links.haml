@@ -2,15 +2,15 @@
   %head
     %title Mostre!me Links
     %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}
-    %link{:href => '/assets/favicon.ico', :rel => "shortcut icon", :type => "image/x-icon"}
+    = favicon_link_tag 'favicon.ico'
     = stylesheet_link_tag 'old'
     = javascript_include_tag 'jquery'
 
   %body
 
-    %h1= link_to "Mostre!me", "/links"
+    %h1= link_to "Mostre!me / links", "/links"
     .menu
-      = link_to "Estatísticas dos Links", "/links/stats" unless request.fullpath == "/links/stats"
+      = link_to "Histórico", "/links/stats" unless request.fullpath == "/links/stats"
 
     - if flash[:notice]
       %p#status.redondo
@@ -20,4 +20,4 @@
       = yield
 
     .rodape
-      Mostre!me Copyleft
+      = link_to "Mostre!me Copyleft", "http://mostre.me"

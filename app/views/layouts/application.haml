@@ -12,7 +12,7 @@
 		= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
 		= javascript_include_tag "app"
 		= javascript_include_tag "analytics" if Rails.env.production?
-		= favicon_link_tag 'm-favicon.ico'
+		= favicon_link_tag 'favicon.ico'
 		= yield :libs
 		= csrf_meta_tags
 
@@ -20,7 +20,7 @@
 		#todo
 			#lado
 				.logo.well.borda{:href => "/cultura"}
-					Mostre!me
+					Cultura
 
 				#menu.borda
 					%ul.nav.nav-tabs.nav-stacked
