@@ -24,22 +24,22 @@
       = yield
 
       .box
-        %h3= link_to "Links", "/links"
-        %p
-          %span Desde 2009 online, o primeiro e ainda ativo projeto em Mostre!me é utilizado para criar "apontamentos" mostre.me para qualquer URL na Web - um "Criador de Referências" - registrando todo "onde" e "quando" o link criado é clicado sem guardar dados do visitante, explorando os princípios do nosso cotidiano Protocolo de Transferência de Hipertexto - o HTTP.
-          %span= "Há #{Link.count} links referenciados por Mostre!me em #{Click.count} clicks pela Web."
-
-      .box
         %h3= link_to "Cultura", "/cultura"
         %p
-          %span Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar todos as informações dos Projetos e Patrocinadores da última década do Ministério da Cultura e divulgados no sistema oficial, o SalicNet. A partir de 2013 é integrado ao Mostre!me, permitindo a navegação desses relevantes dados Públicos através de consultas iterativas e visualizações efetivas.
+          %span Desde 2010 automaticamente minerando os dados do Ministério da Cultura referentes aos Projetos, Patrocinadores e Proponentes da última década do precário SalicNet, Mostre!me Cultura permite a navegação dessas relevantes informações Públicas através de consultas iterativas e visualizações efetivas.
           %span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde o ano 2000."
 
+      / .box
+      /   %h3= link_to "Educação", "/educacao"
+      /   %p
+      /     %span Mostre!me Educação é iniciado em 2015 o mapeamento dos dados do obsoleto eMec para melhor representar e evidenciar as principais Entidades e Cursos do complexo Sistema Nacional de Educação Pública e Privada.
+      /     //%span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde 2000."
+
       .box
-        %h3= link_to "Educação", "/educacao"
+        %h3= link_to "Links", "/links"
         %p
-          %span Inspirado no Mostre!me Cultura, em 2015 é iniciado o mapeamento dos dados do tosco eMec, o Sistema do Ministério da Educação, para melhor representar e evidenciar as principais Entidades e Cursos do complexo Sistema Nacional de Educação Pública e Privada.
-          //%span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde 2000."
+          %span Desde 2009 online, o primeiro projeto em Mostre!me utiliza conceitos básicos de nosso cotidiano HTTP - o Protocolo de Transferência de Hipertexto - para permitir criar URLs que registram todo "onde" e "quando" elas foram clicadas, sem guardar dados dos visitantes.
+          %span= "Há #{Link.count} links criados em Mostre!me, clicados #{Click.count} vezes pela Web."
 
     .rodape.fundo
       %span Copyleft
