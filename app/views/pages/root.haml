@@ -12,7 +12,7 @@
       h3 {padding-bottom:5px}
       .fundo {color:white; width: 100%; background-color:#363531; padding:3px}
       .rodape { text-align: center; font-size: 13px}
-      .box {margin: 20px; padding:15px; background-color: #f9f9f9; font-size: 15px; box-shadow: 5px 5px 8px #ccc; border:1px solid #ccc; }
+      .box {line-height: 23px; margin: 20px; padding: 15px; padding-bottom:20px; background-color: #f9f9f9; font-size: 15px; box-shadow: 6px 6px 15px #ccc; border: 1px solid #ccc}
       .rodape>span>a {color: white}
       a {color:rgb(58, 135, 173)}
   %body
@@ -33,7 +33,7 @@
         %h3= link_to "Cultura", "/cultura"
         %p
           %span Em 2010 foi desenvolvido o primeiro "minerador de dados" para buscar e estruturar todos as informações dos Projetos e Patrocinadores da última década do Ministério da Cultura e divulgados no sistema oficial, o SalicNet. A partir de 2013 é integrado ao Mostre!me, permitindo a navegação desses relevantes dados Públicos através de consultas iterativas e visualizações efetivas.
-          %span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde 2000."
+          %span= "Atualmente mapeia #{reais Incentivo.sum(:valor)} distribuídos entre #{Projeto.aprovados.count} projetos aprovados desde o ano 2000."
 
       .box
         %h3= link_to "Educação", "/educacao"
