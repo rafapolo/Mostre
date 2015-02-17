@@ -18,6 +18,8 @@ gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'colored'
 
+gem 'mechanize'
+
 # parallel jobs
 gem 'sidekiq'
 gem 'sinatra', require: false
@@ -27,7 +29,6 @@ group :development do
 	gem 'erd'
 	gem 'pry'
 	gem 'pry-debugger'
-	gem 'mechanize'
 	gem 'mina'
 	gem 'geocoder'
 	gem 'awesome_print'
