@@ -4,7 +4,7 @@ class Endereco < ActiveRecord::Base
   has_many :cursos, :through => :institucionalizations
   has_many :instituicaos, :through => :institucionalizations
 
-  geocoded_by :completo
+  #geocoded_by :completo
 
   def completo
   	numero = self.numero if self.numero && self.numero>0
