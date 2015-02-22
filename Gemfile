@@ -18,7 +18,9 @@ gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'colored'
 
+# tools
 gem 'mechanize'
+gem 'geocoder'
 
 # parallel jobs
 gem 'sidekiq'
@@ -30,7 +32,6 @@ group :development do
 	gem 'pry'
 	gem 'pry-debugger'
 	gem 'mina'
-	gem 'geocoder'
 	gem 'awesome_print'
 	gem 'rails-erd'
 	gem 'better_errors'

@@ -7,5 +7,6 @@
 deploy.rb
 public/assets
 public/cache
+public/cultura
 puma.rb
 .DS_Store

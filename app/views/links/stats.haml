@@ -1,9 +1,11 @@
+- content_for :menu do
+	= link_to "[ Criar Novo! ]", "/links"
 
 %h3 Últimos Links
 - @last_links.each do |l|
 	%p
 		%span= link_to_mostre l, info=true
-		%span= "em #{l.created_at.strftime("%d/%m/%Y")}"
+		%span= ago(l.created_at)
 
 %br
 %br
@@ -23,5 +25,5 @@
 - @tops.each do |t|
 	%p= link_to_mostre t, info=true
 	%span{style:"padding-top:2px"}
-		= "#{t.clicks_count} clicks desde #{t.created_at.strftime("%d/%m/%Y")}"
+		= "#{t.clicks_count} clicks desde #{ago t.created_at}"
 %br

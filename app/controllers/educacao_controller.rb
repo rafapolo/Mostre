@@ -1,7 +1,7 @@
-class EntidadesController < ApplicationController
+class EducacaoController < ApplicationController
   before_action :set_entidade, only: [:show]
   caches_page :show
-  layout "cultura"
+  layout "educacao"
 
   def define_resumo! # nos índices (_list)
     estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''

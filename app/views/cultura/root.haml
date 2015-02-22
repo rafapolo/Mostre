@@ -1,0 +1,70 @@
+%html{:lang => "pt-br", "xml:lang" => "pt-br", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Mostre!me
+    = stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
+    = favicon_link_tag 'favicon.ico'
+    %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}
+    :css
+      * {margin: 0px}
+      body {padding:20px; width:800px; margin:0px auto; background-color: #fff; font-family: 'Gudea', sans-serif; background:url('http://mostre.me/assets/texture-noise-2e4e34d06b2e16b8e733f4004df39dfe.png')}
+      h1 {text-align: center; font-size:52px; font-family:'Myriad Pro',Helvetica,Arial,sans-serif; color: #363531;}
+      h2 {text-align: center; font-size:22px;}
+      h3 {padding-bottom:5px}
+      .fundo {color:white; width: 100%; background-color:#363531; padding:3px}
+      .rodape { text-align: center; font-size: 13px}
+      .box {line-height: 23px; margin: 20px; padding: 15px; padding-bottom:20px; background-color: #f9f9f9; font-size: 15px; box-shadow: 6px 6px 15px #ccc; border: 1px solid #ccc}
+      .rodape>span>a {color: white}
+      a {color:rgb(58, 135, 173)}
+  %body
+
+    %h1 Mostre!me
+    %h2.fundo Incubadora de Ferramentas Sociais
+
+    #meiuca{style: 'text-align: justify'}
+      = yield
+
+      .box
+        %h3= link_to "Cultura", "/cultura"
+        %p
+          %span Mostre!me Cultura mapeia os dados do Ministério da Cultura do Brasil referentes a relação dos
+          %span
+            %a{href: "/cultura/projetos"}="#{pontua_numero Projeto.aprovados.count} Projetos"
+          %span financiados por
+          %span
+            %a{href: "/cultura/patrocinadores"}="#{pontua_numero Entidade.patrocinadores.empresas.count} empresas e #{pontua_numero Entidade.patrocinadores.pessoas.count} pessoas"
+          %span no
+          %span
+            %a{href: "http://sistemas.cultura.gov.br/salicnet/Salicnet/Salicnet.php", target: '_blank'} SalicNet
+          %span - Sistema de Apoio às Leis de Incentivo a Cultura - possibilitando a navegação dessas relevantes informações públicas através de consultas iterativas, mapas e visualizações efetivas sobre a soma de R$10 bilhões em incentivos culturais dos últimos 15 anos.
+
+
+      .box
+        %h3= link_to "Educação", "/educacao"
+        %p
+          %span Mostre!me Educação estrutura os dados do
+          %span
+            %a{href: "https://emec.mec.gov.br/emec/nova"} eMec
+          %span - Sistema de Regulação do Ensino Superior - para melhor representar e evidenciar as
+          %span
+            %a{href: "/educacao/mantenedoras"}= "#{pontua_numero Mantenedora.count} Entidades"
+          %span que mantêm as
+          %span
+            %a{href: '/educacao/instituicoes'}= "#{pontua_numero Instituicao.count} Instituições"
+          %span de Ensino Superior do país com seus
+          %span
+            %a{href: "/educacao/cursos"}= "#{pontua_numero Curso.count} Cursos"
+          %span no valioso Sistema de Educação Pública e Privada do Brasil.
+
+      .box
+        %h3= link_to "Links", "/links"
+        %p
+          %span O primeiro projeto em Mostre!me é uma ferramenta que utiliza conceitos básicos de nosso cotidiano HTTP:// - o Protocolo de Transferência de Hipertexto - para permitir criar URLs que registram um histórico de todo "onde" e "quando" na Web foram acessadas.
+          %span= "#{pontua_numero Link.count} links foram "
+          %span
+            %a{href: '/links/stats'} criados e acessados
+          %span= "#{pontua_numero Click.count} vezes desde 2009."
+
+    .rodape.fundo
+      %span Copyfight
+      %span= link_to "ExtraPolo!", "http://extrapolo.com/", target:"_blank"
+      %span desde 2008

@@ -9,19 +9,27 @@ Mostre::Application.routes.draw do
   # resources :patrocinadors
 
   scope '/cultura' do
-    get '', to: "pages#index"
-    post '/inscrever', to: "pages#inscrever"
+    get '', to: "cultura#index"
+    post '/inscrever', to: "cultura#inscrever"
     resources :incentivos
     resources :entidades
     resources :projetos
-    get "/cidades/:uf/:nome", to: "pages#cidade"
+    get "/cidades/:uf/:nome", to: "cultura#cidade"
     get "/proponentes", to: "entidades#proponentes"
     get "/patrocinadores", to: "entidades#patrocinadores"
-    get "/salicnet/:numero", to: "pages#salicnet"
+    get "/salicnet/:numero", to: "cultura#salicnet"
   end
+  get 'visu.json', to: "cultura#visu"
 
-  get 'visu.json', to: "pages#visu"
-  get '/entidades/grafo/:id.json', to: "graphs#entidade"
+  scope '/educacao' do
+    get '', to: "educacao#index"
+    resources :cursos
+    resources :mantenedoras
+    resources :instituicaos
+    get "/mantenedoras", to: "mantenedoras#index"
+    get "/instituicoes", to: "instituicaos#index"
+    get "/cursos", to: "cursos#index"
+  end
 
   get '/links', to: "links#index"
   get '/links/stats', to: "links#stats"
@@ -29,6 +37,5 @@ Mostre::Application.routes.draw do
   get '/:link', to: "links#show"
   resources :links
 
-  root to: 'pages#root'
-
+  root to: 'cultura#root' # todo: just point to root file
 end

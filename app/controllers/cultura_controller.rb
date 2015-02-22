@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class CulturaController < ApplicationController
 	 skip_before_filter :verify_authenticity_token, :only => [:inscrever]
 	 caches_page :cidade
 

@@ -10,6 +10,7 @@
 
     %h1= link_to "Mostre!me / links", "/links"
     .menu
+      = yield :menu
       = link_to "Histórico", "/links/stats" unless request.fullpath == "/links/stats"
 
     - if flash[:notice]
@@ -20,4 +21,6 @@
       = yield
 
     .rodape
-      = link_to "Mostre!me Copyleft", "http://mostre.me"
+      %span - linkando em
+      = link_to "Mostre!me", "http://mostre.me"
+      %span desde 2009 -

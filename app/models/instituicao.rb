@@ -11,6 +11,8 @@ class Instituicao < ActiveRecord::Base
   validates :cod_mec, :presence => true, :uniqueness => true
   validates :nome, :presence => true
 
+  default_scope -> {order('liberada_at DESC')}
+
   before_save :urlize
   def urlize
     self.urlized = nome.urlize

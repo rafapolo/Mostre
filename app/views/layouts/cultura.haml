@@ -4,7 +4,7 @@
 		- if @title
 			%title= "Mostre!me - #{@title}"
 		- else
-			%title Mostre!me
+			%title Mostre!me Cultura
 		%meta{charset: 'utf-8'}
 		%meta{:property=>"og:description", :content=>"Mostre!me mapeia e integra os dados do Sistema de apoio às leis de incentivo à Cultura do Brasil, propondo modernas formas de interação e visualização dessas relevantes informações nacionais."}
 		%meta{:property=>"og:image", :content=>"http://mostre.me" + asset_path('mapa.png')}
@@ -68,7 +68,7 @@
 				- else
 					- if request.fullpath != "/cultura"
 						#ad{style:"height:400px; width:200px"}
-							= render :partial => 'pages/adsense'
+							= render :partial => 'shared/adsense'
 
 				= yield :dados
 

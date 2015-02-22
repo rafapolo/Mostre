@@ -66,6 +66,24 @@ module ApplicationHelper
 		number_with_delimiter(num, delimiter: ".")
 	end
 
+	def ago date
+		words = time_ago_in_words(date)
+		words.gsub!("almost", "quase")
+		words.gsub!("over", "quase")
+		words.gsub!("years", "anos")
+		words.gsub!("year", "ano")
+		words.gsub!("days", "dias")
+		words.gsub!("dia", "dia")
+		words.gsub!("hour", "hora")
+		words.gsub!("hours", "horas")
+		words.gsub!("minute", "minuto")
+		words.gsub!("minutes", "minutos")
+		words.gsub!("second", "segundo")
+		words.gsub!("seconds", "segundos")
+		words.gsub!("now", "agora")
+		"há #{words}"
+	end
+
  	# todo: refinar
 	  def url_encode(value, key = nil, out_hash = {})
 	    case value

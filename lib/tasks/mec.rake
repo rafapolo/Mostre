@@ -59,6 +59,7 @@ namespace :pega do
             cnpj = filtra(dados, 3, padrao)
             natureza = filtra(dados, 5, padrao)
             representante = filtra(dados, 7, padrao)
+            nome = filtra(dados, 9, padrao).gsub(/\((\d+)\) /, '')
             sigla = filtra(dados, 9, padrao).split("- ").last
             # endereço
             endereco = filtra(dados, 11, padrao)
@@ -72,7 +73,7 @@ namespace :pega do
             org = filtra(dados, 31, padrao)
             site = filtra(dados, 33, padrao)
             emails = filtra(dados, 35, padrao)
-            mant_obj = Mantenedora.where(:cod_mec=>mantenedora_cod_mec, :cnpj=>cnpj, :natureza=>natureza, :representante=>representante).first_or_create
+            mant_obj = Mantenedora.where(:cod_mec=>mantenedora_cod_mec, :nome=> nome, :cnpj=>cnpj, :natureza=>natureza, :representante=>representante).first_or_create
             ap mant_obj
 
             # Instituição

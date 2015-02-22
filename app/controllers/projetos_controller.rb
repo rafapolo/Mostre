@@ -1,6 +1,7 @@
 class ProjetosController < ApplicationController
   before_action :set_projeto, only: [:show]
   caches_page :show
+  layout "cultura"
 
   def resumo
     estado = params[:estado_id] ? "em " + Estado.find(params[:estado_id]).nome : ''

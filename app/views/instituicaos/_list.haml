@@ -1,0 +1,70 @@
+- @instituicaos ||= instituicaos
+
+%table.table.table-striped.table-bordered.table-condensed.borda
+  %thead
+    %tr
+      %th{style: 'width: 420px'} Nome
+      %th Sigla
+      %th#cursos.reorder Cursos
+      %th#liberada_at.reorder Desde
+      %th#cursos.reorder Categoria
+
+  %tbody
+    - @instituicaos.each do |inst|
+      %tr
+        %td= inst.nome #todo: hightlight
+        %td= inst.sigla
+        %td= inst.cursos.count
+        %td= inst.liberada_at.year
+        %td= inst.categoria
+        / %td= mant.segmento.nome
+        / %td
+        /   - if mant.situacao_at
+        /     = mant.situacao_at.year
+        /   - else
+        /     %span.badge.badge-warning em avaliação
+
+        / %td= reais mant.solicitado
+        / - if mant.aprovado > 0
+        /   %td= reais mant.aprovado
+        / - else
+        /   %td
+        /     - if especial(mant)
+        /       %span -
+        /     - else
+        /       %span.badge.badge-important 0
+        / %td
+        /   - if mant.apoiado > 0
+        /     = reais mant.apoiado
+        /   - else
+        /     - if mant.aprovado > 0
+        /       %span.badge.badge-important 0
+        /     - else
+        /       // sem aprovação e sem apoio
+        /       %span -
+        / %td
+        /   - #todo: visualizar se soma de apoiadores não bate com apoiado.
+        /   - if mant.apoiado > 0 && mant.apoiadores==0
+        /     - if especial(mant)
+        /       %span -
+        /     - else
+        /       %span.badge.badge-important
+        /         %i.icon-question-sign
+        /   - else
+        /     - if apoiadores=mant.apoiadores
+        /       %span.badge.badge-info= apoiadores
+        /     - else
+        /       - if !apoiadores && !especial(mant) && mant.apoiado>0
+        /         %span.badge.badge-important 0
+        /       - else
+        /         %span -
+        / %td
+        /   - if at = mant.liberado_at
+        /     %span.badge.badge-success= at
+        /   - else
+        /     - if (especial(mant))
+        /       %span.badge.badge-warning
+        /         %i.icon-star
+        /     - else
+        /       %span.badge.badge-important
+        /         %i.icon-ban-circle

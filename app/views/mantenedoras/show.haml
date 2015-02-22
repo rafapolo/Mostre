@@ -1,0 +1,85 @@
+:javascript
+  $(document).ready(function(){
+    $('th').removeClass('reorder')
+  })
+
+.well.status.borda
+  .titulo
+    %i.icon-th.afastado
+    = @projeto.nome
+
+.well.center.borda
+  #title{style:"font-size:15px"}
+    %a{href: '/cultura/entidades/' + @projeto.entidade.to_param}
+      %i.icon-briefcase
+      = "#{@projeto.entidade.nome} (#{@projeto.entidade.projetos_count})"
+
+.center{style: "padding-bottom:10px"}
+  - solicitou = @projeto.solicitado > 0 ? (reais @projeto.solicitado) : "nada"
+  .label.label-warning= "Solicitou #{solicitou}"
+  - if @projeto.aprovado > 0
+    .label.label-info= "Aprovaram #{reais @projeto.aprovado}"
+  - else
+    - if !especial(@projeto)
+      .label.label-important= "Sem aprovação"
+
+  - if @projeto.apoiado > 0
+    .label.label-success= "Conseguiu #{reais @projeto.apoiado}"
+  - else
+    - if !especial(@projeto)
+      .label.label-important= "Conseguiu nada"
+
+.well.status
+  = @resumo
+
+.alert.alert-info.borda
+  %button.close{"data-dismiss" => "alert", type: "button"} ×
+  %i.icon-pencil
+  = @projeto.sintese
+
+#infos.borda{style:"margin-top:8px"}
+  - if @projeto.liberado_at
+    .alert.alert-success
+      %button.close{"data-dismiss" => "alert", type: "button"} ×
+      %i.icon-ok
+      = "Liberado em #{@projeto.liberado_at}"
+
+.alert.borda
+  %button.close{"data-dismiss" => "alert", type: "button"} ×
+  %i.icon-exclamation-sign
+  %strong= @projeto.situacao_at
+  - enquadramento = "» #{@projeto.enquadramento}" if @projeto.enquadramento
+  = " #{enquadramento} » #{@projeto.situacao} » #{@projeto.providencia}"
+
+
+- if @projeto.apoiadores && @projeto.apoiadores > 0
+  %table.table.table-striped.borda
+    %thead
+      %tr
+        %th
+        %th{style:'text-align:left'} Patrocinador
+        %th Valor Total
+        %th Depósitos
+        %th Último
+    %tbody
+      - @projeto.incentivos.each do |i|
+        %tr
+          %td
+            - if i.entidade.empresa
+              %i.icon-briefcase
+            - else
+              %i.icon-user
+          %td{style:'text-align:left'}= link_to_entidade i.entidade
+          %td= reais i.valor
+          %td= i.recibos_count
+          - if last_recibo_at = i.last_recibo_at
+            %td= to_date last_recibo_at
+          - else
+            %td -
+
+.center
+  %a.btn{href: "/cultura/salicnet/#{@projeto.numero}", target:"_blank"}
+    %i.icon-info-sign
+    Ver no SalicNet
+  %br
+  %br

@@ -8,4 +8,8 @@ class Curso < ActiveRecord::Base
   def urlize
     self.urlized = nome.urlize
   end
+
+  def primeiro_em
+    Institucionalization.where(curso_id: self.id).where("liberado_at IS NOT NULL").order("liberado_at ASC").limit(1).take
+  end
 end
