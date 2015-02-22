@@ -4,7 +4,7 @@ class CursosController < ApplicationController
   def index
     page = params[:page] || 1
     @title = "Cursos"
-    @topo = "#{Curso.count} Instituições"
+    @topo = "#{Curso.count} Cursos"
     @cursos = Curso.all.paginate(page: page, per_page: 35)
   end
 
