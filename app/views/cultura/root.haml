@@ -56,9 +56,14 @@
           %span no valioso Sistema de Educação Pública e Privada do Brasil.
 
       .box
+        %h3= link_to "Acervo", "/acervo"
+        %p
+          %span O Acervo mantém descentralizado e apresenta 13.636 filmes raros, antigos, alternativos, fora do circuito comercial e documentários relevantes de diversas nacionalidades desde a invenção do Cinema, organizados por 8 anos numa ativa comunidade de cinéfilos Brasileiros através do Fórum online MakingOff.
+
+      .box
         %h3= link_to "Links", "/links"
         %p
-          %span O primeiro projeto em Mostre!me é uma ferramenta que utiliza conceitos básicos de nosso cotidiano HTTP:// - o Protocolo de Transferência de Hipertexto - para permitir criar URLs que registram um histórico de todo "onde" e "quando" na Web foram acessadas.
+          %span O primeiro projeto em Mostre!me é uma ferramenta que utiliza conceitos básicos do nosso cotidiano HTTP:// - o Protocolo de Transferência de Hipertexto - para permitir criar Links que registram o histórico de todo "onde" e "quando" na Web foram acessados.
           %span= "#{pontua_numero Link.count} links foram "
           %span
             %a{href: '/links/stats'} criados e acessados
