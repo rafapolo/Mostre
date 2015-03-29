@@ -22,8 +22,9 @@ class LinksController < ApplicationController
     redirect_to "/links", notice: "Link não existe. Crie!" unless @link
 
     # salva click
+    href = request.referer
     if @link && href
-      @click = Click.new({link: @link, url: request.referer})
+      @click = Click.new({link: @link, url: href})
       @click.save!
       @link.update_attribute(:last_referer_at, Time.now)
     end
