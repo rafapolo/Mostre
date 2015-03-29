@@ -22,9 +22,8 @@ class LinksController < ApplicationController
     redirect_to "/links", notice: "Link não existe. Crie!" unless @link
 
     # salva click
-    href = request.referer
     if @link && href
-      @click = Click.new({:link=>@link, :url =>href})
+      @click = Click.new({link: @link, url: request.referer})
       @click.save!
       @link.update_attribute(:last_referer_at, Time.now)
     end
@@ -32,7 +31,8 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.new(params[:link].permit!)
+    params[:link][:ip] = request.remote_ip
+    @link = Link.new(params[:link].permit!, )
     respond_to do |format|
       if @link.save
         flash[:notice] = 'Link criado com sucesso.'
