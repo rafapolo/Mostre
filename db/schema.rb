@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104111709) do
+ActiveRecord::Schema.define(version: 20150329115411) do
 
   create_table "areas", force: true do |t|
     t.string "nome",    default: "", null: false
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.string   "para",                       null: false
     t.datetime "created_at"
     t.datetime "last_referer_at"
+    t.string   "ip"
   end
 
   create_table "mantenedoras", force: true do |t|
@@ -167,6 +168,7 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.string   "representante"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nome"
   end
 
   create_table "newsletters", force: true do |t|
@@ -213,39 +215,5 @@ ActiveRecord::Schema.define(version: 20150104111709) do
     t.integer "area_id"
     t.string  "urlized"
   end
-
-  create_table "tse_donations", force: true do |t|
-    t.string  "uf",          limit: 2
-    t.string  "partido",     limit: 8
-    t.string  "cargo"
-    t.string  "nome"
-    t.integer "numero"
-    t.integer "ano"
-    t.string  "cpf",         limit: 20
-    t.string  "doador"
-    t.string  "recurso",     limit: 20
-    t.string  "data",        limit: 20
-    t.string  "motivo",      limit: 400
-    t.float   "valor",       limit: 53
-    t.boolean "empresa"
-    t.string  "tipo",        limit: 20
-    t.integer "doador_id"
-    t.integer "receptor_id"
-  end
-
-  add_index "tse_donations", ["cpf"], name: "cpf", using: :btree
-  add_index "tse_donations", ["doador_id"], name: "doador_id", using: :btree
-  add_index "tse_donations", ["nome"], name: "nome", using: :btree
-  add_index "tse_donations", ["uf"], name: "uf", using: :btree
-
-  create_table "tse_entidades", force: true do |t|
-    t.string  "cpf",      limit: 20
-    t.string  "nome"
-    t.boolean "empresa"
-    t.boolean "receptor"
-  end
-
-  add_index "tse_entidades", ["cpf"], name: "cpf", using: :btree
-  add_index "tse_entidades", ["nome"], name: "nome", using: :btree
 
 end
