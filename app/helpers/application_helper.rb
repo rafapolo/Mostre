@@ -81,6 +81,9 @@ module ApplicationHelper
 		words.gsub!("second", "segundo")
 		words.gsub!("seconds", "segundos")
 		words.gsub!("now", "agora")
+		words.gsub!("about", "aprox.")
+		words.gsub!("months", "meses")
+		words.gsub!("month", "mês")
 		"há #{words}"
 	end
 
