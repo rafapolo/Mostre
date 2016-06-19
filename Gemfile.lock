@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:rafapolo/rails-base.git
+  remote: https://github.com/rafapolo/rails-base.git
   revision: 5facf69738a932b40c714fd11d1a69433a22ce88
   specs:
     rails_base (0.1.7)
@@ -18,8 +18,8 @@ GIT
       will_paginate (~> 3.1)
 
 GIT
-  remote: git@github.com:rafapolo/rails-dev.git
-  revision: 9bf961eb15c80f249c0839dbaf71ed4811b5fc75
+  remote: https://github.com/rafapolo/rails-dev.git
+  revision: 30782087b7c84b21c7c0c2df7410e5044dfcf6a3
   specs:
     rails_dev (0.1.6)
       awesome_print

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails_base', :git => 'git@github.com:rafapolo/rails-base.git'
+gem 'rails_base', :git => 'https://github.com/rafapolo/rails-base.git'
 gem 'actionpack-page_caching'
 
 # assets
@@ -18,7 +18,7 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 
 group :development do
-  gem 'rails_dev', :git => 'git@github.com:rafapolo/rails-dev.git'
+  gem 'rails_dev', :git => 'https://github.com/rafapolo/rails-dev.git'
   gem 'erd'
   gem 'mina'
 end

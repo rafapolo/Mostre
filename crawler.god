@@ -1,3 +1,4 @@
+# observe keep crawling active
 God.watch do |w|
   w.name = "crawler"
   w.dir = "/home/git/apps/current"
