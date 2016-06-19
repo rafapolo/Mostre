@@ -2,6 +2,39 @@
 namespace :minc do
   require Rails.root.join('lib', 'crawler', 'minc')
 
+  task :top100 => :environment do
+    def escape str
+      str.gsub('"', '')
+    end
+
+    include ApplicationHelper
+    include ActionView::Helpers::NumberHelper
+
+    puts "Gerando..."
+    pats = Entidade.patrocinadores.order('incentivos_sum desc').limit(20)
+
+    File.open('top20.dot', 'w') do |g|
+      g.puts "digraph G {"
+
+      pats.each do |financiador|
+        g.puts "\"e#{financiador.id}\" [label = \"#{escape financiador.nome}\", financiador = true, soma = #{financiador.incentivos_sum.to_i}, estado = \"#{financiador.estado.sigla}\"];"
+
+        financiador.incentivos.each do |i|
+          projeto = i.projeto
+          g.puts "\"e#{financiador.id}\" -> \"p#{projeto.id}\";"
+          g.puts "\"p#{projeto.id}\" [label = \"#{escape projeto.nome}\", apoiado = #{projeto.apoiado.to_i}, estado = \"#{projeto.uf}\", segmento = \"#{escape projeto.segmento.nome}\"];"
+          proponente = i.projeto.entidade
+          g.puts "\"e#{proponente.id}\" [label = \"#{escape proponente.nome}\" financiador = false, soma = #{proponente.projetos_sum.to_i}, estado = \"#{proponente.estado.sigla}\"];"
+          g.puts "\"p#{projeto.id}\" -> \"e#{proponente.id}\";"
+        end
+
+      end
+      g.puts '}'
+      puts "Ok!"
+    end
+
+  end
+
   task :dot => :environment do
     def escape str
       str.gsub('"', '')

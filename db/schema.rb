@@ -13,55 +13,55 @@
 
 ActiveRecord::Schema.define(version: 20150329115411) do
 
-  create_table "areas", force: true do |t|
-    t.string "nome",    default: "", null: false
-    t.string "urlized"
+  create_table "areas", force: :cascade do |t|
+    t.string "nome",    limit: 255, default: "", null: false
+    t.string "urlized", limit: 255
   end
 
   add_index "areas", ["urlized"], name: "urlized", unique: true, using: :btree
 
-  create_table "cidades", force: true do |t|
-    t.integer "estado_id"
-    t.string  "nome",                                       default: "", null: false
-    t.string  "urlized"
-    t.decimal "latitude",          precision: 11, scale: 8
-    t.decimal "longitude",         precision: 11, scale: 8
-    t.integer "impressions_count",                          default: 0
+  create_table "cidades", force: :cascade do |t|
+    t.integer "estado_id",         limit: 4
+    t.string  "nome",              limit: 255,                          default: "", null: false
+    t.string  "urlized",           limit: 255
+    t.decimal "latitude",                      precision: 11, scale: 8
+    t.decimal "longitude",                     precision: 11, scale: 8
+    t.integer "impressions_count", limit: 4,                            default: 0
   end
 
-  create_table "clicks", force: true do |t|
-    t.integer  "link_id",    null: false
-    t.string   "url",        null: false
+  create_table "clicks", force: :cascade do |t|
+    t.integer  "link_id",    limit: 4,   null: false
+    t.string   "url",        limit: 255, null: false
     t.datetime "created_at"
   end
 
-  create_table "cursos", force: true do |t|
-    t.string   "nome"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "urlized"
-  end
-
-  create_table "enderecos", force: true do |t|
-    t.string   "endereco"
-    t.string   "complemento"
-    t.string   "bairro"
-    t.string   "cep"
-    t.integer  "numero"
-    t.integer  "city_id"
+  create_table "cursos", force: :cascade do |t|
+    t.string   "nome",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "urlized",    limit: 255
   end
 
-  create_table "entidades", force: true do |t|
-    t.string   "nome"
+  create_table "enderecos", force: :cascade do |t|
+    t.string   "endereco",    limit: 255
+    t.string   "complemento", limit: 255
+    t.string   "bairro",      limit: 255
+    t.string   "cep",         limit: 255
+    t.integer  "numero",      limit: 4
+    t.integer  "city_id",     limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "entidades", force: :cascade do |t|
+    t.string   "nome",               limit: 255
     t.string   "cnpjcpf",            limit: 15
-    t.string   "responsavel"
-    t.string   "logradouro"
-    t.string   "cidade_nome"
+    t.string   "responsavel",        limit: 255
+    t.string   "logradouro",         limit: 255
+    t.string   "cidade_nome",        limit: 255
     t.string   "cep",                limit: 10
     t.string   "uf",                 limit: 80
-    t.string   "email"
+    t.string   "email",              limit: 255
     t.string   "tel_res",            limit: 32
     t.string   "tel_cel",            limit: 32
     t.string   "tel_fax",            limit: 32
@@ -71,37 +71,37 @@ ActiveRecord::Schema.define(version: 20150329115411) do
     t.boolean  "empresa"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "urlized"
-    t.integer  "projetos_count"
-    t.decimal  "projetos_sum",                  precision: 12, scale: 2
-    t.integer  "incentivos_count"
-    t.decimal  "incentivos_sum",                precision: 12, scale: 2
-    t.integer  "estado_id"
-    t.integer  "projetos_liberados"
+    t.string   "urlized",            limit: 255
+    t.integer  "projetos_count",     limit: 4
+    t.decimal  "projetos_sum",                   precision: 12, scale: 2
+    t.integer  "incentivos_count",   limit: 4
+    t.decimal  "incentivos_sum",                 precision: 12, scale: 2
+    t.integer  "estado_id",          limit: 4
+    t.integer  "projetos_liberados", limit: 4
     t.date     "last_incentivo"
-    t.integer  "cidade_id"
-    t.integer  "impressions_count",                                      default: 0
+    t.integer  "cidade_id",          limit: 4
+    t.integer  "impressions_count",  limit: 4,                            default: 0
   end
 
-  create_table "estados", force: true do |t|
+  create_table "estados", force: :cascade do |t|
     t.string "nome",  limit: 20
     t.string "sigla", limit: 2
   end
 
   add_index "estados", ["sigla"], name: "sigla", unique: true, using: :btree
 
-  create_table "impressions", force: true do |t|
-    t.string   "impressionable_type"
-    t.integer  "impressionable_id"
-    t.integer  "user_id"
-    t.string   "controller_name"
-    t.string   "action_name"
-    t.string   "view_name"
-    t.string   "request_hash"
-    t.string   "ip_address"
-    t.string   "session_hash"
-    t.text     "message"
-    t.text     "referrer"
+  create_table "impressions", force: :cascade do |t|
+    t.string   "impressionable_type", limit: 255
+    t.integer  "impressionable_id",   limit: 4
+    t.integer  "user_id",             limit: 4
+    t.string   "controller_name",     limit: 255
+    t.string   "action_name",         limit: 255
+    t.string   "view_name",           limit: 255
+    t.string   "request_hash",        limit: 255
+    t.string   "ip_address",          limit: 255
+    t.string   "session_hash",        limit: 255
+    t.text     "message",             limit: 65535
+    t.text     "referrer",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,105 +115,105 @@ ActiveRecord::Schema.define(version: 20150329115411) do
   add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", length: {"impressionable_type"=>nil, "message"=>255, "impressionable_id"=>nil}, using: :btree
   add_index "impressions", ["user_id"], name: "index_impressions_on_user_id", using: :btree
 
-  create_table "incentivos", force: true do |t|
-    t.integer  "projeto_id"
-    t.integer  "entidade_id"
-    t.decimal  "valor",          precision: 11, scale: 2
+  create_table "incentivos", force: :cascade do |t|
+    t.integer  "projeto_id",     limit: 4
+    t.integer  "entidade_id",    limit: 4
+    t.decimal  "valor",                    precision: 11, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "recibos_count"
+    t.integer  "recibos_count",  limit: 4
     t.date     "last_recibo_at"
   end
 
-  create_table "institucionalizations", force: true do |t|
-    t.integer "instituicao_id"
-    t.integer "curso_id"
-    t.string  "grau"
-    t.string  "modalidade"
-    t.integer "cod_mec"
-    t.string  "liberado_at"
-    t.integer "endereco_id"
+  create_table "institucionalizations", force: :cascade do |t|
+    t.integer "instituicao_id", limit: 4
+    t.integer "curso_id",       limit: 4
+    t.string  "grau",           limit: 255
+    t.string  "modalidade",     limit: 255
+    t.integer "cod_mec",        limit: 4
+    t.string  "liberado_at",    limit: 255
+    t.integer "endereco_id",    limit: 4
   end
 
-  create_table "instituicaos", force: true do |t|
+  create_table "instituicaos", force: :cascade do |t|
     t.datetime "liberada_at"
-    t.integer  "cod_mec"
-    t.integer  "mantenedora_id"
-    t.integer  "endereco_id"
-    t.string   "site"
-    t.string   "sigla"
-    t.string   "nome"
-    t.string   "telefone"
-    t.string   "org"
-    t.string   "categoria"
+    t.integer  "cod_mec",        limit: 4
+    t.integer  "mantenedora_id", limit: 4
+    t.integer  "endereco_id",    limit: 4
+    t.string   "site",           limit: 255
+    t.string   "sigla",          limit: 255
+    t.string   "nome",           limit: 255
+    t.string   "telefone",       limit: 255
+    t.string   "org",            limit: 255
+    t.string   "categoria",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "emails"
-    t.string   "urlized"
+    t.string   "emails",         limit: 255
+    t.string   "urlized",        limit: 255
   end
 
-  create_table "links", force: true do |t|
-    t.string   "titulo",          limit: 45, null: false
-    t.string   "atalho",          limit: 45, null: false
-    t.string   "para",                       null: false
+  create_table "links", force: :cascade do |t|
+    t.string   "titulo",          limit: 45,  null: false
+    t.string   "atalho",          limit: 45,  null: false
+    t.string   "para",            limit: 255, null: false
     t.datetime "created_at"
     t.datetime "last_referer_at"
-    t.string   "ip"
+    t.string   "ip",              limit: 255
   end
 
-  create_table "mantenedoras", force: true do |t|
-    t.integer  "cod_mec"
-    t.string   "cnpj"
-    t.string   "natureza"
-    t.string   "representante"
+  create_table "mantenedoras", force: :cascade do |t|
+    t.integer  "cod_mec",       limit: 4
+    t.string   "cnpj",          limit: 255
+    t.string   "natureza",      limit: 255
+    t.string   "representante", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "nome"
+    t.string   "nome",          limit: 255
   end
 
-  create_table "newsletters", force: true do |t|
-    t.string   "email"
+  create_table "newsletters", force: :cascade do |t|
+    t.string   "email",      limit: 255
     t.datetime "created_at"
   end
 
-  create_table "projetos", force: true do |t|
-    t.string  "nome"
-    t.integer "entidade_id"
+  create_table "projetos", force: :cascade do |t|
+    t.string  "nome",              limit: 255
+    t.integer "entidade_id",       limit: 4
     t.string  "numero",            limit: 11
     t.string  "uf",                limit: 2
-    t.string  "mecanismo"
-    t.string  "enquadramento"
-    t.string  "processo"
+    t.string  "mecanismo",         limit: 255
+    t.string  "enquadramento",     limit: 255
+    t.string  "processo",          limit: 255
     t.date    "situacao_at"
-    t.string  "situacao"
+    t.string  "situacao",          limit: 255
     t.string  "providencia",       limit: 500
-    t.text    "sintese"
-    t.decimal "solicitado",                    precision: 11, scale: 2
-    t.decimal "aprovado",                      precision: 11, scale: 2
-    t.decimal "apoiado",                       precision: 11, scale: 2
+    t.text    "sintese",           limit: 65535
+    t.decimal "solicitado",                      precision: 11, scale: 2
+    t.decimal "aprovado",                        precision: 11, scale: 2
+    t.decimal "apoiado",                         precision: 11, scale: 2
     t.date    "liberado_at"
-    t.integer "estado_id"
+    t.integer "estado_id",         limit: 4
     t.date    "created_at"
     t.date    "updated_at"
-    t.integer "segmento_id"
-    t.integer "apoiadores"
-    t.integer "area_id"
-    t.string  "urlized"
-    t.integer "impressions_count",                                      default: 0
+    t.integer "segmento_id",       limit: 4
+    t.integer "apoiadores",        limit: 4
+    t.integer "area_id",           limit: 4
+    t.string  "urlized",           limit: 255
+    t.integer "impressions_count", limit: 4,                              default: 0
   end
 
-  create_table "recibos", force: true do |t|
-    t.integer  "incentivo_id"
+  create_table "recibos", force: :cascade do |t|
+    t.integer  "incentivo_id", limit: 4
     t.datetime "data"
-    t.decimal  "valor",        precision: 11, scale: 2
+    t.decimal  "valor",                  precision: 11, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "segmentos", force: true do |t|
-    t.string  "nome",    default: "", null: false
-    t.integer "area_id"
-    t.string  "urlized"
+  create_table "segmentos", force: :cascade do |t|
+    t.string  "nome",    limit: 255, default: "", null: false
+    t.integer "area_id", limit: 4
+    t.string  "urlized", limit: 255
   end
 
 end

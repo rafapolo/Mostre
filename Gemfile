@@ -1,21 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails'
-gem 'mysql2'
-
-gem 'will_paginate'
+gem 'rails_base', :git => 'git@github.com:rafapolo/rails-base.git'
 gem 'actionpack-page_caching'
 
 # assets
-gem 'impressionist'
-gem 'therubyracer'
-gem 'jquery-rails'
 gem 'haml-rails'
-gem 'sass-rails'
-gem 'closure-compiler'
-gem 'coffee-rails'
-gem 'twitter-bootstrap-rails'
-gem 'less-rails'
+gem 'twitter-bootstrap-rails', '2.2.8'
+gem 'impressionist'
 gem 'colored'
 
 # tools
@@ -25,17 +16,11 @@ gem 'geocoder'
 # parallel jobs
 gem 'sidekiq'
 gem 'sinatra', require: false
-gem 'slim'
 
 group :development do
-	gem 'erd'
-	gem 'pry'
-	gem 'pry-debugger'
-	gem 'mina'
-	gem 'awesome_print'
-	gem 'rails-erd'
-	gem 'better_errors'
-	gem 'binding_of_caller'
+  gem 'rails_dev', :git => 'git@github.com:rafapolo/rails-dev.git'
+  gem 'erd'
+  gem 'mina'
 end
 
 group :production do

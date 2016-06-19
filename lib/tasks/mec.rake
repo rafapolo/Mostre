@@ -28,24 +28,26 @@ namespace :pega do
     end
 
     # listagem geral em pages
-    (1..9).each do |i|
-      puts "=> ##{i}...".yellow
-      page = browser.post("http://emec.mec.gov.br/emec/nova-index/listar-consulta-avancada/list/300/page/#{i}", {
-        "data[CONSULTA_AVANCADA][hid_template]" => "listar-consulta-avancada-ies",
-        "data[CONSULTA_AVANCADA][hid_order]" => "ies.co_ies ASC",
-        "data[CONSULTA_AVANCADA][rad_buscar_por]" => "IES",
-        "data[CONSULTA_AVANCADA][sel_co_situacao_funcionamento_ies]" => "10035",
-        "data[CONSULTA_AVANCADA][sel_co_situacao_funcionamento_curso]" => "9"
-      })
+    # (1..9).each do |i|
+    #   puts "=> ##{i}...".yellow
+    #   page = browser.post("http://emec.mec.gov.br/emec/nova-index/listar-consulta-avancada/list/300/page/#{i}", {
+    #     "data[CONSULTA_AVANCADA][hid_template]" => "listar-consulta-avancada-ies",
+    #     "data[CONSULTA_AVANCADA][hid_order]" => "ies.co_ies ASC",
+    #     "data[CONSULTA_AVANCADA][rad_buscar_por]" => "IES",
+    #     "data[CONSULTA_AVANCADA][sel_co_situacao_funcionamento_ies]" => "10035",
+    #     "data[CONSULTA_AVANCADA][sel_co_situacao_funcionamento_curso]" => "9"
+    #   })
 
-      page.search('#tbyDados>tr').each do |r|
-        cod_mec = r.search("td[1]").text
-        # Instituição
-        nome = r.search("td[2]").text
-        org = r.search("td[3]").text
-        categoria = r.search("td[4]").text
+    #   page.search('#tbyDados>tr').each do |r|
+    #     cod_mec = r.search("td[1]").text
+    #     # Instituição
+    #     nome = r.search("td[2]").text
+    #     org = r.search("td[3]").text
+    #     categoria = r.search("td[4]").text
 
-        cod_b64 = Base64.encode64(cod_mec).strip
+      Mantenedora.where('nome is null').each do |m|
+
+        cod_b64 = Base64.encode64(m.cod_mec.to_i.to_s).strip.strip
         index_href = "#{MEC_URL}/emec/consulta-ies/index/d96957f455f6405d14c6542552b0f6eb/#{cod_b64}"
         browser.get(index_href) do |pi|
           dados = pi.search('td.subline2')
@@ -58,8 +60,9 @@ namespace :pega do
             padrao = pi.body.index("Representante Legal") ? true : false
             cnpj = filtra(dados, 3, padrao)
             natureza = filtra(dados, 5, padrao)
-            representante = filtra(dados, 7, padrao)
+            representante = padrao ? filtra(dados, 7, padrao) : nil
             nome = filtra(dados, 9, padrao).gsub(/\((\d+)\) /, '')
+            puts nome.red
             sigla = filtra(dados, 9, padrao).split("- ").last
             # endereço
             endereco = filtra(dados, 11, padrao)
@@ -73,7 +76,8 @@ namespace :pega do
             org = filtra(dados, 31, padrao)
             site = filtra(dados, 33, padrao)
             emails = filtra(dados, 35, padrao)
-            mant_obj = Mantenedora.where(:cod_mec=>mantenedora_cod_mec, :nome=> nome, :cnpj=>cnpj, :natureza=>natureza, :representante=>representante).first_or_create
+            mant_obj = Mantenedora.where(:cod_mec=>mantenedora_cod_mec, :cnpj=>cnpj, :natureza=>natureza, :representante=>representante).first_or_create
+            mant_obj.update(nome: mantenedora)
             ap mant_obj
 
             # Instituição
@@ -156,15 +160,15 @@ namespace :pega do
                 end
               end
             end
-          else
-            # Instituicao sem Mantenedora
-            unless inst_obj = Instituicao.where(cod_mec: cod_mec).take
-              PATTERN = /.* \((\w+)\)/ # sigla
-              abreviation = nome.scan(PATTERN).empty? ? nil : nome.match(PATTERN)[1]
-              puts "Criando Instituição sem Mantenedora | #{nome}".red
-              inst_obj = Instituicao.create!(cod_mec: cod_mec, nome: nome, abreviation: abreviation, org: org, categoria: categoria)
-            end
-          end
+          # else
+          #   # Instituicao sem Mantenedora
+          #   unless inst_obj = Instituicao.where(cod_mec: cod_mec).take
+          #     PATTERN = /.* \((\w+)\)/ # sigla
+          #     abreviation = nome.scan(PATTERN).empty? ? nil : nome.match(PATTERN)[1]
+          #     puts "Criando Instituição sem Mantenedora | #{nome}".red
+          #     inst_obj = Instituicao.create!(cod_mec: cod_mec, nome: nome, abreviation: abreviation, org: org, categoria: categoria)
+          #   end
+          # end
         end
       end
     end

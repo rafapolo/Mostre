@@ -1,8 +1,10 @@
+*.dot
 # remove development files
 /.bundle
 /log
 /tmp
 /test
+/vendor
 /db/bkp
 deploy.rb
 public/assets
