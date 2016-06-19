@@ -8,6 +8,7 @@ gem 'haml-rails'
 gem 'twitter-bootstrap-rails', '2.2.8'
 gem 'impressionist'
 gem 'colored'
+gem 'closure-compiler'
 
 # tools
 gem 'mechanize'
