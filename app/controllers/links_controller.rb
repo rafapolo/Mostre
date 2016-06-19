@@ -32,7 +32,7 @@ class LinksController < ApplicationController
   end
 
   def create
-    params[:link][:ip] = request.remote_ip
+   # params[:link][:ip] = request.remote_ip
     @link = Link.new(params[:link].permit!)
     respond_to do |format|
       if @link.save
