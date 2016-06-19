@@ -19,14 +19,13 @@ GIT
 
 GIT
   remote: https://github.com/rafapolo/rails-dev.git
-  revision: 30782087b7c84b21c7c0c2df7410e5044dfcf6a3
+  revision: 82c3e8b44245dd3626cbc2122c9217e79b7fd878
   specs:
-    rails_dev (0.1.6)
+    rails_dev (0.1.7)
       awesome_print
       better_errors (~> 2.1)
       binding_of_caller (~> 0.7)
       brakeman
-      bundler-audit
       byebug (~> 8.2)
       jbuilder (~> 2.3)
       quiet_assets (~> 1.1)
@@ -90,9 +89,6 @@ GEM
       debug_inspector (>= 0.0.1)
     brakeman (3.3.2)
     builder (3.2.2)
-    bundler-audit (0.5.0)
-      bundler (~> 1.2)
-      thor (~> 0.18)
     byebug (8.2.5)
     choice (0.2.0)
     closure-compiler (1.1.12)
