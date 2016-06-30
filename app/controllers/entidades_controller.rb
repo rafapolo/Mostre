@@ -1,4 +1,6 @@
 class EntidadesController < ApplicationController
+  include ApplicationHelper
+
   before_action :set_entidade, only: [:show]
   caches_page :show
   layout "cultura"
@@ -23,6 +25,19 @@ class EntidadesController < ApplicationController
     # @estados = @estados.sort_by{|k, v| v}.reverse
 
     #@resumo = "#{@entidade.cidade} - #{@entidade.estado.sigla}"
+    @d3 = ''
+    @d3 << "g.setNode(\"e#{@entidade.id}\", { label: \"#{@entidade.nome}\", style: \"fill: #f6d562\" });"
+    @entidade.projetos.each do |p|
+      if p.incentivos.count > 0
+        @d3 << "g.setNode(\"p#{p.id}\", { label: \"#{p.nome}\", shape: \"ellipse\", style: \"fill: #c8e0ae\" });"
+        p.incentivos.each do |i|
+          financiador = i.entidade
+          @d3 << "g.setNode(\"e#{financiador.id}\", { label: \"#{financiador.nome}\", style: \"fill: #FEE4C5\" });"
+          @d3 << "g.setEdge(\"e#{financiador.id}\", \"p#{p.id}\",  { label: \"#{reais i.valor}\", labelpos: \"l\" });"
+        end
+        @d3 << "g.setEdge(\"p#{p.id}\", \"e#{@entidade.id}\", { label: \"#{reais p.apoiado}\", labelpos: \"l\" });"
+      end
+    end
     impressionist @entidade
   end
 
@@ -105,6 +120,7 @@ class EntidadesController < ApplicationController
 
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_entidade
       @entidade = Entidade.find(params[:id])

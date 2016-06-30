@@ -1,4 +1,6 @@
 module ApplicationHelper
+	include ActionView::Helpers::NumberHelper
+
 
 	def highlight(termo, txt)
 		txt.gsub(Regexp.new("(#{termo})", Regexp::IGNORECASE) , '<b class=highlight>\1</b>').html_safe

@@ -2,6 +2,42 @@
 namespace :minc do
   require Rails.root.join('lib', 'crawler', 'minc')
 
+  task :bellini => :environment do
+    def escape str
+      str.gsub('"', '')
+    end
+
+    include ApplicationHelper
+    include ActionView::Helpers::NumberHelper
+
+    def reais int
+      number_to_currency(int, unit: "R$", separator: ",", delimiter: ".")
+    end
+
+    puts "Gerando..."
+    e = Entidade.find(2785)
+
+    File.open('bellini.dot', 'w') do |g|
+      g.puts "digraph G {"
+      g.puts "\"e#{e.id}\" [label = \"#{escape e.nome}\", color=red, style=filled, weight = #{e.projetos_sum.to_i}, estado = \"#{e.estado.sigla}\"];"
+
+      e.projetos.each do |p|
+        if p.incentivos.count > 0
+          g.puts "\"p#{p.id}\" [label = \"#{escape p.nome}\", estado = \"#{e.estado.sigla}\"];"
+          p.incentivos.each do |i|
+            financiador = i.entidade
+            g.puts "\"e#{financiador.id}\" [label = \"#{escape financiador.nome}\", size = #{p.apoiado.to_i}, estado = \"#{financiador.estado.sigla}\"];"
+            g.puts "\"e#{financiador.id}\" -> \"p#{p.id}\" [label = \"#{reais i.valor}\"];"
+          end
+          g.puts "\"p#{p.id}\" -> \"e#{e.id}\" [label = \"#{reais p.apoiado}\"];"
+        end
+      end
+      g.puts '}'
+      puts "Ok!"
+    end
+
+  end
+
   task :top100 => :environment do
     def escape str
       str.gsub('"', '')
