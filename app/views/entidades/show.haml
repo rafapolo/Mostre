@@ -6,7 +6,7 @@
     $('th').removeClass('reorder') // todo: implementar ordem!
 
     if ($('svg').length>0){
-      var g = new dagreD3.graphlib.Graph().setGraph({rankdir: "BT"});
+      var g = new dagreD3.graphlib.Graph().setGraph({width:600, rankdir: "BT"});
       g.rankdir = 'BT';
       eval('#{@d3}');
 
