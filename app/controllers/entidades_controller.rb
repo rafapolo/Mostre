@@ -33,7 +33,7 @@ class EntidadesController < ApplicationController
         links << {source: "p#{p.id}", target: "e#{@entidade.id}", label: "#{reais p.apoiado}"}
       end
     end
-    graph = {nodes: nodes, links: links}.to_json
+    graph = {nodes: nodes.uniq, links: links}.to_json
     @js = "var graph = #{graph};".gsub('"', '\"') # todo: refine
     impressionist @entidade
   end
