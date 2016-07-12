@@ -15,7 +15,7 @@ class Link < ActiveRecord::Base
   def clicks_domains
     hosts = {}
     self.clicks.pluck(:url).each do |domain|
-     parsed = URI.parse(domain).host.gsub('www.', '')
+     parsed = URI.parse(domain).host ? URI.parse(domain).host.gsub('www.', '') : domain
      hosts[parsed] = hosts[parsed] ? hosts[parsed]+=1 : 1
    end
     hosts.delete "mostre.me"

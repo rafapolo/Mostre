@@ -1,167 +1,173 @@
 = javascript_include_tag "d3/d3.v3.min.js"
-= javascript_include_tag "d3/dagre-d3.min.js"
-
-:javascript
-  $(document).ready(function(){
-    $('th').removeClass('reorder') // todo: implementar ordem!
-
-    if ($('svg').length>0){
-      var g = new dagreD3.graphlib.Graph().setGraph({width:600, rankdir: "BT"});
-      g.rankdir = 'BT';
-      eval('#{@d3}');
-
-      // Set some general styles
-      g.nodes().forEach(function(v) {
-        var node = g.node(v);
-        node.rx = node.ry = 5;
-      });
-
-      var svg = d3.select("svg"),
-      inner = svg.select("g");
-
-      // Set up zoom support
-      var zoom = d3.behavior.zoom().on("zoom", function() {
-            inner.attr("transform", "translate(" + d3.event.translate + ")" +
-                                        "scale(" + d3.event.scale + ")")});
-      svg.call(zoom);
-
-      // Create the renderer
-      var render = new dagreD3.render();
-
-      // Run the renderer. This is what draws the final graph.
-      render(inner, g);
-
-      // Center the graph
-      var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-      inner.attr("transform", "translate(" + xCenterOffset + ", 20)");
-      svg.attr('height', g.graph().height * initialScale + 40);
-    }
-  });
-
 
 :css
+	.link line {
+		stroke: #696969;
+		color: black;
+		width: 2px;
+	}
 
-  svg, g {
-    width: 100%;
-    cursor: move;
-    height: 600px;
-  }
+	.link line.separator {
+		stroke: #fff;
+		stroke-width: 2px;
+	}
 
-  .node rect, .node ellipse {
-    stroke: #333;
-    fill: #fff;
-    text-align: center;
-  }
+	.node circle {
+		stroke: #000;
+		stroke-width: 1.5px;
+	}
 
-  .edgePath path {
-    stroke: #333;
-    fill: #333;
-    stroke-width: 1.5px;
-  }
+	.node text {
+		font: 10px sans-serif;
+		pointer-events: none;
+	}
+
+:javascript
+	$(document).ready(function(){
+		$('th').removeClass('reorder') // todo: implementar ordem!
+
+		if ($('.grafo').length>0){
+			var width = 960, height = 500;
+
+			var color = d3.scale.category20();
+
+			var radius = d3.scale.sqrt()
+				.range([0, 6]);
+
+			var svg = d3.select(".grafo").append("svg")
+				.attr("width", width)
+				.attr("height", height);
+
+			var force = d3.layout.force()
+				.size([width, height])
+				.charge(-400)
+				.linkDistance(function(d) { return radius(d.source.size) + radius(d.target.size) + 20; });
+
+			eval("#{@js}"); // todo: refine
+			console.log(graph);
+
+			var edges = [];
+			graph.links.forEach(function(e) {
+				console.log(e);
+				var sourceNode = graph.nodes.filter(function(n) { return n.id === e.source; })[0],
+					targetNode = graph.nodes.filter(function(n) { return n.id === e.target; })[0];
+				edges.push({source: sourceNode, target: targetNode, value: e.value});
+			});
+
+			force
+					.nodes(graph.nodes)
+					.links(edges)
+					.on("tick", tick)
+					.start();
+
+			var link = svg.selectAll(".link")
+					.data(graph.links)
+					.enter().append("g")
+					.attr("class", "link");
+
+			link.append("line")
+					.style("stroke-width", 2);
+
+			link.filter(function(d) { return d.bond > 1; }).append("line")
+					.attr("class", "separator");
+
+			var node = svg.selectAll(".node")
+				.data(graph.nodes)
+				.enter().append("g")
+				.attr("class", "node")
+				.call(force.drag);
+
+			node.append("circle")
+				.attr("r", function(d) { return radius(d.size || 40); })
+				.style("fill", function(d) { return color(d.node); });
+
+			node.append("text")
+					.attr("dy", ".35em")
+					.attr("text-anchor", "middle")
+					.text(function(d) { return d.label });
+
+			function tick() {
+				link.selectAll("line")
+						.attr("x1", function(d) { return d.source.x; })
+						.attr("y1", function(d) { return d.source.y; })
+						.attr("x2", function(d) { return d.target.x; })
+						.attr("y2", function(d) { return d.target.y; });
+				node.attr("transform", function(d) {
+				//	console.log(d);
+					return "translate(" + d.x + "," + d.y + ")";
+				});
+			}
+		}
+
+	});
 
 .well.status
-  .titulo
-    - if @entidade.empresa
-      %i.icon-briefcase.afastado
-    - else
-      %i.icon-user.afastado
-    = @entidade.nome
+	.titulo
+		- if @entidade.empresa
+			%i.icon-briefcase.afastado
+		- else
+			%i.icon-user.afastado
+		= @entidade.nome
 
 - # Cidade
 #entidade{uid: @entidade.id}
-  .well.center.borda
-    #title{style:"font-size:15px"}
-      %a{href: cidade_path(@entidade.cidade)}
-        %i.icon-globe
-          = "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"
+	.well.center.borda
+		#title{style:"font-size:15px"}
+			%a{href: cidade_path(@entidade.cidade)}
+				%i.icon-globe
+					= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"
 
-  - # Labels
-  .center{style: "padding-bottom:10px"}
-    - if @entidade.projetos_count > 0
-      .label.label-warning= "#{@entidade.projetos_count} projetos"
-      - if @entidade.projetos_liberados > 0
-        .label.label-info= "#{@entidade.projetos_liberados} aprovados"
-      - else
-        .label.label-important= "#{@entidade.projetos_liberados} aprovados"
-    - else
-      .label.label-important= "#{@entidade.projetos_count} projetos"
+	- # Labels
+	.center{style: "padding-bottom:10px"}
+		- if @entidade.projetos_count > 0
+			.label.label-warning= "#{@entidade.projetos_count} projetos"
+			- if @entidade.projetos_liberados > 0
+				.label.label-info= "#{@entidade.projetos_liberados} aprovados"
+			- else
+				.label.label-important= "#{@entidade.projetos_liberados} aprovados"
+		- else
+			.label.label-important= "#{@entidade.projetos_count} projetos"
 
-    - if @entidade.projetos_sum > 0
-      .label.label-success= "#{reais @entidade.projetos_sum} captados"
+		- if @entidade.projetos_sum > 0
+			.label.label-success= "#{reais @entidade.projetos_sum} captados"
 
-    - if @entidade.incentivos_count > 0
-      .label.label-info= "#{@entidade.incentivos_count} incentivos"
+		- if @entidade.incentivos_count > 0
+			.label.label-info= "#{@entidade.incentivos_count} incentivos"
 
-    - if @entidade.incentivos_sum > 0
-      .label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
+		- if @entidade.incentivos_sum > 0
+			.label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
 
-  - # Projetos
-  - if @entidade.projetos_count > 0
-    = render 'projetos/list', projetos: @entidade.projetos
+	- # Projetos
+	- if @entidade.projetos_count > 0
+		= render 'projetos/list', projetos: @entidade.projetos
 
-  - # Incentivos
-  - if @entidade.incentivos_count > 0
-    %table.table.table-striped.table-bordered.table-condensed.borda
-      %thead
-        %tr
-          %th{style: 'width: 420px'} Incentivou
-          %th Segmento
-          %th Valor
-          %th Último recibo
+	- # Incentivos
+	- if @entidade.incentivos_count > 0
+		%table.table.table-striped.table-bordered.table-condensed.borda
+			%thead
+				%tr
+					%th{style: 'width: 420px'} Incentivou
+					%th Segmento
+					%th Valor
+					%th Último recibo
 
-      %tbody
-        - @entidade.incentivos.sort_by{:valor}.each do |incentivo|
-          %tr
-            %td= link_to_projeto incentivo.projeto
-            %td= incentivo.projeto.segmento.nome
-            %td= reais incentivo.valor
-            %td
-              %span.badge.badge-success
-                = to_date incentivo.last_recibo_at
+			%tbody
+				- @entidade.incentivos.sort_by{:valor}.each do |incentivo|
+					%tr
+						%td= link_to_projeto incentivo.projeto
+						%td= incentivo.projeto.segmento.nome
+						%td= reais incentivo.valor
+						%td
+							%span.badge.badge-success
+								= to_date incentivo.last_recibo_at
 
-  - # Similares
-  - similares = @entidade.similares
-  - if similares.size > 0
-    .well.borda.status= "Similares (#{similares.size})"
-    - @entidades = @entidade.similares
-    = render 'entidades/list'
+	- if @entidade.projetos_liberados>0 && @entidade.projetos_liberados<20
+		%h4 Grafo de Incentivos
+		.grafo
 
-  - if @entidade.projetos_liberados>0 && @entidade.projetos_liberados<20
-    %h4 Grafo de Incentivos
-    .well
-      %svg{height: 600}
-        %g{height: 600}
-
-/ - content_for :dados do
-
-/   / - unless params[:area_id]
-/   /   #areas
-/   /     .well.borda
-/   /       %i.icon-tags
-/   /       Areas
-/   /       %hr.small
-
-/   /       - @areas.each do |a|
-/   /         - area = a[0]
-/   /         - count = a[1]
-/   /         %p.selectable{type: 'area', type_id: area.id}
-/   /           %span.rotulo= area.nome
-/   /           - if count > 0
-/   /             %span.badge.badge-right.badge-info= count
-/   /           - else
-/   /             %span.badge.badge-right.badge-important= count
-
-/   #estados
-/     .well.borda
-/       %i.icon-globe
-/       Estados
-/       %hr.small
-/       - @estados.each do |e|
-/         - estado = e[0]
-/         - count = e[1]
-/         %p.selectable{type: 'estado', type_id: estado.id}
-/         %span.rotulo= estado.nome
-/         - if count > 0
-/           %span.badge.badge-right.badge-info= count
-/         / - else
-/         /   %span.badge.badge-right.badge-important= count
+	- # Similares
+	- similares = @entidade.similares
+	- if similares.size > 0
+		.well.borda.status= "Similares (#{similares.size})"
+		- @entidades = @entidade.similares
+		= render 'entidades/list'

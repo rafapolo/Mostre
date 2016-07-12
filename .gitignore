@@ -1,14 +1,20 @@
+puma.rb
+deploy.rb
 *.dot
+
 # remove development files
+
 /.bundle
 /log
 /tmp
 /test
 /vendor
 /db/bkp
-deploy.rb
+
+/.byebug_history
+/.sass-cache/
+
 public/assets
 public/cache
 public/cultura
-puma.rb
 .DS_Store

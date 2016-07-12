@@ -19,25 +19,22 @@ class EntidadesController < ApplicationController
   end
 
   def show
-    # por_estados = Entidade.includes(:estado).select('estado.nome, count(estado_id) DESC as count').where(id: params[:id]).group('estados.id').order('count(estado_id) DESC').references(:estados)
-    # @estados = {}
-    # Estado.all.each{|e| @estados[e] = por_estados.count[e.id] || 0}
-    # @estados = @estados.sort_by{|k, v| v}.reverse
-
-    #@resumo = "#{@entidade.cidade} - #{@entidade.estado.sigla}"
-    @d3 = ''
-    @d3 << "g.setNode(\"e#{@entidade.id}\", { label: \"#{@entidade.nome}\", style: \"fill: #f6d562\" });"
+    nodes = []
+    links = []
+    nodes << {id: "e#{@entidade.id}", label: @entidade.nome, type: 'proponente'}
     @entidade.projetos.each do |p|
       if p.incentivos.count > 0
-        @d3 << "g.setNode(\"p#{p.id}\", { label: \"#{p.nome}\", shape: \"ellipse\", style: \"fill: #c8e0ae\" });"
+        nodes << {id: "p#{p.id}", label: p.nome, shape: "ellipse", type: 'projeto'}
         p.incentivos.each do |i|
           financiador = i.entidade
-          @d3 << "g.setNode(\"e#{financiador.id}\", { label: \"#{financiador.nome}\", style: \"fill: #FEE4C5\" });"
-          @d3 << "g.setEdge(\"e#{financiador.id}\", \"p#{p.id}\",  { label: \"#{reais i.valor}\", labelpos: \"l\" });"
+          nodes << {id: "e#{financiador.id}", label: financiador.nome, type: 'financiador'}
+          links << {source: "e#{financiador.id}", target: "p#{p.id}", label: "#{reais i.valor}"}
         end
-        @d3 << "g.setEdge(\"p#{p.id}\", \"e#{@entidade.id}\", { label: \"#{reais p.apoiado}\", labelpos: \"l\" });"
+        links << {source: "p#{p.id}", target: "e#{@entidade.id}", label: "#{reais p.apoiado}"}
       end
     end
+    graph = {nodes: nodes, links: links}.to_json
+    @js = "var graph = #{graph};".gsub('"', '\"') # todo: refine
     impressionist @entidade
   end
 
