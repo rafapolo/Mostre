@@ -11,6 +11,7 @@ class Projeto < ActiveRecord::Base
 
 	#default_scope -> {order('situacao_at DESC')}
 	scope :aprovados, -> { where('liberado_at is not null') }
+	scope :ordenado, -> { order('situacao_at ASC') }
 
 	validates_uniqueness_of :numero
 	validates_presence_of :nome, :numero, :entidade_id, :uf, :area, :segmento, :processo, :mecanismo, :sintese, :solicitado,
