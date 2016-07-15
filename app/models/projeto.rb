@@ -10,7 +10,7 @@ class Projeto < ActiveRecord::Base
 	is_impressionable :counter_cache => true, :unique => true
 
 	#default_scope -> {order('situacao_at DESC')}
-	scope :aprovados, -> { where('liberado_at is not null') }
+	scope :aprovados, -> { where('apoiado > 0') }
 	scope :ordenado, -> { order('situacao_at ASC') }
 
 	validates_uniqueness_of :numero

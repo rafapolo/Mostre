@@ -21,12 +21,14 @@ class EntidadesController < ApplicationController
   def show
     nodes = []
     links = []
+    financiadores = []
     nodes << {id: "e#{@entidade.id}", label: @entidade.nome, type: 'proponente'}
     @entidade.projetos.each do |p|
       if p.incentivos.count > 0
         nodes << {id: "p#{p.id}", label: p.nome, shape: "ellipse", type: 'projeto'}
         p.incentivos.each do |i|
           financiador = i.entidade
+          financiadores << i.entidade.id
           nodes << {id: "e#{financiador.id}", label: financiador.nome, type: 'financiador'}
           links << {source: "e#{financiador.id}", target: "p#{p.id}", label: "#{reais i.valor}"}
         end
@@ -35,6 +37,7 @@ class EntidadesController < ApplicationController
     end
     graph = {nodes: nodes.uniq, links: links}.to_json
     @js = "var graph = #{graph};".gsub('"', '\"') # todo: refine
+    @financiadores_count = financiadores.count
     impressionist @entidade
   end
 

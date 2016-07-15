@@ -1,99 +1,117 @@
-  # uid = $("#entidade").attr("uid")
-  # sigma.parsers.json "./grafo/" + uid + ".json",
-  #   container: "sigma-container"
-  #   settings:
-  #     defaultNodeColor: "#ec5148"
+#  todo: bl.ocks.org/MoritzStefaner/1377729
 
-  # , (s) ->
-  #   s.startForceAtlas2()
-  #   setInterval (->
-  #     s.stopForceAtlas2()
-  #     return
-  #   ), 3000
+mouseover = (d) ->
+  d3.selectAll('.link')
+    .transition()
+        .duration(500)
+          .style 'opacity', (o) ->
+    if o.source == d or o.target == d then 1 else 0.1
 
-#   var nodeMap = {}
-# g.eachNode(function (u, name) {
-#     nodeMap[u] = {
-#         name: name
-#     };
-# })
-# var nodes = d3.values(nodeMap);
-# var edges = g.edges().map(function (e) {
-#     return {
-#         source: nodeMap[g.source(e)],
-#         target: nodeMap[g.target(e)]
-#     };
-# });
+mouseout = ->
+  d3.selectAll('.link')
+    .transition()
+      .duration(500)
+        .style 'opacity', 0.4
+  d3.selectAll('.node')
+    .transition()
+      .duration(500)
+        .style 'opacity', 1
 
-# // D3 stuff starts here
-# var width = 600,
-#     height = 500
 
-# var svg = d3.select("body").append("svg")
-#     .attr("width", width)
-#     .attr("height", height);
+window.monta = (graph, width) ->
+  if $('.grafo').length > 0
 
-# svg.append("svg:defs").append("svg:marker")
-#     .attr("id", "arrowhead")
-#     .attr("viewBox", "0 -5 10 10")
-#     .attr("refX", 15)
-#     .attr("refY", -1.5)
-#     .attr("markerWidth", 6)
-#     .attr("markerHeight", 6)
-#     .attr("orient", "auto")
-#     .append("svg:path")
-#     .attr("d", "M0,-5L10,0L0,5");
+    tick = ->
+      node.attr 'transform', (d) -> "translate(#{d.x}, #{d.y})"
 
-# var force = d3.layout.force()
-#     .gravity(.005)
-#     .distance(120)
-#     .charge(-250)
-#     .size([width, height]);
+      path.attr 'd', (d) ->
+        dx = d.target.x - (d.source.x)
+        dy = d.target.y - (d.source.y)
+        dr = Math.sqrt(dx * dx + dy * dy)
+        'M' + d.source.x + ',' + d.source.y + 'A' + dr + ',' + dr + ' 0 0,1 ' + d.target.x + ',' + d.target.y
 
-# force.nodes(nodes)
-#     .links(edges)
-#     .start();
+      # labels
+      #   .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
 
-# var link = svg.selectAll(".link")
-#     .data(edges)
-#     .enter().append("path")
-#     .attr("class", "link")
-#     .attr("marker-end", "url(#arrowhead)");
+    height = 500
+    svg = d3.select('.grafo')
+      .append('svg')
+        .attr('width', width)
+        .attr('height', height)
 
-# var node = svg.selectAll(".node")
-#     .data(nodes)
-#     .enter()
-#     .append("g")
-#     .attr("class", "node");
+    edges = []
+    graph.links.forEach (e) ->
+      sourceNode = graph.nodes.filter((n) -> n.id == e.source)[0]
+      targetNode = graph.nodes.filter((n) -> n.id == e.target)[0]
 
-# node.append("circle")
-#     .attr("r", 5)
-#     .call(force.drag);
+      edges.push
+        source: sourceNode
+        target: targetNode
+        value: e.value
 
-# node.append("text")
-#     .attr("x", 12)
-#     .attr("y", ".31em")
-#     .attr("class", "shadow")
-#     .text(function (d) {
-#     return d.name;
-# });
+    force = d3.layout
+      .force()
+      .nodes(graph.nodes)
+      .links(edges)
+      .size([width, height])
+      .linkDistance(150)
+      .charge(-600)
+      .on('tick', tick)
+      .start()
 
-# node.append("text")
-#     .attr("dx", 12)
-#     .attr("dy", ".35em")
-#     .text(function (d) {
-#     return d.name
-# });
+    #  < arrows >
+    svg.append('svg:defs')
+      .selectAll('marker')
+      .data([ 'end' ])
+      .enter()
+      .append('svg:marker')
+        .attr('id', String)
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 26)
+        .attr('refY', -1.5)
+        .attr('markerWidth', 6)
+        .attr('markerHeight', 6)
+        .attr('orient', 'auto')
+      .append('svg:path')
+        .attr  'd', 'M0,-5L10,0L0,5'
 
-# force.on("tick", function () {
-#     link.attr("d", function (d) {
-#         var dx = d.target.x - d.source.x,
-#             dy = d.target.y - d.source.y,
-#             dr = Math.sqrt(dx * dx + dy * dy);
-#         return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-#     });
+    # add the links and the arrows
+    path = svg.append('svg:g')
+    .selectAll('path')
+    .data force.links()
+    .enter()
+    .append('svg:path')
+      .attr('class', 'link')
+      .text((d) -> d.value)
+      .attr('marker-end', 'url(#end)')
 
-#     node.attr("transform", function (d) {
-#         return "translate(" + d.x + "," + d.y + ")";
-#     });
-# });
+    # define the nodes
+    node = svg.selectAll('.node')
+      .data(force.nodes())
+      .enter()
+      .append('g')
+        .attr('class', 'node')
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
+        .call(force.drag)
+
+    # labels = svg.selectAll('text')
+    # .data(graph.links)
+    # .enter().append('text')
+    #   .attr("x", (d) -> (d.source.y + d.target.y) / 2)
+    #   .attr("y", (d) -> (d.source.x + d.target.x) / 2)
+    #   .attr("text-anchor", "middle")
+    #   .text("2");
+
+    # add the nodes
+    node
+      .append('circle')
+        .attr('r', (d) -> if d.type == 'proponente' then 10 else 10 )
+        .attr('class', (d) -> d.type)
+
+    # add the text
+    node
+      .append('text')
+        .attr('x', 16)
+        .attr('dy', '.35em')
+        .text (d) -> d.label

@@ -25,8 +25,8 @@ class Entidade < ActiveRecord::Base
 
 		self.projetos_count = self.projetos.count
 		self.projetos_sum = self.projetos.map(&:apoiado).sum.to_f # &:solicitado para FNC ?
-		self.projetos_liberados = Projeto.where(entidade_id: self.id).where('liberado_at is not null').count
-
+		self.projetos_liberados = Projeto.where(entidade_id: self.id).where('apoiado > 0').count
+		# todo: incentivadores_count // filtra entidades/empresas por incentivos
 		self.incentivos_count = self.incentivos.count
 		self.incentivos_sum = self.incentivos.map(&:valor).sum.to_f
 		self.last_incentivo = self.incentivos.sort_by{:last_recibo_at}.first.last_recibo_at if self.patrocinador

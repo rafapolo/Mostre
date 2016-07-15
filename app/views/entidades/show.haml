@@ -1,10 +1,14 @@
+
+
 = javascript_include_tag "d3/d3.v3.min.js"
+= javascript_include_tag "grafo"
 
 :css
 	path.link {
 	  fill: none;
 	  stroke: #666;
-	  stroke-width: 1.5px;
+	  stroke-width: 1px;
+	  opacity: 0.4
 	}
 
 	circle {
@@ -13,130 +17,27 @@
 	  stroke-width: 1.5px;
 	}
 
-	.proponente{ fill: #acf }
-	.financiador{ fill: #fc3 }
-	.projeto{ fill: #9c6 }
+	.proponente{ fill: #9c6 }
+	.financiador{ fill: #f89406 }
+	.projeto{ fill: #3a87ad	}
 
 	text {
 	  fill: #000;
-	  font: bold 11px sans-serif;
+	  font: 10px sans-serif;
 	  pointer-events: none;
-	  background-color: white
+	  text-shadow: 1px 1px 10px gray;
 	}
 
 
-:javascript
-	$(document).ready(function(){
-		$('th').removeClass('reorder') // todo: implementar ordem!
+:coffee
+	$(document).ready ->
+		# todo: implementar ordem em lista!
+		$('th').removeClass('reorder')
 
-
-		// todo: http://bl.ocks.org/MoritzStefaner/1377729
-
-		if ($('.grafo').length>0){
-			var width = 880, height = 500;
-
-			var svg = d3.select(".grafo").append("svg")
-				.attr("width", width)
-				.attr("height", height);
-
-			eval("#{@js}"); // todo: refine
-
-			var edges = [];
-			graph.links.forEach(function(e) {
-				var sourceNode = graph.nodes.filter(function(n) { return n.id === e.source; })[0],
-					targetNode = graph.nodes.filter(function(n) { return n.id === e.target; })[0];
-				edges.push({source: sourceNode, target: targetNode, value: e.value});
-			});
-
-			var force = d3.layout.force()
-				.nodes(graph.nodes)
-				.links(edges)
-				.size([width, height])
-				.linkDistance(150)
-				.charge(-600)
-				.on("tick", tick)
-				.start();
-
-			// build the arrow.
-			svg.append("svg:defs").selectAll("marker")
-				.data(["end"])
-				.enter().append("svg:marker")
-				.attr("id", String)
-				.attr("viewBox", "0 -5 10 10")
-				.attr("refX", 22)
-				.attr("refY", -1.5)
-				.attr("markerWidth", 6)
-				.attr("markerHeight", 6)
-				.attr("orient", "auto")
-				.append("svg:path")
-				.attr("d", "M0,-5L10,0L0,5");
-
-			// add the links and the arrows
-			var path = svg.append("svg:g").selectAll("path")
-		    .data(force.links())
-			  .enter().append("svg:path")
-		    .attr("class", "link")
-			  .text(function(d) { return d.value })
-		    .attr("marker-end", "url(#end)");
-
-			// define the nodes
-			var node = svg.selectAll(".node")
-			    .data(force.nodes())
-			  .enter().append("g")
-			    .attr("class", "node")
-			    .on("mouseover", mouseover)
-			    .on("mouseout", mouseout)
-			    .call(force.drag);
-
-			// add the nodes
-
-			node.append("circle")
-			    .attr("r", function(d){
-			    	return d.type=='proponente' ? 10 : 10;
-			    })
-			    .attr('class', function(d) { return d.type; })
-
-			// add the text
-			node.append("text")
-			    .attr("x", 16)
-			    .attr("dy", ".35em")
-			    .text(function(d) { return d.label; });
-
-
-			function tick() {
-
-			    path.attr("d", function(d) {
-			        var dx = d.target.x - d.source.x,
-			            dy = d.target.y - d.source.y,
-			            dr = Math.sqrt(dx * dx + dy * dy);
-			        return "M" +
-			            d.source.x + "," +
-			            d.source.y + "A" +
-			            dr + "," + dr + " 0 0,1 " +
-			            d.target.x + "," +
-			            d.target.y;
-
-			    });
-
-			    node.attr("transform", function(d) {
-			            return "translate(" + d.x + "," + d.y + ")"; });
-			}
-		}
-	});
-
-		function mouseover(d) {
-		    d3.selectAll(".link").transition().duration(500)
-		        .style("opacity", function(o) {
-		            return o.source === d || o.target === d ? 1 : .1;
-		    });
-
-		}
-
-		function mouseout() {
-		    d3.selectAll(".link, .node").transition().duration(500)
-		        .style("opacity", 1);
-
-		}
+		# get graph data
+		eval '#{@js}'
+		# remontar on window.resize?
+		monta(graph, $('.grafo').width())
 
 .well.status
 	.titulo
@@ -146,23 +47,28 @@
 			%i.icon-user.afastado
 		= @entidade.nome
 
-- # Cidade
 #entidade{uid: @entidade.id}
+
+	- # Grafo
+	- if @entidade.projetos_liberados>0 # && @entidade.projetos_liberados<100
+		.well
+			%h4 Grafo de Incentivos
+			.grafo
 
 	- # Labels
 	.center{style: "padding-bottom:10px"}
-		.label
+		.label.label-inverse
 			%a{href: cidade_path(@entidade.cidade), style: 'color: white' }
 				= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"
 
-		- if @entidade.projetos_count > 0
-			.label.label-warning= "#{@entidade.projetos_count} projetos"
-			- if @entidade.projetos_liberados > 0
-				.label.label-info= "#{@entidade.projetos_liberados} aprovados"
-			- else
-				.label.label-important= "#{@entidade.projetos_liberados} aprovados"
+		.label= "#{@entidade.projetos_count} projetos"
+		- if @entidade.projetos_liberados > 0
+			.label.label-info= "#{@entidade.projetos_liberados} aprovados"
 		- else
-			.label.label-important= "#{@entidade.projetos_count} projetos"
+			.label.label-important= "nenhum aprovado"
+
+		- if @financiadores_count > 0
+			.label.label-warning= "#{@financiadores_count} financiadores"
 
 		- if @entidade.projetos_sum > 0
 			.label.label-success= "#{reais @entidade.projetos_sum} captados"
@@ -175,7 +81,7 @@
 
 	- # Projetos
 	- if @entidade.projetos_count > 0
-		= render 'projetos/list', projetos: @entidade.projetos
+		= render 'projetos/list', projetos: @entidade.projetos.ordenado
 
 	- # Incentivos
 	- if @entidade.incentivos_count > 0
@@ -196,10 +102,6 @@
 						%td
 							%span.badge.badge-success
 								= to_date incentivo.last_recibo_at
-
-	- if @entidade.projetos_liberados>0 && @entidade.projetos_liberados<100
-		%h4 Grafo de Incentivos
-		.grafo
 
 	- # Similares
 	- similares = @entidade.similares
