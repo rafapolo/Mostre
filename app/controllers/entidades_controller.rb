@@ -37,7 +37,7 @@ class EntidadesController < ApplicationController
     end
     graph = {nodes: nodes.uniq, links: links}.to_json
     @js = "var graph = #{graph};".gsub('"', '\"') # todo: refine
-    @financiadores_count = financiadores.count
+    @financiadores_count = financiadores.uniq.count
     impressionist @entidade
   end
 
