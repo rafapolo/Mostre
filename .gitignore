@@ -1,3 +1,4 @@
+config/database.yml
 puma.rb
 deploy.rb
 *.dot

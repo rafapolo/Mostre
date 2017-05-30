@@ -298,6 +298,7 @@ DEPENDENCIES
   rails_dev!
   sidekiq
   sinatra
+  sqlite3
   twitter-bootstrap-rails (= 2.2.8)
   will_paginate
 
