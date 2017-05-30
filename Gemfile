@@ -10,6 +10,7 @@ gem 'impressionist'
 gem 'colored'
 gem 'closure-compiler'
 gem 'will_paginate'
+gem 'sqlite3'
 
 # tools
 gem 'mechanize'
@@ -22,7 +23,6 @@ gem 'sinatra', require: false
 group :development do
   gem 'rails_dev', :git => 'https://github.com/rafapolo/rails-dev.git'
   gem 'erd'
-  gem 'mina'
   gem 'bundler-audit'
 end
 
