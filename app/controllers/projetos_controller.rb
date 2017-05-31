@@ -98,7 +98,7 @@ class ProjetosController < ApplicationController
   def show
     apoiadores = "com #{@projeto.apoiadores} apoiadores" if @projeto.apoiadores
     @resumo = "Projeto em #{@projeto.estado.nome} #{apoiadores} por #{@projeto.mecanismo} em #{@projeto.area.nome} - #{@projeto.segmento.nome}"
-    impressionist @projeto
+    #impressionist @projeto
   end
 
   private
