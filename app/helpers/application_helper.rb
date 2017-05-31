@@ -55,6 +55,14 @@ module ApplicationHelper
 		link_to projeto.nome, "/cultura/projetos/#{projeto.to_param}"
 	end
 
+	def link_to_candidato candidato
+				link_to "#{candidato.nome} - #{candidato.partido}" , "/eleicoes/candidatos/#{candidato.to_param}"
+	end
+
+	def link_to_doador doador
+			link_to doador.doador, "/eleicoes/doadores/#{doador.to_param}"
+	end
+
 	def especial projeto
 		projeto.mecanismo=='FNC' || projeto.enquadramento=='Fundo Nacional de Cultura' || projeto.mecanismo=='Recurso do Tesouro'
 	end

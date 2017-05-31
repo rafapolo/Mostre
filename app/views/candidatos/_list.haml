@@ -1,0 +1,75 @@
+- @candidatos ||= candidatos
+
+%table.table.table-striped.table-bordered.table-condensed.borda
+  %thead
+    %tr
+      %th Nome
+      %th Partido
+      %th Cargo
+      %th Ano
+      %th UF
+      %th.doacoes_count.reorder Doacoes
+      %th Recebido
+  %tbody
+    - @candidatos.each do |candidato|
+      %tr
+        %td
+          %a{href: "candidatos/#{candidato.id}"}= candidato.nome #todo: hightlight
+        %td= candidato.partido
+        %td= candidato.cargo
+        %td= candidato.ano
+        %td= candidato.uf
+        %td= candidato.doacoes_count
+        %td= reais candidato.valor_total
+
+        / %td= mant.segmento.nome
+        / %td
+        /   - if mant.situacao_at
+        /     = mant.situacao_at.year
+        /   - else
+        /     %span.badge.badge-warning em avaliação
+
+        / %td= reais mant.solicitado
+        / - if mant.aprovado > 0
+        /   %td= reais mant.aprovado
+        / - else
+        /   %td
+        /     - if especial(mant)
+        /       %span -
+        /     - else
+        /       %span.badge.badge-important 0
+        / %td
+        /   - if mant.apoiado > 0
+        /     = reais mant.apoiado
+        /   - else
+        /     - if mant.aprovado > 0
+        /       %span.badge.badge-important 0
+        /     - else
+        /       // sem aprovação e sem apoio
+        /       %span -
+        / %td
+        /   - #todo: visualizar se soma de apoiadores não bate com apoiado.
+        /   - if mant.apoiado > 0 && mant.apoiadores==0
+        /     - if especial(mant)
+        /       %span -
+        /     - else
+        /       %span.badge.badge-important
+        /         %i.icon-question-sign
+        /   - else
+        /     - if apoiadores=mant.apoiadores
+        /       %span.badge.badge-info= apoiadores
+        /     - else
+        /       - if !apoiadores && !especial(mant) && mant.apoiado>0
+        /         %span.badge.badge-important 0
+        /       - else
+        /         %span -
+        / %td
+        /   - if at = mant.liberado_at
+        /     %span.badge.badge-success= at
+        /   - else
+        /     - if (especial(mant))
+        /       %span.badge.badge-warning
+        /         %i.icon-star
+        /     - else
+        /       %span.badge.badge-important
+        /         %i.icon-ban-circle

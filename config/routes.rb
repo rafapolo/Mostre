@@ -4,10 +4,6 @@ Mostre::Application.routes.draw do
 
   mount Sidekiq::Web, at: "/sidekiq" if Rails.env.development?
 
-  # resources :projetos
-  # resources :entidades
-  # resources :patrocinadors
-
   scope '/cultura' do
     get '', to: "cultura#index"
     post '/inscrever', to: "cultura#inscrever"
@@ -31,11 +27,22 @@ Mostre::Application.routes.draw do
     get "/cursos", to: "cursos#index"
   end
 
+  scope '/eleicoes' do
+      get '', to: "eleicoes#index"
+      get "/doadores", to: "doadores#index"
+      get "/doadores/:id", to: "doadores#show"      
+      # get "/partidos", to: "partidos#index"
+      # get "/partidos/:partido", to: "partidos#show"
+      get "/candidatos", to: "candidatos#index"
+      get "/candidatos/:id", to: "candidatos#show"
+      #get "/comites", to: "eleicoes#comites"
+    end
+
   get '/links', to: "links#index"
   get '/links/stats', to: "links#stats"
   get '/links/info/:link', to: "links#info"
   get '/:link', to: "links#show"
   resources :links
 
-  root to: 'cultura#root' # todo: just point to root file
+  root to: 'cultura#root'
 end

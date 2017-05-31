@@ -1,0 +1,44 @@
+
+- content_for :filtro do
+  =# render :partial => 'filtros/projetos'
+
+.well.borda.status
+  = @topo
+
+= render :partial => 'list'
+= pagination @doadores
+
+
+/ #subfiltros
+/   - unless params[:area_id]
+/     #areas
+/       .well.borda
+/         %i.icon-tags
+/         Areas
+/         %hr.small
+
+/         - @areas.each do |a|
+/           - area = a[0]
+/           - count = a[1]
+/           %p.selectable{type: 'area', type_id: area.id}
+/             %span.rotulo= area.nome
+/             - if count > 0
+/               %span.badge.badge-right.badge-info= count
+/             - else
+/               %span.badge.badge-right.badge-important= count
+
+/   - unless params[:estado_id]
+/     #estados
+/       .well.borda
+/         %i.icon-globe
+/         Estados
+/         %hr.small
+/         - @estados.each do |e|
+/           - estado = e[0]
+/           - count = e[1]
+/           %p.selectable{type: 'estado', type_id: estado.id}
+/             %span.rotulo= estado.nome
+/             - if count > 0
+/               %span.badge.badge-right.badge-info= count
+/             - else
+/               %span.badge.badge-right.badge-important= count

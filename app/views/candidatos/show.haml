@@ -1,0 +1,60 @@
+:javascript
+  $(document).ready(function(){
+    $('th').removeClass('reorder')
+  })
+
+.well.status.borda
+  .titulo
+    %i.icon-person.afastado
+    = "#{@candidato.nome} - #{@candidato.partido}"
+
+.center{style: "padding-bottom:10px"}
+  .label.label-info= @candidato.cargo
+  .label.label-warning= @candidato.ano
+  .label.label-info= "#{@candidato.doacoes_count} doações"
+  .label.label-warning= "#{@candidato.doadores.uniq.count} doadores"
+  .label.label-success= "Recebeu #{reais @candidato.valor_total}"
+  -# .label.label-important= "Sem aprovação"
+
+-# .well.status
+-#   = @resumo
+-#
+-# .alert.alert-info.borda
+-#   %button.close{"data-dismiss" => "alert", type: "button"} ×
+-#   %i.icon-pencil
+-#   = @candidato.sintese
+-#
+-# #infos.borda{style:"margin-top:8px"}
+-#   - if @candidato.liberado_at
+-#     .alert.alert-success
+-#       %button.close{"data-dismiss" => "alert", type: "button"} ×
+-#       %i.icon-ok
+-#       = "Liberado em #{@candidato.liberado_at}"
+
+-# .alert.borda
+-#   %button.close{"data-dismiss" => "alert", type: "button"} ×
+-#   %i.icon-exclamation-sign
+-#   %strong= @candidato.situacao_at
+-#   - enquadramento = "» #{@candidato.enquadramento}" if @candidato.enquadramento
+-#   = " #{enquadramento} » #{@candidato.situacao} » #{@candidato.providencia}"
+
+
+- if @candidato.doacoes_count > 0
+  %table.table.table-striped.borda
+    %thead
+      %tr
+        %th
+        %th{style:'text-align:left'} Doador
+        %th Data
+        %th Valor
+    %tbody
+      - @candidato.doacoes.each do |doacao|
+        %tr
+          %td
+            - if doacao.doador.is_empresa
+              %i.icon-briefcase
+            - else
+              %i.icon-user
+          %td{style:'text-align:left'}= link_to_doador doacao.doador
+          %td= doacao.quando
+          %td= reais doacao.valor
