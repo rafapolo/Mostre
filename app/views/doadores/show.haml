@@ -5,7 +5,7 @@
 
 .well.status.borda
   .titulo
-    %i.icon-person.afastado
+    %i.icon-briefcase.afastado
     = "#{@doador.doador}"
 
 .center{style: "padding-bottom:10px"}
@@ -40,12 +40,14 @@
   %table.table.table-striped.borda
     %thead
       %tr
-        %th{style:'text-align:left'} Candidato
+        %th{style:'text-align:left'} Para Candidato
+        %th Motivo
         %th Data
         %th Valor
     %tbody
       - @doador.doacoes.each do |doacao|
         %tr
           %td{style:'text-align:left'}= doacao.candidato ? link_to_candidato(doacao.candidato) : "#{doacao.comite.nome} - #{doacao.partido}"
+          %td= doacao.motivo
           %td= doacao.quando
           %td= reais doacao.valor
