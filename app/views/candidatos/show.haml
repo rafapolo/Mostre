@@ -9,7 +9,7 @@
     = "#{@candidato.nome} - #{@candidato.partido}"
 
 .center{style: "padding-bottom:10px"}
-  .label.label-info= @candidato.cargo
+  .label.label-error= @candidato.cargo
   .label.label-warning= @candidato.ano
   .label.label-info= "#{@candidato.doacoes_count} doações"
   .label.label-warning= "#{@candidato.doadores.uniq.count} doadores"
@@ -45,6 +45,7 @@
       %tr
         %th
         %th{style:'text-align:left'} Doador
+        %th Motivo
         %th Data
         %th Valor
     %tbody
@@ -56,5 +57,6 @@
             - else
               %i.icon-user
           %td{style:'text-align:left'}= link_to_doador doacao.doador
+          %td= doacao.motivo
           %td= doacao.quando
           %td= reais doacao.valor
