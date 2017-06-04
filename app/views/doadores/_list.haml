@@ -16,7 +16,8 @@
             %i.icon-briefcase
           - else
             %i.icon-user
-        %td= link_to_doador doador #todo: hightlight
+        %td
+          %a{href: "doadores/#{doador.id}"}= hl(params[:nome], doador.doador)
         %td= doador.uf
         %td= doador.doacoes_count
         %td= doador.valor_total

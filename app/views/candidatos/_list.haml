@@ -14,7 +14,7 @@
     - @candidatos.each do |candidato|
       %tr
         %td
-          %a{href: "candidatos/#{candidato.id}"}= candidato.nome #todo: hightlight
+          %a{href: "candidatos/#{candidato.id}"}= hl(params[:nome], candidato.nome)
         %td= candidato.partido
         %td= candidato.cargo
         %td= candidato.ano
