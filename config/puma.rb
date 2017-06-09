@@ -11,8 +11,8 @@ environment 'production'
 
 pidfile "#{shared_path}/puma.pid"
 state_path "#{shared_path}/puma.state"
-bind "unix://#{shared_path}/mostre.sock" #?cert=/etc/letsencrypt/live/mostre.me/cert.pem&key=/etc/letsencrypt/live/mostre.me/privkey.pem"
-activate_control_app
+bind "tcp://0.0.0.0:80" #?cert=/etc/letsencrypt/live/mostre.me/cert.pem&key=/etc/letsencrypt/live/mostre.me/privkey.pem"
+#activate_control_app
 
 daemonize
 

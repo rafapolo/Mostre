@@ -52,12 +52,13 @@
       - @candidato.doacoes.each do |doacao|
         %tr
           %td
-            - doador = doacao.doador || doacao.comite
-            - if doador.is_empresa # todo: icone comite
-              %i.icon-briefcase
-            - else
-              %i.icon-user
-          %td{style:'text-align:left'}= link_to_doador doacao.doador
+            -# todo: diferenciar icone comite, pessoa, empresa
+            -# - if doador = doacao.doador || doacao.candidato
+            -#   - if doador.is_empresa
+            %i .icon-briefcase
+            -# - else
+            -#   %i.icon-user
+          %td{style:'text-align:left'}= link_to_doador doacao.doador if doacao.doador
           %td= doacao.motivo
           %td= doacao.quando
           %td= reais doacao.valor
