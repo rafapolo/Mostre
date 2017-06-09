@@ -52,7 +52,8 @@
       - @candidato.doacoes.each do |doacao|
         %tr
           %td
-            - if doacao.doador.is_empresa
+            - doador = doacao.doador || doacao.comite
+            - if doador.is_empresa # todo: icone comite
               %i.icon-briefcase
             - else
               %i.icon-user
