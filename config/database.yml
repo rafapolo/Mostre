@@ -1,0 +1,10 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: true
+  pool: 5000
+  database: <%= ENV['MOSTRE_DB_NAME'] %>
+  port:     <%= ENV['MB_DB_PORT'] %>
+  username: <%= ENV['MB_DB_USER'] %>
+  password: <%= ENV['MB_DB_PASS'] %>
+  host:     <%= ENV['MB_DB_HOST'] %>
