@@ -33,9 +33,8 @@
 	$(document).ready ->
 		# todo: implementar ordem em lista!
 		$('th').removeClass('reorder')
-
+		graph = JSON.parse('#{@graph}')
 		# get graph data
-		eval '#{@js}'
 		# remontar on window.resize?
 		monta(graph, $('.grafo').width())
 

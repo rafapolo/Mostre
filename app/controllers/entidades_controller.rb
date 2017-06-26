@@ -35,8 +35,9 @@ class EntidadesController < ApplicationController
         links << {source: "p#{p.id}", target: "e#{@entidade.id}", label: "#{reais p.apoiado}"}
       end
     end
-    graph = {nodes: nodes.uniq, links: links}.to_json
-    @js = "var graph = #{graph};".gsub('"', '\"') # todo: refine
+    @graph = {nodes: nodes.uniq, links: links}.to_json.html_safe
+
+    @js = "window.graph = \"#{@graph})\";" # todo: refine
     @financiadores_count = financiadores.uniq.count
     #impressionist @entidade
   end
