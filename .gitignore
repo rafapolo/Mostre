@@ -1,5 +1,4 @@
 deploy.rb
-*.dot
 
 # remove development files
 

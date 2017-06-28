@@ -1,0 +1,27 @@
+digraph G {
+"e2785" [label = "Antônio Carlos Bellini", color=red, style=filled, weight = 703313, estado = "SP"];
+"p4800" [label = "Pontes do Brasil", estado = "SP"];
+"e915" [label = "Rassini - NHK Autopeças Ltda", size = 215313, estado = "SP"];
+"e915" -> "p4800" [label = "R$151.539,14"];
+"e6096" [label = "Car central de Autopeças e Rolamentos S/A.", size = 215313, estado = "SP"];
+"e6096" -> "p4800" [label = "R$39.000,00"];
+"e6101" [label = "SIFRA S.A.", size = 215313, estado = "SP"];
+"e6101" -> "p4800" [label = "R$21.876,35"];
+"e6098" [label = "Opinião Factoring", size = 215313, estado = "SP"];
+"e6098" -> "p4800" [label = "R$2.897,91"];
+"p4800" -> "e2785" [label = "R$215.313,40"];
+"p5362" [label = "Caminho do Mar", estado = "SP"];
+"e6648" [label = "Duratex S.A. Área Deca", size = 270000, estado = "SP"];
+"e6648" -> "p5362" [label = "R$230.000,00"];
+"e6789" [label = "Volth Siemens Power Generation Ltda", size = 270000, estado = "SP"];
+"e6789" -> "p5362" [label = "R$40.000,00"];
+"p5362" -> "e2785" [label = "R$270.000,00"];
+"p26137" [label = "Palácio Boa Vista", estado = "SP"];
+"e3034" [label = "Textil Canatiba LTDA", size = 218000, estado = "RJ"];
+"e3034" -> "p26137" [label = "R$118.800,00"];
+"e22266" [label = "Interfloat HZ Corretora de Câmbio Títulos e Valores Mobiliários Ltda", size = 218000, estado = "SP"];
+"e22266" -> "p26137" [label = "R$89.200,00"];
+"e22469" [label = "RP1 Comunicações Ltda.", size = 218000, estado = "SP"];
+"e22469" -> "p26137" [label = "R$10.000,00"];
+"p26137" -> "e2785" [label = "R$218.000,00"];
+}
