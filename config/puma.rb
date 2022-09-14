@@ -3,28 +3,27 @@
 workers 6
 threads 1, 6
 
-app_path = '/home/polo/apps/mostre'
-shared_path = "#{app_path}/shared"
-directory "#{app_path}/current"
-
-environment 'production'
-
-pidfile "#{shared_path}/puma.pid"
-state_path "#{shared_path}/puma.state"
-bind "tcp://0.0.0.0:80" #?cert=/etc/letsencrypt/live/mostre.me/cert.pem&key=/etc/letsencrypt/live/mostre.me/privkey.pem"
-#activate_control_app
-
-daemonize
-
-# Default to production
+# # Default to production
 rails_env = ENV['RAILS_ENV'] || "production"
 environment rails_env
 
-# Logging
-stdout_redirect "#{shared_path}/log/puma.stdout.log", "#{shared_path}/log/puma.stderr.log", true
+app_path = Rails.root
+if ENV['RAILS_ENV'] == "production"
+  app_path
+  app_path = '/home/polo/apps/mostre'
+  pidfile "#{app_path}/puma.pid"
+  state_path "#{app_path}/puma.state"
+  app_path += "/shared"
+# bind "tcp://0.0.0.0:80" #?cert=/etc/letsencrypt/live/mostre.me/cert.pem&key=/etc/letsencrypt/live/mostre.me/privkey.pem"
+# #activate_control_app
+end
+
+# # Logging
+# stdout_redirect "#{app}/shared/log/puma.stdout.log", "#{shared_path}/log/puma.stderr.log", true
+require 'erb'
 
 on_worker_boot do
   require "active_record"
   ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-  ActiveRecord::Base.establish_connection(YAML.load_file("#{shared_path}/config/database.yml")[rails_env])
+  YAML.load(ERB.new(File.read("./config/database.yml")).result)[rails_env]
 end

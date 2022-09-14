@@ -1,0 +1,15 @@
+[Unit]
+Description=Mostre
+Requires=mysql.service
+
+[Service]
+Type=simple
+User=polo
+WorkingDirectory=/home/polo/apps/abrigo/mostre/current
+ExecStart=/usr/bin/bash -lc 'bundle exec rails s -e production -p 5000 -b 0.0.0.0'
+TimeoutSec=30
+RestartSec=15s
+Restart=always
+ 
+[Install]
+WantedBy=multi-user.target

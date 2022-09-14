@@ -1,4 +1,4 @@
-development:
+default: &default
   adapter: mysql2
   encoding: utf8
   reconnect: true
@@ -8,3 +8,8 @@ development:
   username: <%= ENV['MB_DB_USER'] %>
   password: <%= ENV['MB_DB_PASS'] %>
   host:     <%= ENV['MB_DB_HOST'] %>
+
+development:
+  <<: *default
+production:
+  <<: *default
