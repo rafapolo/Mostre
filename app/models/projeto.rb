@@ -1,4 +1,4 @@
-class Projeto < ActiveRecord::Base
+class Projeto < ApplicationRecord
 	belongs_to :entidade, :touch => true
 	belongs_to :estado
 	belongs_to :segmento

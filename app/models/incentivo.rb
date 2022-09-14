@@ -1,4 +1,4 @@
-class Incentivo < ActiveRecord::Base
+class Incentivo < ApplicationRecord
 
   belongs_to :projeto, :touch => true
   belongs_to :entidade, :touch => true

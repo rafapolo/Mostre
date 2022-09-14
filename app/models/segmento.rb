@@ -1,4 +1,4 @@
-class Segmento < ActiveRecord::Base
+class Segmento < ApplicationRecord
 	belongs_to :area
 	has_many :projetos	
 

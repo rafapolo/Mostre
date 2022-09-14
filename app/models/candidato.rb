@@ -1,4 +1,4 @@
-class Candidato < ActiveRecord::Base
+class Candidato < ApplicationRecord
   has_many :doacoes
   has_many :doadores, :through => :doacoes
 

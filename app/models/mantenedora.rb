@@ -1,4 +1,4 @@
-class Mantenedora < ActiveRecord::Base
+class Mantenedora < ApplicationRecord
   has_many :instituicaos
 
   validates :cod_mec, :presence => true, :uniqueness => true

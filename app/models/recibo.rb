@@ -1,4 +1,4 @@
-class Recibo < ActiveRecord::Base
+class Recibo < ApplicationRecord
 
 	belongs_to :incentivo, :touch => true
 	has_one :entidade, :through=>:incentivo

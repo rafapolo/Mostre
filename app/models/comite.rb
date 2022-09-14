@@ -1,4 +1,4 @@
-class Comite < ActiveRecord::Base
+class Comite < ApplicationRecord
   has_many :doacoes
   has_many :doadores, :through => :doacoes
 

@@ -1,4 +1,4 @@
-class Area < ActiveRecord::Base
+class Area < ApplicationRecord
 	has_many :segmentos
 	has_many :projetos, :through => :segmentos
 

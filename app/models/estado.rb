@@ -1,4 +1,4 @@
-class Estado < ActiveRecord::Base
+class Estado < ApplicationRecord
 	has_many :projetos
 	has_many :entidades, through: :projetos
 	has_many :cidades

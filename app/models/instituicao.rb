@@ -1,4 +1,4 @@
-class Instituicao < ActiveRecord::Base
+class Instituicao < ApplicationRecord
   #default_scope :order => 'nome'
 
   belongs_to :endereco

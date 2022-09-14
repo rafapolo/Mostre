@@ -1,4 +1,4 @@
-class Curso < ActiveRecord::Base
+class Curso < ApplicationRecord
   has_many :institucionalizations
   has_many :instituicaos, :through => :institucionalizations
 

@@ -15,7 +15,7 @@ Mostre::Application.configure do
   config.action_controller.perform_caching = false
 
   config.assets.precompile << ['*.js', '*.css', '*.png', '*.ico', '*.jpg', '*.png']
-
+  config.assets.check_precompiled_asset = false
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 

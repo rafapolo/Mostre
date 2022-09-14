@@ -1,4 +1,4 @@
-class Endereco < ActiveRecord::Base
+class Endereco < ApplicationRecord
   belongs_to :city
   has_many :institucionalizations
   has_many :cursos, :through => :institucionalizations

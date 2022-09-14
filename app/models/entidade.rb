@@ -1,4 +1,4 @@
-class Entidade < ActiveRecord::Base
+class Entidade < ApplicationRecord
 
 	belongs_to :estado
 	belongs_to :cidade

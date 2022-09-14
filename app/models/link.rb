@@ -1,5 +1,5 @@
 
-class Link < ActiveRecord::Base
+class Link < ApplicationRecord
   has_many :clicks, :dependent => :destroy
 
   validates_length_of :titulo, :in=>5..45, :message=>"deve ter entre 5 e 45 caracteres"
