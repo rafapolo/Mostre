@@ -1,129 +1,72 @@
+.card.borda.mb-4
+  .card-body{style: 'font-size: 16px; line-height: 22px; text-align: justify; padding: clamp(16px, 4vw, 48px)'}
+    .text-center.mb-3
+      %p.x1 Mostre!me
+      %p.x2 Sistema Experimental em Comunicação e Cultura
+    %p Mostre!me Cultura integra os dados dos últimos 14 anos do Ministério da Cultura publicados no SalicWeb - Sistema de apoio às leis de incentivo à cultura - criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
+    %p Motivados pelas muitas falhas do Sistema Web oficial, propomos experimentar novas formas de interação com os Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
+    %p= "Atualizado automaticamente toda semana, obtemos e melhor divulgamos os dados relativos aos #{pontua_numero Incentivo.count} Incentivos no valor de #{reais Incentivo.sum(:valor)} distribuídos por #{pontua_numero Entidade.patrocinadores.count} Patrocinadores aos #{pontua_numero Projeto.aprovados.count} Projetos aprovados do ano 2000 até hoje."
+    %p.text-muted.small.mb-0 contato@mostre.me · Julho de 2014 · subversão v0.1
 
-#nav-analises.carousel.slide{"data-bs-ride" => "carousel"}
-	.carousel-indicators
-		%button.active{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "0", "aria-current" => "true", "aria-label" => "Slide 1"}
-		%button{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "1", "aria-label" => "Slide 2"}
-		%button{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "2", "aria-label" => "Slide 3"}
-		%button{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "3", "aria-label" => "Slide 4"}
-		%button{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "4", "aria-label" => "Slide 5"}
-		%button{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide-to" => "5", "aria-label" => "Slide 6"}
-	.carousel-inner
-		.carousel-item.active
-			.carousel-caption
-				%h4 Manifesto
+.card.borda.mb-4
+  .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
+    %h5.mb-3
+      %i.bi.bi-diagram-3-fill.me-2
+      Extração de Dados | SalicWeb MinC
+    .text-center
+      = link_to_image 'esquema.png'
+    %p.text-muted.small.mt-3.mb-0 Em tempos de abuso de poder e segredos só há uma solução: transparência.
 
-			.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: clamp(16px, 5vw, 80px); max-width: 1200px; text-align: justify'}
-				.center
-					%p.x1 Mostre!me
-					%p.x2 Sistema Experimental em Comunicação e Cultura
+.card.borda.mb-4
+  .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
+    %h5.mb-3
+      %i.bi.bi-graph-up.me-2
+      Visualização de Informação
+    %p#chart
+    = stylesheet_link_tag 'chart'
+    = javascript_include_tag "d3/d3.v3.min.js"
+    = javascript_include_tag "chart"
+    %p.text-muted.small.mt-3.mb-0 Nossos governos e as mídias atuais obscuram o acesso a informação e limitam o conhecimento da história e da cultura.
 
-				%br
-				%p Mostre!me Cultura integra os dados dos últimos 14 anos do Ministério da Cultura publicados no SalicWeb - Sistema de apoio às leis de incentivo à cultura - criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
+.card.borda.mb-4
+  .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
+    %h5.mb-3
+      %i.bi.bi-people-fill.me-2
+      Análises Públicas
+    .text-center
+      %a{target: '_blank', href: 'http://extrapolo.com/labs/proprietarios/#'}
+        = image_tag asset_path('proprietarios.png'), style: 'max-width:100%; height:auto'
+    %p.mt-3
+      %span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos
+      %a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil
+      %span também atuam no Sistema Cultural e representam quase metade de todos os incentivos do país na última década.
+      %a{target: '_blank', href: '/cultura/entidades/98-petroleo-brasileiro-s-a-petrobras'} Petrobrás
+      e
+      %a{target: '_blank', href: '/cultura/entidades/314-vale-sa'} Vale S/A
+      , ambas do Rio de Janeiro, são os dois principais incentivadores visíveis na parte de baixo do grafo.
 
-				%p Motivados pelas muitas falhas do Sistema Web oficial, cuja última atualização data de 7 anos atrás - tão obsoleto quanto o próprio Sistema Federal Brasileiro - propomos experimentar novas formas de interação com os Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
+.card.borda.mb-4
+  .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
+    %h5.mb-3
+      %i.bi.bi-geo-alt-fill.me-2
+      Mapa de Contextos
+    .text-center
+      = image_tag asset_path('mapa.png'), style: 'max-width:100%; height:auto'
+    %p.text-muted.small.mt-3.mb-0 Exemplos: Quais cidades nunca tiveram incentivo em Música? Onde concentram projetos da Igreja Universal? Cidades onde pessoas sem empresa incentivaram projetos de outros estados?
 
-				%p A transparente relação e divulgação dos dados estruturados - que deveriam ser Públicos em todos os Ministérios Nacionais - é indicador essencial para o diagnóstico das políticas e ações governamentais, muitas vezes cegas e corrompidas. Enfatizamos a utilização dos conhecimentos técnicos, científicos e culturais mais recentes para possibilitar a participação e fiscalização cívil dos Ministérios, contribuindo para o redesign efetivo desses mesmos mecanismos.
-
-				%p= "Atualizado automaticamente toda semana, obtemos e melhor divulgamos os dados relativos aos #{pontua_numero Incentivo.count} Incentivos no valor de #{reais Incentivo.sum(:valor)} distribuídos por #{pontua_numero Entidade.patrocinadores.count} Patrocinadores aos #{pontua_numero Projeto.aprovados.count} Projetos aprovados do ano 2000 até hoje."
-
-				%p Com uma equipe interdisciplinar, podemos elaborar relatórios e visualizações precisas sobre a correlação entre quaisquer aspecto do Incentivo à Cultura do País, potencializando Projetos, Patrocinadores e Secretarias. Interessados em consultorias ou parcerias, entrem em contato; buscamos investimentos que mantenham a evolução da plataforma pública e aberta.
-
-				%br
-				contato@mostre.me
-				%br
-				Julho de 2014
-
-			.carousel-caption
-				%p subversão v0.1
-		.carousel-item
-			.carousel-caption
-				%h4 Extração de Dados | SalicWeb MinC
-			#esquema{style: 'padding: clamp(16px, 5vw, 80px);'}
-				.center
-					= link_to_image 'esquema.png'
-			.carousel-caption
-				%p Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
-
-		.carousel-item
-			.carousel-caption
-				%h4 Visualização de Informação | click para interagir
-
-			%p#chart
-			= stylesheet_link_tag 'chart'
-			= javascript_include_tag "d3/d3.v3.min.js"
-			= javascript_include_tag "chart"
-
-			.carousel-caption
-				%p Nossos governos e as mídias atuais obscuram o acesso a informação e limitam o conhecimento da história e da cultura. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar e agir justamente.
-
-		.carousel-item
-			.carousel-caption
-				%h4 Análises Públicas | click para interagir (4MB)
-			.center
-				%a{target: '_blank', href: 'http://extrapolo.com/labs/proprietarios/#'}
-					= image_tag asset_path('proprietarios.png')
-
-			.carousel-caption
-				%p
-					%span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos
-					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil
-					%span também atuam no Sistema Cultural e representam quase metade de todos os incentivos do país na última década.
-
-					%a{target: '_blank', href: '/cultura/entidades/98-petroleo-brasileiro-s-a-petrobras'} Petrobrás
-					e
-					%a{target: '_blank', href: '/cultura/entidades/314-vale-sa'} Vale S/A
-					, ambas do Rio de Janeiro, são os dois principais incentivadores visíveis na parte de baixo do grafo.
-
-		.carousel-item
-			.carousel-caption
-				%h4 Mapa de Contextos | por consultoria
-			.center
-				= image_tag asset_path 'mapa.png'
-			.carousel-caption
-				%p Exemplos: Quais cidades nunca tiveram incentivo em Música? Onde concentram projetos da Igreja Universal ou com nome "Deus"? Mostre cidades com mais patrocinadores em Arquitetura. Cidades onde pessoas sem empresa incentiveram em projetos de outros estados com mais de 50 mil reais? Onde há mais Incentivadores que Proponentes?
-
-		.carousel-item
-			.carousel-caption
-				%h4 Newsletter
-
-			.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: clamp(16px, 5vw, 80px); max-width: 1200px'}
-
-				- if session[:email]
-					%p Cadastrado, obrigado!
-				- else
-					.center
-						%p.x1 Inscreva-se
-						%p.x2 e receba em primeira mão notícias exclusivas sobre novos dados e funcionalidades
-					%br
-					%p Mostre!me, além dos dados do Ministério da Cultura, pretende investigar e propor visualizações com os relevantes dados do Ministério da Educação e dos últimos 10 anos das doações Eleitorais no país, dependendo de novos recursos pra construir essas funcionalidades e refinar outras. Inscreva-se para ser notificado sobre elas.
-					%br
-
-					%p Seu e-mail:
-					%form{action:'/cultura/inscrever', method:'post'}
-						%input{name: 'email', type: 'text', style: 'width:150px; margin: 0px'}
-						%input.btn.btn-sm{type: 'submit', value: 'Inscrever'}
-
-			.carousel-caption
-				%p Seu email não será divulgado ou compartilhado. Escrevê-lo-emos quando tivermos novas informações.
-
-	%button.carousel-control-prev{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide" => "prev"}
-		%span.carousel-control-prev-icon{"aria-hidden" => "true"}
-		%span.visually-hidden Anterior
-	%button.carousel-control-next{type: "button", "data-bs-target" => "#nav-analises", "data-bs-slide" => "next"}
-		%span.carousel-control-next-icon{"aria-hidden" => "true"}
-		%span.visually-hidden Próximo
-
-/ #updates
-/ 	%p
-/ 		%i.bi.bi-hand-thumbs-up-fill
-/ 		Z foi aprovado
-/ 		%span.ago há 5 horas
-/ 	%p
-/ 		%i.icon-circle-arrow-right
-/ 		João apoiou R$45.000,00 em Y
-/ 		%span.ago há 12 horas
-/ 	%p
-/ 		%i.icon-plus-sign
-/ 		Empresa Z submeteu o Projeto X
-/ 		%span.ago há 3 dias
-
+.card.borda.mb-4
+  .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
+    %h5.mb-3
+      %i.bi.bi-envelope-fill.me-2
+      Newsletter
+    - if session[:email]
+      %p.text-success Cadastrado, obrigado!
+    - else
+      .text-center.mb-3
+        %p.x1 Inscreva-se
+        %p.x2 e receba notícias sobre novos dados e funcionalidades
+      %p Seu e-mail:
+      %form.d-flex.gap-2{action: '/cultura/inscrever', method: 'post'}
+        %input.form-control.form-control-sm{name: 'email', type: 'email', placeholder: 'seu@email.com'}
+        %input.btn.btn-sm.btn-dark{type: 'submit', value: 'Inscrever'}
+      %p.text-muted.small.mt-2.mb-0 Seu email não será divulgado ou compartilhado.
