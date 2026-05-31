@@ -10,24 +10,24 @@
 			%th Incentivado
 
 	%tbody
-		- @entidades.sort_by{:projetos_sum}.each do |entidade|
+		- @entidades.sort_by{ |e| e.projetos_sum }.each do |entidade|
 			%tr
 				%td
 					- if entidade.empresa
-						%i.icon-briefcase
+						%i.bi.bi-briefcase-fill
 					- else
-						%i.icon-user
+						%i.bi.bi-person-fill
 				%td= link_to_entidade entidade
 				%td= entidade.estado.sigla
 				%td
 					- if entidade.projetos_count > 0
-						%span.badge.badge-info= entidade.projetos_count
+						%span.badge.bg-info= entidade.projetos_count
 					- else
-						%span.badge.badge-important 0
+						%span.badge.bg-danger 0
 				%td= reais entidade.projetos_sum
 				%td
 					- if entidade.incentivos_count > 0
-						%span.badge.badge-info= entidade.incentivos_count
+						%span.badge.bg-info= entidade.incentivos_count
 					- else
-						%span.badge.badge-important 0
+						%span.badge.bg-danger 0
 				%td= reais entidade.incentivos_sum

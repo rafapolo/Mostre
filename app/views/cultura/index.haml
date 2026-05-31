@@ -1,23 +1,20 @@
-= javascript_include_tag "d3/d3.v3.min.js"
+- content_for :libs do
+	= javascript_include_tag "d3/d3.v3.min.js"
 
-:javascript
-	$.fn.carousel.defaults = { interval: false }
-
-
-#nav-analises.carousel.slide
+#nav-analises.carousel.slide{"data-bs-ride" => "carousel"}
 	%ol.carousel-indicators
-		%li.active{"data-slide-to" => "0", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "1", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "2", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "3", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "4", "data-target" => "#nav-analises"}
-		%li{"data-slide-to" => "5", "data-target" => "#nav-analises"}
+		%li.active{"data-bs-slide-to" => "0", "data-bs-target" => "#nav-analises"}
+		%li{"data-bs-slide-to" => "1", "data-bs-target" => "#nav-analises"}
+		%li{"data-bs-slide-to" => "2", "data-bs-target" => "#nav-analises"}
+		%li{"data-bs-slide-to" => "3", "data-bs-target" => "#nav-analises"}
+		%li{"data-bs-slide-to" => "4", "data-bs-target" => "#nav-analises"}
+		%li{"data-bs-slide-to" => "5", "data-bs-target" => "#nav-analises"}
 	.carousel-inner
-		.item.active
-			.carousel-caption
+		.carousel-item.active
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Manifesto
 
-			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 45px 80px 25px 80px; max-width: 1200px; text-align: justify'}
+			.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 45px 80px 25px 80px; max-width: 1200px; text-align: justify'}
 				.center
 					%p.x1 Mostre!me
 					%p.x2 Sistema Experimental em Comunicação e Cultura
@@ -38,37 +35,37 @@
 				%br
 				Julho de 2014
 
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p subversão v0.1
-		.item
-			.carousel-caption
+		.carousel-item
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Extração de Dados | SalicWeb MinC
 			#esquema{style: 'padding: 80px;'}
 				.center
 					= link_to_image 'esquema.png'
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p Em tempos de abuso de poder e segredos só há uma solução: transparência. Se nossos governantes e veículos de comunicação estão tão corrompidos que não nos contam a verdade, precisamos tomar a iniciativa e busca-la.
 
-		.item
-			.carousel-caption
+		.carousel-item
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Visualização de Informação | click para interagir
 
 			%p#chart
 			= stylesheet_link_tag 'chart'
-			= javascript_include_tag "d3/d3.v2"
+			= javascript_include_tag "d3/d3.v3.min.js"
 			= javascript_include_tag "chart"
 
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p Nossos governos e as mídias atuais obscuram o acesso a informação e limitam o conhecimento da história e da cultura. Só providos de fontes primárias irrefutáveis a sociedade pode se conscientizar e agir justamente.
 
-		.item
-			.carousel-caption
+		.carousel-item
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Análises Públicas | click para interagir (4MB)
 			.center
 				%a{target: '_blank', href: 'http://extrapolo.com/labs/proprietarios/#'}
 					= image_tag asset_path('proprietarios.png')
 
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p
 					%span Cruzamento de dados revela que 636 empresas listadas no conglomerado dos
 					%a{target: '_blank', href: 'http://www.proprietariosdobrasil.org.br/index.php/pt-br/'} Proprietários do Brasil
@@ -79,19 +76,19 @@
 					%a{target: '_blank', href: '/cultura/entidades/314-vale-sa'} Vale S/A
 					, ambas do Rio de Janeiro, são os dois principais incentivadores visíveis na parte de baixo do grafo.
 
-		.item
-			.carousel-caption
+		.carousel-item
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Mapa de Contextos | por consultoria
 			.center
 				= image_tag asset_path 'mapa.png'
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p Exemplos: Quais cidades nunca tiveram incentivo em Música? Onde concentram projetos da Igreja Universal ou com nome "Deus"? Mostre cidades com mais patrocinadores em Arquitetura. Cidades onde pessoas sem empresa incentiveram em projetos de outros estados com mais de 50 mil reais? Onde há mais Incentivadores que Proponentes?
 
-		.item
-			.carousel-caption
+		.carousel-item
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%h4 Newsletter
 
-			.well{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; max-width: 1200px'}
+			.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 80px; max-width: 1200px'}
 
 				- if session[:email]
 					%p Cadastrado, obrigado!
@@ -105,18 +102,18 @@
 
 					%p Seu e-mail:
 					%form{action:'/cultura/inscrever', method:'post'}
-						%input{name: 'email', type: 'text', style:'width:150px', style:'margin: 0px'}
-						%input.btn.btn-mini{type: 'submit', value: 'Inscrever'}
+						%input{name: 'email', type: 'text', style: 'width:150px; margin: 0px'}
+						%input.btn.btn-sm{type: 'submit', value: 'Inscrever'}
 
-			.carousel-caption
+			.carousel-caption{style: 'position: relative; left: auto; right: auto'}
 				%p Seu email não será divulgado ou compartilhado. Escrevê-lo-emos quando tivermos novas informações.
 
-	%a.carousel-control.left{"data-slide" => "prev", href: "#nav-analises"} ‹
-	%a.carousel-control.right{"data-slide" => "next", href: "#nav-analises"} ›
+	%a.carousel-control-prev{"data-bs-slide" => "prev", "data-turbo" => "false", href: "#nav-analises"} ‹
+	%a.carousel-control-next{"data-bs-slide" => "next", "data-turbo" => "false", href: "#nav-analises"} ›
 
 / #updates
 / 	%p
-/ 		%i.icon-thumbs-up
+/ 		%i.bi.bi-hand-thumbs-up-fill
 / 		Z foi aprovado
 / 		%span.ago há 5 horas
 / 	%p

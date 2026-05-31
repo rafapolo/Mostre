@@ -2,18 +2,18 @@
 - content_for :filtro do
   =# render :partial => 'filtros/projetos'
 
-.well.borda.status
+.card.borda.status
   = @topo
 
 = render :partial => 'list'
-= pagination @mantenedoras
+== pagy_bootstrap_nav(@pagy)
 
 
 / #subfiltros
 /   - unless params[:area_id]
 /     #areas
-/       .well.borda
-/         %i.icon-tags
+/       .card.borda
+/         %i.bi.bi-tags-fill
 /         Areas
 /         %hr.small
 
@@ -23,14 +23,14 @@
 /           %p.selectable{type: 'area', type_id: area.id}
 /             %span.rotulo= area.nome
 /             - if count > 0
-/               %span.badge.badge-right.badge-info= count
+/               %span.badge.badge-right.bg-info= count
 /             - else
-/               %span.badge.badge-right.badge-important= count
+/               %span.badge.badge-right.bg-danger= count
 
 /   - unless params[:estado_id]
 /     #estados
-/       .well.borda
-/         %i.icon-globe
+/       .card.borda
+/         %i.bi.bi-globe
 /         Estados
 /         %hr.small
 /         - @estados.each do |e|
@@ -39,6 +39,6 @@
 /           %p.selectable{type: 'estado', type_id: estado.id}
 /             %span.rotulo= estado.nome
 /             - if count > 0
-/               %span.badge.badge-right.badge-info= count
+/               %span.badge.badge-right.bg-info= count
 /             - else
-/               %span.badge.badge-right.badge-important= count
+/               %span.badge.badge-right.bg-danger= count

@@ -3,7 +3,7 @@
 - content_for :filtro do
   = render :partial => 'filtros/entidades'
 
-.well.borda.status
+.card.borda.status
   = @topo
 
 %table.table.table-striped.table-bordered.table-condensed.borda
@@ -22,31 +22,31 @@
         %td= link_to (nome || proponente.nome), entidade_path(proponente)
         %td= proponente.estado.sigla
         %td
-          %span.badge.badge-info
+          %span.badge.bg-info
             = proponente.projetos_count
         %td
           - if proponente.projetos_liberados && proponente.projetos_liberados > 0
-            %span.badge.badge-success
+            %span.badge.bg-success
               = proponente.projetos_liberados
           - else
-            %span.badge.badge-important 0 
+            %span.badge.bg-danger 0 
             
         %td
           - if proponente.projetos_sum == 0
-            %span.badge.badge-important
-              %i.icon-ban-circle
+            %span.badge.bg-danger
+              %i.bi.bi-ban-fill
           - else
             = reais proponente.projetos_sum
 
         
-= pagination @proponentes
+== pagy_bootstrap_nav(@pagy)
 
 
 #subfiltros  
   / - unless params[:area_id]
   /   #areas
-  /     .well.borda
-  /       %i.icon-tags
+  /     .card.borda
+  /       %i.bi.bi-tags-fill
   /       Areas
   /       %hr.small
         
@@ -56,14 +56,14 @@
   /         %p.selectable{type: 'area', type_id: area.id}
   /           %span.rotulo= area.nome
   /           - if count > 0
-  /             %span.badge.badge-right.badge-info= count
+  /             %span.badge.bg-info= count
   /           - else
-  /             %span.badge.badge-right.badge-important= count
+  /             %span.badge.bg-danger= count
 
   - unless params[:estado_id]
     #estados
-      .well.borda
-        %i.icon-globe
+      .card.borda
+        %i.bi.bi-globe
         Estados
         %hr.small
         - @estados.each do |e|
@@ -72,6 +72,6 @@
           %p.selectable{type: 'estado', type_id: estado.id}
             %span.rotulo= estado.nome        
             - if count > 0
-              %span.badge.badge-right.badge-info= count
+              %span.badge.bg-info= count
             - else
-              %span.badge.badge-right.badge-important= count
+              %span.badge.bg-danger= count

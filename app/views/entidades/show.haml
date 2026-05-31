@@ -29,54 +29,57 @@
 	}
 
 
-:coffee
-	$(document).ready ->
-		# todo: implementar ordem em lista!
-		$('th').removeClass('reorder')
+:javascript
+	document.addEventListener('DOMContentLoaded', function() {
+		// todo: implementar ordem em lista!
+		document.querySelectorAll('th').forEach(function(th) {
+			th.classList.remove('reorder')
+		})
 		graph = JSON.parse('#{@graph}')
-		# get graph data
-		# remontar on window.resize?
-		monta(graph, $('.grafo').width())
+		// get graph data
+		// remontar on window.resize?
+		monta(graph, document.querySelector('.grafo')?.offsetWidth)
+	})
 
-.well.status
+.card.status
 	.titulo
 		- if @entidade.empresa
-			%i.icon-briefcase.afastado
+			%i.bi.bi-briefcase-fill.afastado
 		- else
-			%i.icon-user.afastado
+			%i.bi.bi-person-fill.afastado
 		= @entidade.nome
 
 #entidade{uid: @entidade.id}
 
 	- # Grafo
 	- if @entidade.projetos_liberados>0 # && @entidade.projetos_liberados<100
-		.well
+		.card
 			%h4 Grafo de Incentivos
 			.grafo
 
 	- # Labels
 	.center{style: "padding-bottom:10px"}
-		.label.label-inverse
+		.badge.bg-dark
 			%a{href: cidade_path(@entidade.cidade), style: 'color: white' }
 				= "#{@entidade.cidade.nome} - #{@entidade.cidade.estado.sigla}"
 
-		.label= "#{@entidade.projetos_count} projetos"
+		.badge.bg-light.text-dark= "#{@entidade.projetos_count} projetos"
 		- if @entidade.projetos_liberados > 0
-			.label.label-info= "#{@entidade.projetos_liberados} aprovados"
+			.badge.bg-info= "#{@entidade.projetos_liberados} aprovados"
 		- else
-			.label.label-important= "nenhum aprovado"
+			.badge.bg-danger= "nenhum aprovado"
 
 		- if @financiadores_count > 0
-			.label.label-warning= "#{@financiadores_count} financiadores"
+			.badge.bg-warning= "#{@financiadores_count} financiadores"
 
 		- if @entidade.projetos_sum > 0
-			.label.label-success= "#{reais @entidade.projetos_sum} captados"
+			.badge.bg-success= "#{reais @entidade.projetos_sum} captados"
 
 		- if @entidade.incentivos_count > 0
-			.label.label-info= "#{@entidade.incentivos_count} incentivos"
+			.badge.bg-info= "#{@entidade.incentivos_count} incentivos"
 
 		- if @entidade.incentivos_sum > 0
-			.label.label-success= "Incentivou #{reais @entidade.incentivos_sum}"
+			.badge.bg-success= "Incentivou #{reais @entidade.incentivos_sum}"
 
 	- # Projetos
 	- if @entidade.projetos_count > 0
@@ -93,18 +96,18 @@
 					%th Último recibo
 
 			%tbody
-				- @entidade.incentivos.sort_by{:valor}.each do |incentivo|
+				- @entidade.incentivos.sort_by{ |i| i.valor }.each do |incentivo|
 					%tr
 						%td= link_to_projeto incentivo.projeto
 						%td= incentivo.projeto.segmento.nome
 						%td= reais incentivo.valor
 						%td
-							%span.badge.badge-success
+							%span.badge.bg-success
 								= to_date incentivo.last_recibo_at
 
 	- # Similares
 	- similares = @entidade.similares
 	- if similares.size > 0
-		.well.borda.status= "Similares (#{similares.size})"
+		.card.borda.status= "Similares (#{similares.size})"
 		- @entidades = @entidade.similares
 		= render 'entidades/list'

@@ -14,13 +14,16 @@
 		return "http://mostre.me/"+(s);
 	}
 
-	$(document).ready(function(){
-		$('#link_titulo').focus();
-		$('#link_titulo').on('keyup', function(){
-			var urlized = urlify($(this).val());
-			$('#out').text(urlized);
-		})
-		$('#link_titulo').keyup();
+	document.addEventListener('DOMContentLoaded', function(){
+		var titulo = document.getElementById('link_titulo');
+		if (titulo) {
+			titulo.focus();
+			titulo.addEventListener('keyup', function(){
+				var urlized = urlify(this.value);
+				document.getElementById('out').textContent = urlized;
+			})
+			titulo.dispatchEvent(new Event('keyup'));
+		}
 	})
 
 %h3 Criar Link

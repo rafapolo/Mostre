@@ -1,10 +1,10 @@
-.well.status
+.card.status
 	.titulo
-		%i.icon-globe
+		%i.bi.bi-globe
 			= "#{@cidade.nome} - #{@cidade.estado.sigla}"
 
 
-.well.status= @resumo
+.card.status= @resumo
 
 
 = render 'entidades/list'

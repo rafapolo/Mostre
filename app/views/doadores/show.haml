@@ -3,33 +3,33 @@
     $('th').removeClass('reorder')
   })
 
-.well.status.borda
+.card.status.borda
   .titulo
-    %i.icon-briefcase.afastado
+    %i.bi.bi-briefcase-fill.afastado
     = "#{@doador.doador}"
 
 .center{style: "padding-bottom:10px"}
-  .label= "#{@doador.doacoes_count} doações"
-  .label.label-success= "Investiu #{reais @doador.valor_total}"
-  -# .label.label-important= "Sem aprovação"
+  .badge.bg-light.text-dark= "#{@doador.doacoes_count} doações"
+  .badge.bg-success= "Investiu #{reais @doador.valor_total}"
+  -# .badge.bg-danger= "Sem aprovação"
 
--# .well.status
+-# .card.status
 -#   = @resumo
 -#
 -# .alert.alert-info.borda
--#   %button.close{"data-dismiss" => "alert", type: "button"} ×
+-#   %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
 -#   %i.icon-pencil
 -#   = @doador.sintese
 -#
 -# #infos.borda{style:"margin-top:8px"}
 -#   - if @doador.liberado_at
 -#     .alert.alert-success
--#       %button.close{"data-dismiss" => "alert", type: "button"} ×
--#       %i.icon-ok
+-#       %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
+-#       %i.bi.bi-check-circle-fill
 -#       = "Liberado em #{@doador.liberado_at}"
 
 -# .alert.borda
--#   %button.close{"data-dismiss" => "alert", type: "button"} ×
+-#   %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
 -#   %i.icon-exclamation-sign
 -#   %strong= @doador.situacao_at
 -#   - enquadramento = "» #{@doador.enquadramento}" if @doador.enquadramento
