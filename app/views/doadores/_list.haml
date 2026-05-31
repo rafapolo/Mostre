@@ -9,6 +9,8 @@
       %th Doações
       %th Doado
   %tbody
+    - if @doadores.empty?
+      = render 'shared/empty_row', colspan: 5
     - @doadores.each do |doador|
       %tr
         %td

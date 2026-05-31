@@ -2,10 +2,10 @@
 Mostre!me — scraper SALIC API → SQLite
 
 Uso:
-    python3 db/mostre.py sync                    # projetos + incentivadores + captações
+    python3 db/mostre.py sync                    # projetos + incentivadores
     python3 db/mostre.py sync projetos
-    python3 db/mostre.py sync incentivos         # incentivadores + captações
-    python3 db/mostre.py sync captacoes
+    python3 db/mostre.py sync incentivos         # incentivadores
+    python3 db/mostre.py sync por_projeto        # captações + entidades por projeto (lento, resumível)
     python3 db/mostre.py stats
     python3 db/mostre.py query "SELECT ..."
 """
@@ -22,9 +22,10 @@ CHROME    = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # ── banco ──────────────────────────────────────────────────────────────────
 
 def connect():
-    conn = sqlite3.connect(str(SQLITE_DB))
+    conn = sqlite3.connect(str(SQLITE_DB), timeout=30)
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA synchronous=NORMAL")
+    conn.execute("PRAGMA busy_timeout=30000")
     return conn
 
 
@@ -102,10 +103,23 @@ async def get_cf_session():
     return session
 
 
-def api_get(session, path, params):
-    r = session.get(f"{API_BASE}{path}", params={**params, "format": "json"}, timeout=20)
-    r.raise_for_status()
-    return r.json()
+def api_get(session, path, params, _retries=4):
+    for attempt in range(_retries):
+        try:
+            r = session.get(
+                f"{API_BASE}{path}",
+                params={**params, "format": "json"},
+                timeout=60,
+            )
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            if attempt == _retries - 1:
+                raise
+            wait = 2 ** attempt
+            print(f"\n  retry {attempt+1}/{_retries-1} ({e.__class__.__name__}) — aguardando {wait}s...",
+                  end=" ", flush=True)
+            time.sleep(wait)
 
 
 # ── lookup maps ──────────────────────────────────────────────────────────────
@@ -266,7 +280,12 @@ def sync_incentivadores(session, conn):
     total = first.get("total", 0)
     print(f"  Total incentivadores na API: {total}")
 
-    offset, inserted, t0 = 0, 0, time.time()
+    max_id = conn.execute("SELECT MAX(id) FROM entidades").fetchone()[0] or 0
+    # rough skip: assume API returns in ascending id order
+    start_offset = max(0, max_id - 200)
+    print(f"  max entidade id no banco: {max_id}  |  começando no offset ~{start_offset}")
+
+    offset, inserted, t0 = start_offset, 0, time.time()
 
     while offset < total:
         data = api_get(session, "/incentivadores", {"limit": 100, "offset": offset})
@@ -324,79 +343,205 @@ def sync_incentivadores(session, conn):
 # ── sync captações → incentivos ───────────────────────────────────────────────
 
 def sync_captacoes(session, conn):
-    first = api_get(session, "/captacoes", {"limit": 1})
-    total = first.get("total", 0)
-    print(f"  Total captações na API: {total}")
+    """Bulk /captacoes — endpoint não existe no SALIC API v1. Use sync_por_projeto."""
+    print("  /captacoes bulk não disponível — use: python3 db/mostre.py sync por_projeto")
+    return 0
 
-    offset, all_caps, t0 = 0, [], time.time()
 
-    while offset < total:
-        data = api_get(session, "/captacoes", {"limit": 100, "offset": offset})
-        items = (
-            data.get("_embedded", {}).get("captacoes", []) or
-            data.get("captacoes", [])
-        )
-        if not items:
-            break
+# ── sync lento por projeto: captações + proponente ────────────────────────────
 
-        for c in items:
-            pronac   = int(c.get("PRONAC") or c.get("pronac") or 0)
-            cgccpf   = str(c.get("cgccpf") or c.get("cgc_cpf") or "")
-            valor    = float(c.get("valor") or 0)
-            data_rec = str(c.get("data_recibo") or c.get("data") or "")
-            if pronac and cgccpf:
-                all_caps.append((pronac, cgccpf, valor, data_rec))
+def _db_write(conn, sql, params=()):
+    """Execute a write with retry on lock."""
+    for attempt in range(10):
+        try:
+            conn.execute(sql, params)
+            return
+        except sqlite3.OperationalError as e:
+            if "locked" in str(e) and attempt < 9:
+                time.sleep(0.5 * (attempt + 1))
+            else:
+                raise
 
-        offset += 100
-        elapsed = time.time() - t0
-        print(f"  {offset:>6}/{total} | {len(all_caps)} captações | "
-              f"{len(all_caps)/elapsed:.1f}/s  ", end="\r")
 
-    print(f"\n  Agregando {len(all_caps)} captações...")
+def _get_or_create_entidade(conn, cgccpf, nome, uf, estado_map):
+    """Devolve id da entidade, criando se não existir."""
+    if not cgccpf:
+        return None
+    row = conn.execute(
+        "SELECT id FROM entidades WHERE cnpjcpf = ? LIMIT 1", (cgccpf,)
+    ).fetchone()
+    if row:
+        return row[0]
+    _db_write(conn, """
+        INSERT OR IGNORE INTO entidades (nome, cnpjcpf, uf, estado_id)
+        VALUES (?,?,?,?)
+    """, (
+        (nome or "")[:255],
+        cgccpf,
+        uf or None,
+        estado_map.get((uf or "").upper().strip()),
+    ))
+    conn.commit()
+    return conn.execute(
+        "SELECT id FROM entidades WHERE cnpjcpf = ? LIMIT 1", (cgccpf,)
+    ).fetchone()[0]
 
-    # aggregate per (pronac, cgccpf)
-    agg = {}
-    for pronac, cgccpf, valor, data_rec in all_caps:
-        key = (pronac, cgccpf)
-        if key not in agg:
-            agg[key] = [0.0, 0, ""]
-        agg[key][0] += valor
-        agg[key][1] += 1
-        if data_rec > agg[key][2]:
-            agg[key][2] = data_rec
 
-    inserted = 0
-    for (pronac, cgccpf), (soma, count, last_date) in agg.items():
-        row = conn.execute(
-            "SELECT id FROM projetos WHERE CAST(numero AS INTEGER) = ? LIMIT 1",
-            (pronac,)
-        ).fetchone()
-        if not row:
+def _get_or_create_segmento(conn, nome, area_id):
+    if not nome:
+        return None
+    row = conn.execute(
+        "SELECT id FROM segmentos WHERE lower(nome) = lower(?) LIMIT 1", (nome,)
+    ).fetchone()
+    if row:
+        return row[0]
+    _db_write(conn, "INSERT OR IGNORE INTO segmentos (nome, area_id, urlized) VALUES (?,?,?)",
+              (nome[:255], area_id, _urlize(nome)))
+    conn.commit()
+    return conn.execute(
+        "SELECT id FROM segmentos WHERE lower(nome) = lower(?) LIMIT 1", (nome,)
+    ).fetchone()[0]
+
+
+def _get_or_create_area(conn, nome, area_map):
+    if not nome:
+        return None, area_map
+    key = nome.lower().strip()
+    if key in area_map:
+        return area_map[key], area_map
+    row = conn.execute(
+        "SELECT id FROM areas WHERE lower(nome) = lower(?) LIMIT 1", (nome,)
+    ).fetchone()
+    if row:
+        area_map[key] = row[0]
+        return row[0], area_map
+    _db_write(conn, "INSERT OR IGNORE INTO areas (nome, urlized) VALUES (?,?)",
+              (nome[:255], _urlize(nome)))
+    conn.commit()
+    new_id = conn.execute(
+        "SELECT id FROM areas WHERE lower(nome) = lower(?) LIMIT 1", (nome,)
+    ).fetchone()[0]
+    area_map[key] = new_id
+    return new_id, area_map
+
+
+async def sync_por_projeto(session, conn, delay=0.2):
+    """
+    Para cada projeto novo sem metadados: busca /projetos/{pronac},
+    preenche segmento_id, area_id, entidade_id, created_at e captações.
+    Resumível: pula projetos que já têm entidade_id e area_id resolvidos.
+    """
+    area_map, seg_map, estado_map = _build_maps(conn)
+
+    pending = conn.execute("""
+        SELECT id, numero FROM projetos
+        WHERE id > 142138
+          AND (area_id IS NULL OR entidade_id IS NULL)
+        ORDER BY id
+    """).fetchall()
+
+    total = len(pending)
+    print(f"  {total} projetos pendentes de detalhes")
+
+    upd, inc_new, rec_new, done, t0 = 0, 0, 0, 0, time.time()
+    cf_failures = 0
+
+    for projeto_id, pronac in pending:
+        try:
+            d = api_get(session, f"/projetos/{pronac}", {})
+            cf_failures = 0
+        except Exception as e:
+            cf_failures += 1
+            if cf_failures >= 5:
+                print(f"\n  CF session expirada — renovando...")
+                session = await get_cf_session()
+                cf_failures = 0
+            done += 1
+            await asyncio.sleep(delay)
             continue
-        projeto_id = row[0]
 
-        row = conn.execute(
-            "SELECT id FROM entidades WHERE cnpjcpf = ? LIMIT 1",
-            (cgccpf,)
-        ).fetchone()
-        if not row:
-            continue
-        entidade_id = row[0]
+        # ── resolve area ──
+        area_nome = d.get("area") or ""
+        area_id, area_map = _get_or_create_area(conn, area_nome, area_map)
 
-        existing = conn.execute(
-            "SELECT id FROM incentivos WHERE projeto_id = ? AND entidade_id = ?",
-            (projeto_id, entidade_id)
-        ).fetchone()
-        if not existing:
-            conn.execute("""
-                INSERT INTO incentivos (projeto_id, entidade_id, valor, recibos_count, last_recibo_at)
-                VALUES (?,?,?,?,?)
-            """, (projeto_id, entidade_id, soma, count, last_date or None))
-            inserted += 1
+        # ── resolve segmento ──
+        seg_nome = d.get("segmento") or ""
+        seg_id = None
+        if seg_nome:
+            seg_id = seg_map.get(seg_nome.lower().strip())
+            if not seg_id:
+                seg_id = _get_or_create_segmento(conn, seg_nome, area_id)
+                if seg_id:
+                    seg_map[seg_nome.lower().strip()] = seg_id
+
+        # ── resolve entidade (proponente) ──
+        cgccpf  = str(d.get("cgccpf") or "")
+        nome_p  = str(d.get("proponente") or "")
+        uf_p    = str(d.get("UF") or d.get("uf") or "")
+        ent_id  = _get_or_create_entidade(conn, cgccpf, nome_p, uf_p, estado_map)
+
+        # ── created_at from data_inicio ──
+        created = d.get("data_inicio") or None
+
+        # ── update projeto record ──
+        _db_write(conn, """
+            UPDATE projetos SET
+                area_id     = COALESCE(area_id, ?),
+                segmento_id = COALESCE(segmento_id, ?),
+                entidade_id = COALESCE(entidade_id, ?),
+                created_at  = COALESCE(created_at, ?),
+                updated_at  = COALESCE(updated_at, ?)
+            WHERE id = ?
+        """, (area_id, seg_id, ent_id, created, created, projeto_id))
+        upd += 1
+
+        # ── captações embedded ──
+        caps = d.get("_embedded", {}).get("captacoes", [])
+        for c in caps:
+            cgc  = str(c.get("cgccpf") or c.get("cgc_cpf") or "")
+            nom  = str(c.get("nome_doador") or "")
+            uf_c = str(c.get("UF") or c.get("uf") or "")
+            val  = float(c.get("valor") or 0)
+            drec = str(c.get("data_recibo") or c.get("data") or "") or None
+            if not cgc:
+                continue
+            eid = _get_or_create_entidade(conn, cgc, nom, uf_c, estado_map)
+            if not eid:
+                continue
+            inc_row = conn.execute(
+                "SELECT id FROM incentivos WHERE projeto_id=? AND entidade_id=?",
+                (projeto_id, eid)
+            ).fetchone()
+            if inc_row:
+                inc_id = inc_row[0]
+                _db_write(conn, """
+                    UPDATE incentivos SET valor=valor+?, recibos_count=recibos_count+1,
+                        last_recibo_at=MAX(COALESCE(last_recibo_at,''),COALESCE(?,''))
+                    WHERE id=?
+                """, (val, drec, inc_id))
+            else:
+                _db_write(conn, """
+                    INSERT INTO incentivos (projeto_id,entidade_id,valor,recibos_count,last_recibo_at)
+                    VALUES (?,?,?,1,?)
+                """, (projeto_id, eid, val, drec))
+                inc_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
+                inc_new += 1
+            _db_write(conn, "INSERT INTO recibos (incentivo_id,data,valor) VALUES (?,?,?)",
+                      (inc_id, drec, val))
+            rec_new += 1
+
+        conn.commit()
+        done += 1
+        if done % 50 == 0:
+            elapsed = time.time() - t0
+            eta = (total - done) * elapsed / done if done > 0 else 0
+            print(f"  {done}/{total} | upd={upd} | inc={inc_new} | rec={rec_new} | ETA {eta/60:.0f}min  ",
+                  end="\r")
+        await asyncio.sleep(delay)
 
     conn.commit()
-    print(f"  incentivos: {inserted} novos inseridos")
-    return inserted
+    print(f"\n  por_projeto: {done} proj | {upd} atualizados | {inc_new} inc | {rec_new} rec")
+    return upd
 
 
 # ── backfill campos deriváveis ────────────────────────────────────────────────
@@ -446,12 +591,17 @@ async def run_sync(what):
             print("\n[incentivadores → entidades]")
             sync_incentivadores(session, conn)
 
-        if what in ("all", "captacoes", "incentivos"):
-            print("\n[captações → incentivos]")
+        if what in ("captacoes",):
+            print("\n[captações bulk]")
             sync_captacoes(session, conn)
 
-        print("\n[backfill campos deriváveis]")
-        backfill(conn)
+        if what in ("por_projeto",):
+            print("\n[captações + entidades por projeto (lento)]")
+            await sync_por_projeto(session, conn)
+
+        if what == "all":
+            print("\n[backfill campos deriváveis]")
+            backfill(conn)
     finally:
         conn.close()
 

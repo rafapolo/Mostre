@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_31_123912) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_31_194654) do
   create_table "areas", force: :cascade do |t|
     t.string "nome", limit: 255, default: "", null: false
     t.string "urlized", limit: 255
@@ -61,10 +61,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_123912) do
   end
 
   create_table "doacoes", force: :cascade do |t|
-    t.integer "candidato_id", null: false
+    t.integer "candidato_id"
     t.integer "comite_id"
     t.datetime "created_at", null: false
-    t.integer "doador_id", null: false
+    t.integer "doador_id"
     t.string "motivo"
     t.string "partido"
     t.date "quando"

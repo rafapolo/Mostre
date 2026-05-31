@@ -35,22 +35,18 @@
                 Cultura
 
             .list-group.list-group-flush.borda.mb-3
-              %a.list-group-item.list-group-item-action{href: "/cultura"}
+              %a.list-group-item.list-group-item-action{href: "/cultura", class: ('active' if request.path == '/cultura')}
                 %i.bi.bi-house-fill.me-2
                 Início
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/cultura/projetos"}
+              %a.list-group-item.list-group-item-action{href: "/cultura/projetos", class: ('active' if request.path.start_with?('/cultura/projetos'))}
                 %i.bi.bi-grid-fill.me-2
                 Projetos
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/cultura/proponentes"}
+              %a.list-group-item.list-group-item-action{href: "/cultura/proponentes", class: ('active' if request.path.start_with?('/cultura/proponentes'))}
                 %i.bi.bi-briefcase-fill.me-2
                 Proponentes
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/cultura/patrocinadores"}
+              %a.list-group-item.list-group-item-action{href: "/cultura/patrocinadores", class: ('active' if request.path.start_with?('/cultura/patrocinadores'))}
                 %i.bi.bi-hand-thumbs-up-fill.me-2
                 Patrocinadores
-                %i.bi.bi-chevron-right.float-end
 
             - if content_for? :filtro
               #filtros.card.borda.mb-3
@@ -58,13 +54,14 @@
                   %i.bi.bi-search.me-1
                   %span Mostrar
                   %span.loading
-                    = image_tag asset_path('load.gif')
+                    %span.spinner-border.spinner-border-sm{"role" => "status"}
+                      %span.visually-hidden Carregando...
                   %hr.small
                   = yield :filtro
               #filtro_estados
             - else
               - if request.fullpath != "/cultura"
-                #ad{style: "height:400px; width:200px"}
+                #ad
                   = render partial: 'shared/adsense'
 
             = yield :dados
@@ -75,4 +72,4 @@
           = yield
 
     #rodape
-      %p.m-0 Mostre!me Cultura | Copyfight 2016
+      %p.m-0 Mostre!me Cultura | Copyfight 2026

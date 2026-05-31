@@ -35,22 +35,18 @@
                 Educação
 
             .list-group.list-group-flush.borda.mb-3
-              %a.list-group-item.list-group-item-action{href: "/educacao"}
+              %a.list-group-item.list-group-item-action{href: "/educacao", class: ('active' if request.path == '/educacao')}
                 %i.bi.bi-house-fill.me-2
                 Início
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/educacao/mantenedoras"}
+              %a.list-group-item.list-group-item-action{href: "/educacao/mantenedoras", class: ('active' if request.path.start_with?('/educacao/mantenedoras'))}
                 %i.bi.bi-grid-fill.me-2
                 Mantenedoras
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/educacao/instituicaos"}
+              %a.list-group-item.list-group-item-action{href: "/educacao/instituicaos", class: ('active' if request.path.start_with?('/educacao/instituicaos'))}
                 %i.bi.bi-briefcase-fill.me-2
                 Instituições
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/educacao/cursos"}
+              %a.list-group-item.list-group-item-action{href: "/educacao/cursos", class: ('active' if request.path.start_with?('/educacao/cursos'))}
                 %i.bi.bi-hand-thumbs-up-fill.me-2
                 Cursos
-                %i.bi.bi-chevron-right.float-end
 
             - if content_for? :filtro
               #filtros.card.borda.mb-3
@@ -58,13 +54,14 @@
                   %i.bi.bi-search.me-1
                   %span Mostrar
                   %span.loading
-                    = image_tag asset_path('load.gif')
+                    %span.spinner-border.spinner-border-sm{"role" => "status"}
+                      %span.visually-hidden Carregando...
                   %hr.small
                   = yield :filtro
               #filtro_estados
             - else
               - if request.fullpath != "/educacao"
-                #ad{style: "height:400px; width:200px"}
+                #ad
                   = render partial: 'shared/adsense'
 
             = yield :dados
@@ -75,4 +72,4 @@
           = yield
 
     #rodape
-      %p.m-0 Mostre!me Educação | Copyfight 2015
+      %p.m-0 Mostre!me Educação | Copyfight 2026

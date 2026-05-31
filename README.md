@@ -145,3 +145,34 @@ Para gerar grafos de rede:
 rails minc:top100           # top 20 patrocinadores → projetos → proponentes
 rails minc:bellini          # grafo de uma entidade específica
 ```
+
+---
+
+## Dados de datas nos projetos culturais
+
+A coluna **Ano** na listagem de projetos exibe `situacao_at` — a data em que o governo atualizou o status do projeto no SalicWeb. Esse campo vem diretamente do HTML da fonte (`sistemas.cultura.gov.br`) e parou de ser preenchido pela fonte original por volta de 2014.
+
+Projetos rastreados após isso chegam sem data de status e aparecem como **"em avaliação"**. O campo `processo` também carrega o ano no formato `/YY-` (ex: `01400.000953/06-21` = 2006), mas igualmente ficou vazio nas raspagens mais recentes.
+
+| Campo | Cobertura | Origem |
+|---|---|---|
+| `situacao_at` | até jan/2014 | data da última mudança de status no MinC |
+| `processo` (`/YY-`) | até 2014 | número de processo governamental com ano embutido |
+| `created_at` | todos | data em que o projeto foi rastreado pelo crawler |
+
+Para projetos recentes, `created_at` é a única data disponível — representa quando entraram no sistema, não quando foram registrados no MinC.
+
+---
+
+## 2026 — Retomada com auxílio de LLMs
+
+Depois de anos com a interface essencialmente congelada no design de 2014, em maio de 2026 iniciamos uma retomada do projeto com apoio de modelos de linguagem (LLMs). As melhorias foram conduzidas em uma única sessão de trabalho e cobriram:
+
+- **Navegação**: estado ativo no menu lateral por página; largura do sidebar fixada para não oscilar entre páginas
+- **Tipografia**: tamanho base aumentado de 13px para 15px; sombras de texto suavizadas do estilo "2px 3px gray" para valores modernos
+- **Tabelas**: remoção do `min-width: 880px` fixo; estado vazio explícito ("Nenhum resultado encontrado") em todas as listagens
+- **Componentes**: spinner de carregamento migrado do GIF `load.gif` para o spinner nativo do Bootstrap 5; ícones de chevron removidos de links simples de navegação
+- **Gráfico treemap**: container corrigido de `<p>` para `<div>`; dimensões fixas (`880×580px`) removidas para renderização responsiva via `viewBox`
+- **Rodapé**: altura fixa de 21px substituída por altura automática com padding; anos atualizados
+- **Cores**: `bg-info` customizado para `#4183c4` (azul já usado nos links); cursor `crosshair` removido de elementos não-interativos
+- **CSS**: regras do sidebar migradas de `#lado` (legado) para `#sidebar`; `#ad` com dimensões movidas do inline para a folha de estilos

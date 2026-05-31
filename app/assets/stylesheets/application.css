@@ -24,13 +24,16 @@ a { color: #4183c4; }
 
 .afastado { padding-right: 10px; }
 
+.titulo, .logo, .logo:hover, #rodape, .status, .manifesto {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
 .titulo {
   font-size: 23px;
   text-align: center;
   padding: 3px;
   color: white;
   background-color: rgb(54,53,49);
-  text-shadow: 2px 3px gray;
   line-height: 28px;
 }
 
@@ -39,13 +42,10 @@ a { color: #4183c4; }
   text-align: center;
   color: white;
   background-color: rgb(54,53,49);
-  text-shadow: 4px 4px gray;
-  cursor: crosshair;
 }
 .logo:hover {
   color: white;
   background-color: rgb(54,53,49);
-  text-shadow: 4px 4px gray;
 }
 
 #updates {
@@ -64,11 +64,11 @@ a { color: #4183c4; }
 
 #rodape {
   font-size: 13px;
-  text-shadow: 1px 2px gray;
   text-align: center;
   color: white;
   background-color: rgb(54,53,49);
-  height: 21px;
+  height: auto;
+  padding: 6px 0;
   width: 100%;
   border-top: 1px solid lightgray;
 }
@@ -85,7 +85,7 @@ a { color: #4183c4; }
 }
 
 .reorder {
-  cursor: n-resize;
+  cursor: pointer;
   text-decoration: underline;
 }
 .reorder.hover,
@@ -99,6 +99,7 @@ a { color: #4183c4; }
 .loading {
   float: right;
   display: none;
+  vertical-align: middle;
 }
 
 .highlight { background-color: khaki; }
@@ -108,8 +109,6 @@ a { color: #4183c4; }
   font-size: 17px;
   color: white;
   background-color: rgb(54,53,49);
-  text-shadow: 3px 2px gray;
-  cursor: crosshair;
   margin-bottom: 8px;
 }
 
@@ -118,8 +117,6 @@ a { color: #4183c4; }
   font-size: 17px;
   color: white;
   background-color: rgb(54,53,49);
-  text-shadow: 2px 2px gray;
-  cursor: crosshair;
   text-align: justify;
 }
 
@@ -169,7 +166,7 @@ hr.small { margin: 8px; }
 #lado { padding: 0; }
 
 #meio {
-  font-size: 13px;
+  font-size: 15px;
   padding: 10px;
   padding-bottom: 30px;
   max-width: 80vw;
@@ -196,7 +193,6 @@ hr.small { margin: 8px; }
 }
 
 /* Table overrides */
-.table { min-width: 880px; }
 
 .table-striped tbody > tr:nth-child(even) > td,
 .table-striped tbody > tr:nth-child(odd) > th {
@@ -376,7 +372,14 @@ nav.pagy-bootstrap {
 /* Badge-right helper */
 .badge-right { float: right; }
 
+/* Override bg-info to a calm blue */
+.bg-info {
+  background-color: #4183c4 !important;
+  color: white !important;
+}
+
 /* Hide empty ad placeholder */
+#ad { height: 400px; width: 200px; }
 #ad:empty { display: none; }
 
 
@@ -415,6 +418,8 @@ nav.pagy-bootstrap {
     z-index: auto !important;
     background: transparent !important;
     border: none !important;
+    width: 260px !important;
+    flex: 0 0 260px !important;
   }
   #sidebar .offcanvas-body {
     overflow: visible !important;
@@ -455,17 +460,19 @@ nav.pagy-bootstrap {
 
 
 /* Sidebar nav list-group customization */
-#lado .list-group-item {
+#sidebar .list-group-item {
   border: none;
   border-radius: 0;
   color: #333;
   padding: 8px 15px;
-  background: transparent;
+  background: white;
 }
-#lado .list-group-item:hover {
+#sidebar .list-group-item:hover {
   background: #f5f5f5;
 }
-#lado .list-group-item.active {
-  background: #e9ecef;
+#sidebar .list-group-item.active {
+  background: rgb(54, 53, 49);
+  color: white;
   font-weight: bold;
+  border-color: rgb(54, 53, 49);
 }

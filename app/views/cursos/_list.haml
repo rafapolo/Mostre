@@ -8,6 +8,8 @@
       %th#desde.reorder Desde
       %th#desde.reorder Em
   %tbody
+    - if @cursos.empty?
+      = render 'shared/empty_row', colspan: 4
     - @cursos.each do |curso|
       %tr
         - primeiro = curso.primeiro_em

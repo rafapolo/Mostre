@@ -11,6 +11,8 @@
       %th.doacoes_count.reorder Doacoes
       %th Recebido
   %tbody
+    - if @candidatos.empty?
+      = render 'shared/empty_row', colspan: 7
     - @candidatos.each do |candidato|
       %tr
         %td

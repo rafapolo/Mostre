@@ -35,18 +35,15 @@
                 Eleições
 
             .list-group.list-group-flush.borda.mb-3
-              %a.list-group-item.list-group-item-action{href: "/eleicoes"}
+              %a.list-group-item.list-group-item-action{href: "/eleicoes", class: ('active' if request.path == '/eleicoes')}
                 %i.bi.bi-house-fill.me-2
                 Início
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/eleicoes/candidatos"}
+              %a.list-group-item.list-group-item-action{href: "/eleicoes/candidatos", class: ('active' if request.path.start_with?('/eleicoes/candidatos'))}
                 %i.bi.bi-people-fill.me-2
                 Candidatos
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/eleicoes/doadores"}
+              %a.list-group-item.list-group-item-action{href: "/eleicoes/doadores", class: ('active' if request.path.start_with?('/eleicoes/doadores'))}
                 %i.bi.bi-briefcase-fill.me-2
                 Doadores
-                %i.bi.bi-chevron-right.float-end
 
             - if content_for? :filtro
               #filtros.card.borda.mb-3
@@ -54,13 +51,14 @@
                   %i.bi.bi-search.me-1
                   %span Mostrar
                   %span.loading
-                    = image_tag asset_path('load.gif')
+                    %span.spinner-border.spinner-border-sm{"role" => "status"}
+                      %span.visually-hidden Carregando...
                   %hr.small
                   = yield :filtro
               #filtro_estados
             - else
               - if request.fullpath != "/eleicoes"
-                #ad{style: "height:400px; width:200px"}
+                #ad
                   = render partial: 'shared/adsense'
 
             = yield :dados
@@ -71,4 +69,4 @@
           = yield
 
     #rodape
-      %p.m-0 Mostre!me Eleições | Copyfight 2014
+      %p.m-0 Mostre!me Eleições | Copyfight 2026

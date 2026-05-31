@@ -1,11 +1,9 @@
 #chart {
-		width: 880px;
-		height: 580px;
+		width: 100%;
+		max-width: 880px;
 		background: #bbb;
 		margin: 1px auto;
 		position: relative;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
 

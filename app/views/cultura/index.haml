@@ -6,7 +6,7 @@
     %p Mostre!me Cultura integra os dados dos últimos 14 anos do Ministério da Cultura publicados no SalicWeb - Sistema de apoio às leis de incentivo à cultura - criado em 2007 a partir da valorização dos aspectos da Cultura Digital e Tecnologia da Informação na gestão do então Ministro da Cultura, Gilberto Gil, que permitiram o surgimento de novos protagonistas, além da expansão e descentralização das redes culturais.
     %p Motivados pelas muitas falhas do Sistema Web oficial, propomos experimentar novas formas de interação com os Dados Públicos, revelando relações geralmente ignoradas ou inacessíveis.
     %p= "Atualizado automaticamente toda semana, obtemos e melhor divulgamos os dados relativos aos #{pontua_numero Incentivo.count} Incentivos no valor de #{reais Incentivo.sum(:valor)} distribuídos por #{pontua_numero Entidade.patrocinadores.count} Patrocinadores aos #{pontua_numero Projeto.aprovados.count} Projetos aprovados do ano 2000 até hoje."
-    %p.text-muted.small.mb-0 contato@mostre.me · Julho de 2014 · subversão v0.1
+    %p.text-muted.small.mb-0 contato@mostre.me
 
 .card.borda.mb-4
   .card-body{style: 'padding: clamp(16px, 4vw, 48px)'}
@@ -22,7 +22,7 @@
     %h5.mb-3
       %i.bi.bi-graph-up.me-2
       Visualização de Informação
-    %p#chart
+    %div#chart
     = stylesheet_link_tag 'chart'
     = javascript_include_tag "d3/d3.v3.min.js"
     = javascript_include_tag "chart"
