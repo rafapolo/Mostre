@@ -13,6 +13,11 @@ deploy.rb
 /.sass-cache/
 
 public/assets
+
+/storage/
+/db/mostre.duckdb
+/db/mostre.duckdb.wal
+/db/__pycache__/
 public/cache
 public/cultura
 .DS_Store
