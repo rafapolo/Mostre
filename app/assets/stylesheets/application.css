@@ -223,12 +223,14 @@ th { font-size: 14px; }
 
 /* D3 Chart styles */
 #chart {
-  width: 880px;
-  height: 580px;
   background: #bbb;
   margin: 1px auto;
-  position: relative;
-  box-sizing: border-box;
+  max-width: 100%;
+}
+#chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 text {
@@ -450,13 +452,6 @@ nav.pagy-bootstrap {
   #rodape { height: auto; padding: 4px 0; }
 }
 
-/* Responsive chart */
-#chart {
-  max-width: 100% !important;
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 880 / 580;
-}
 
 
 /* Sidebar nav list-group customization */

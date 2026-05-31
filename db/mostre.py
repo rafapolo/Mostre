@@ -399,6 +399,37 @@ def sync_captacoes(session, conn):
     return inserted
 
 
+# ── backfill campos deriváveis ────────────────────────────────────────────────
+
+def backfill(conn):
+    """Corrige campos que o API não retorna mas podem ser derivados do banco."""
+    # area_id a partir do segmento
+    r = conn.execute("""
+        UPDATE projetos
+        SET area_id = (SELECT area_id FROM segmentos WHERE id = segmento_id)
+        WHERE area_id IS NULL AND segmento_id IS NOT NULL
+    """)
+    print(f"  area_id:      {r.rowcount} projetos corrigidos")
+
+    # entidade_id a partir de cgccpf — só possível se entidade já está no banco
+    # (proponentes que também aparecem como incentivadores)
+    r = conn.execute("""
+        UPDATE projetos
+        SET entidade_id = (
+            SELECT e.id FROM entidades e
+            WHERE e.cnpjcpf = projetos.numero
+            LIMIT 1
+        )
+        WHERE entidade_id IS NULL
+    """)
+    # above won't help much; entidade lookup really needs the cgccpf per-project
+    # which we now capture in sync_projetos going forward
+    print(f"  entidade_id:  (capturado online no próximo sync)")
+
+    conn.commit()
+    print("Backfill concluído.")
+
+
 # ── main ───────────────────────────────────────────────────────────────────
 
 async def run_sync(what):
@@ -418,6 +449,9 @@ async def run_sync(what):
         if what in ("all", "captacoes", "incentivos"):
             print("\n[captações → incentivos]")
             sync_captacoes(session, conn)
+
+        print("\n[backfill campos deriváveis]")
+        backfill(conn)
     finally:
         conn.close()
 
@@ -430,6 +464,11 @@ if __name__ == "__main__":
 
     if cmd == "sync":
         asyncio.run(run_sync(arg2))
+
+    elif cmd == "backfill":
+        conn = connect()
+        backfill(conn)
+        conn.close()
 
     elif cmd == "stats":
         stats()

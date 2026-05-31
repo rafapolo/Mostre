@@ -26,10 +26,8 @@ var treemap = d3.layout.treemap()
 
 /* create svg */
 var svg = d3.select("#chart").append("svg")
-.attr("width", width + margin.left + margin.right)
-.attr("height", height + margin.bottom + margin.top)
-.style("margin-left", -margin.left + "px")
-.style("margin.right", -margin.right + "px")
+.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.bottom + margin.top))
+.attr("preserveAspectRatio", "xMidYMid meet")
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 .style("shape-rendering", "crispEdges");
