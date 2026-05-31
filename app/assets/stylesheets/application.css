@@ -371,6 +371,12 @@ text {
 }
 
 /* Responsive tables */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 767px) {
   .table {
     display: block;
@@ -378,6 +384,17 @@ text {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+  #meio {
+    padding: 8px 6px !important;
+  }
+
+  .x1 { font-size: 36px; }
+  .x2 { font-size: 13px; }
+
+  .badge { font-size: 10px; }
+
+  #rodape { height: auto; padding: 4px 0; }
 }
 
 /* Responsive chart */
@@ -389,16 +406,15 @@ text {
 }
 
 /* Responsive carousel */
-.carousel-inner .card {
-  padding: 20px !important;
-}
 @media (max-width: 767px) {
   .carousel-inner .card {
-    padding: 15px !important;
+    padding: 12px !important;
+    font-size: 14px !important;
   }
-  #esquema { padding: 20px !important; }
+  #esquema { padding: 10px !important; }
   .carousel-inner .card img { max-width: 100%; height: auto; }
-  #meio { padding: 10px 5px !important; }
+  .carousel-control-prev,
+  .carousel-control-next { font-size: 24px; }
 }
 
 /* Sidebar nav list-group customization */

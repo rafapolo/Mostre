@@ -22,7 +22,7 @@
   %body
     .container-fluid.p-0
       .d-flex{style: "min-height: 100vh;"}
-        %button.d-md-none.btn.btn-dark.position-fixed.top-0.start-0.m-2{zindex: 1040, "data-bs-toggle" => "offcanvas", "data-bs-target" => "#sidebar", type: "button"}
+        %button.d-md-none.btn.btn-dark.position-fixed.top-0.start-0.m-2{style: "z-index: 1045;", "data-bs-toggle" => "offcanvas", "data-bs-target" => "#sidebar", type: "button"}
           %i.bi.bi-list
 
         #sidebar.offcanvas.offcanvas-start.d-md-block{style: "width: 260px;", tabindex: "-1", "data-controller" => "nav"}
@@ -46,10 +46,6 @@
               %a.list-group-item.list-group-item-action{href: "/eleicoes/doadores"}
                 %i.bi.bi-briefcase-fill.me-2
                 Doadores
-                %i.bi.bi-chevron-right.float-end
-              %a.list-group-item.list-group-item-action{href: "/eleicoes/partidos"}
-                %i.bi.bi-megaphone-fill.me-2
-                Partidos
                 %i.bi.bi-chevron-right.float-end
 
             - if content_for? :filtro

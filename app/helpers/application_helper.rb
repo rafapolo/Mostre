@@ -90,24 +90,4 @@ module ApplicationHelper
 		"há #{words}"
 	end
 
- 	# todo: refinar
-	  def url_encode(value, key = nil, out_hash = {})
-	    case value
-	    when Hash then
-	      value.each do |root_key,key|
-	      	append_key(key,k)
-	      	apk = root_key.nil? ? :"#{key}" : :"#{root_key}[#{key.to_s}]"
-	      	encode(key, apk, out_hash)
-	      end
-	      out_hash
-	    when Array then
-	      value.each { |v| encode(v, "#{key}[]", out_hash) }
-	      out_hash
-	    when nil then ''
-	    else
-	      out_hash[key] = value
-	      out_hash
-	    end
-	  end
-
 end

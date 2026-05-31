@@ -1,4 +1,4 @@
-.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: 45px 80px 25px 80px; max-width: 1200px; text-align: justify'}
+.card{style: 'font-size: 16px; line-height: 19px; margin: auto; padding: clamp(16px, 5vw, 80px); max-width: 1200px; text-align: justify'}
   .center
     %p.x1 Mostre!me Educação
     %p.x2 Sistema Experimental em Educação e Cultura
@@ -13,7 +13,7 @@
       %a{href: "/educacao/mantenedoras"}= "#{pontua_numero Mantenedora.count} Entidades"
     %span que mantêm as
     %span
-      %a{href: '/educacao/instituicoes'}= "#{pontua_numero Instituicao.count} Instituições"
+      %a{href: '/educacao/instituicaos'}= "#{pontua_numero Instituicao.count} Instituições"
     %span de Ensino Superior do país com seus
     %span
       %a{href: "/educacao/cursos"}= "#{pontua_numero Curso.count} Cursos"

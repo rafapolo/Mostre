@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
     return params[id_sym]
   end
 
+  def safe_ordem_param
+    params[:ordem] if params[:ordem].to_s =~ /\A\w+\z/
+  end
+
   def valor nome
     !params[nome] || params[nome]=='' ? '' : "'#{params[nome]}'"
   end  

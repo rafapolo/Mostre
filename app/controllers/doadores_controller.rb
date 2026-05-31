@@ -1,39 +1,25 @@
 class DoadoresController < ApplicationController
   include ApplicationHelper
-
   layout "eleicoes"
 
   def impor_filtros!
-      #todo: refinar com switch
-      if nome = params[:nome]
-        @doadores = @doadores.where("doador like ?", "%#{nome}%")
-      end
-      #
-      # if imposed? :area_id
-      #   @entidades = @entidades.where(area_id: params[:area_id])
-      # end
-      #
-      # if imposed? :estado_id
-      #   @entidades = @entidades.where(estado_id: params[:estado_id])
-      # end
+    if nome = params[:nome]
+      @doadores = @doadores.where("doador like ?", "%#{nome}%")
+    end
   end
 
-  def define_resumo! # nos índices (_list)
+  def define_resumo!(total = @doadores.count)
     soma = view_context.number_to_currency(@doadores.sum(:valor_total), :unit => "R$")
-    @topo = "#{@doadores.count} doadores com #{soma} em doações."
+    @topo = "#{total} doadores com #{soma} em doações."
   end
 
   def index
     @title = "Doadores"
-
-    if ordem = params[:ordem]
-      ordem = "#{ordem} DESC"
-    end
-
-	@pagy, @doadores = pagy(Doador.all, items: 35)
+    @doadores = Doador.all
     impor_filtros!
-
-    define_resumo!
+    total = @doadores.count
+    define_resumo!(total)
+    @pagy, @doadores = pagy(@doadores, count: total, items: 35)
     render layout: false if request.xhr?
   end
 
@@ -45,5 +31,4 @@ class DoadoresController < ApplicationController
   def doador_params
     params.require(:doador).permit(:doador, :urlized)
   end
-
 end

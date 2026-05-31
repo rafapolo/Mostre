@@ -35,19 +35,19 @@
   = @resumo
 
 .alert.alert-info.borda
-  %button.btn-close{"data-bs-dismiss" => "alert", type: "button"} ×
+  %button.btn-close{"data-bs-dismiss" => "alert", type: "button", "aria-label" => "Close"}
   %i.bi.bi-pencil
   = @projeto.sintese
 
 #infos.borda{style:"margin-top:8px"}
   - if @projeto.liberado_at
     .alert.alert-success
-      %button.btn-close{"data-bs-dismiss" => "alert", type: "button"} ×
+      %button.btn-close{"data-bs-dismiss" => "alert", type: "button", "aria-label" => "Close"}
       %i.bi.bi-check-circle-fill
       = "Liberado em #{@projeto.liberado_at}"
 
 .alert.borda
-  %button.btn-close{"data-bs-dismiss" => "alert", type: "button"} ×
+  %button.btn-close{"data-bs-dismiss" => "alert", type: "button", "aria-label" => "Close"}
   %i.bi.bi-exclamation-triangle-fill
   %strong= @projeto.situacao_at
   - enquadramento = "» #{@projeto.enquadramento}" if @projeto.enquadramento

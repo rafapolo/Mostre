@@ -1,39 +1,28 @@
 class CandidatosController < ApplicationController
   include ApplicationHelper
-
   layout "eleicoes"
 
   def impor_filtros!
-      #todo: refinar com switch
-      if nome = params[:nome]
-        @candidatos = @candidatos.where("nome like ?", "%#{nome}%")
-      end
-      #
-      # if imposed? :area_id
-      #   @entidades = @entidades.where(area_id: params[:area_id])
-      # end
-      #
-      # if imposed? :estado_id
-      #   @entidades = @entidades.where(estado_id: params[:estado_id])
-      # end
+    if nome = params[:nome]
+      @candidatos = @candidatos.where("nome like ?", "%#{nome}%")
     end
+  end
 
-  def define_resumo! # nos índices (_list)
+  def define_resumo!(total = @candidatos.count)
     soma = view_context.number_to_currency(@candidatos.sum(:valor_total), :unit => "R$")
-    @topo = "#{@candidatos.count} candidatos com #{soma} em doações."
+    @topo = "#{total} candidatos com #{soma} em doações."
   end
 
   def index
     @title = "Candidatos"
+    ordem = safe_ordem_param
 
-    if ordem = params[:ordem]
-      ordem = "#{ordem} DESC"
-    end
-
-	@pagy, @candidatos = pagy(Candidato.all.order(ordem), items: 35)
+    @candidatos = Candidato.all
+    @candidatos = @candidatos.order(Arel.sql("#{ordem} DESC")) if ordem
     impor_filtros!
-
-    define_resumo!
+    total = @candidatos.count
+    define_resumo!(total)
+    @pagy, @candidatos = pagy(@candidatos, count: total, items: 35)
     render layout: false if request.xhr?
   end
 
@@ -45,5 +34,4 @@ class CandidatosController < ApplicationController
   def candidato_params
     params.require(:candidato).permit(:nome, :urlized)
   end
-
 end

@@ -121,9 +121,16 @@ document.addEventListener("submit", function (e) {
   var form = e.target.closest("#filtros > form")
   if (form) {
     e.preventDefault()
-    addStep("nome", document.getElementById("nome")?.value)
-    addStep("sintese", document.getElementById("sintese")?.value)
-    addStep("providencia", document.getElementById("providencia")?.value)
+    url_params["page"] = 1
+    ;["nome", "sintese", "providencia"].forEach(function (id) {
+      var el = document.getElementById(id)
+      if (el) {
+        if (el.value) { url_params[id] = el.value } else { delete url_params[id] }
+      }
+    })
+    var qs = buildQuery(url_params)
+    history.pushState(url_params, "", qs)
+    loadContent(window.location.pathname + qs)
   }
 })
 
