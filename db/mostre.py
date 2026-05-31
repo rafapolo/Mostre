@@ -10,7 +10,7 @@ Uso:
     python3 db/mostre.py query "SELECT ..."
 """
 
-import sys, json, asyncio, time, duckdb, requests
+import sys, json, asyncio, time, duckdb, sqlite3, requests
 from pathlib import Path
 
 DB_PATH  = Path(__file__).parent / "mostre.duckdb"
@@ -424,11 +424,91 @@ def sync_incentivadores(session, con):
     return inserted
 
 
+# ── publicar DuckDB → SQLite ────────────────────────────────────────────────
+
+SQLITE_DB = Path("storage/development.sqlite3")
+
+def sqlite_connect():
+    return sqlite3.connect(str(SQLITE_DB))
+
+
+PUBLISH_PROJETOS_SQL = """
+    INSERT OR REPLACE INTO projetos
+        (id, nome, entidade_id, numero, uf, mecanismo, enquadramento,
+         processo, situacao_at, situacao, providencia, sintese,
+         solicitado, aprovado, apoiado, liberado_at, estado_id,
+         created_at, updated_at, segmento_id, apoiadores, area_id, urlized)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+"""
+
+
+def publish_projetos(duck, sq):
+    try:
+        rows = duck.execute("""
+            SELECT id, nome, entidade_id, numero, uf, mecanismo, enquadramento,
+                   processo, situacao_at, situacao, providencia, sintese,
+                   solicitado, aprovado, apoiado, liberado_at, estado_id,
+                   created_at, updated_at, segmento_id, apoiadores, area_id, urlized
+            FROM projetos_api
+            WHERE synced_at > (SELECT COALESCE(MAX(updated_at), '2000-01-01') FROM projetos)
+        """).fetchall()
+        if rows:
+            sq.executemany(PUBLISH_PROJETOS_SQL, rows)
+            sq.commit()
+        print(f"  projetos: {len(rows)} novos/atualizados")
+    except Exception as e:
+        print(f"  projetos: ERRO — {e}")
+
+
+PUBLISH_ENTIDADES_SQL = """
+    INSERT OR REPLACE INTO entidades
+        (id, nome, cnpjcpf, responsavel, logradouro, cidade_nome,
+         cep, uf, email, tel_res, tel_cel, tel_fax, tel_com,
+         patrocinador, proponente, empresa,
+         urlized, projetos_count, projetos_sum,
+         incentivos_count, incentivos_sum, estado_id,
+         projetos_liberados, last_incentivo, cidade_id)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+"""
+
+
+def publish_entidades(duck, sq):
+    try:
+        rows = duck.execute("""
+            SELECT id, nome, cnpjcpf, responsavel, logradouro, cidade_nome,
+                   cep, uf, email, tel_res, tel_cel, tel_fax, tel_com,
+                   patrocinador, proponente, empresa,
+                   urlized, projetos_count, projetos_sum,
+                   incentivos_count, incentivos_sum, estado_id,
+                   projetos_liberados, last_incentivo, cidade_id
+            FROM entidades_api
+            WHERE updated_at > (SELECT COALESCE(MAX(updated_at), '2000-01-01') FROM entidades)
+        """).fetchall()
+        if rows:
+            sq.executemany(PUBLISH_ENTIDADES_SQL, rows)
+            sq.commit()
+        print(f"  entidades: {len(rows)} novos/atualizados")
+    except Exception as e:
+        print(f"  entidades: ERRO — {e}")
+
+
+def publish(duck):
+    """Copia dados novos do DuckDB para o SQLite do Rails."""
+    print("Publicando DuckDB → SQLite...")
+    sq = sqlite_connect()
+    try:
+        publish_projetos(duck, sq)
+        publish_entidades(duck, sq)
+    finally:
+        sq.close()
+    print("Publicação concluída.")
+
+
 # ── main ───────────────────────────────────────────────────────────────────
 
 async def run_sync(what):
-    con = connect()
-    ensure_tables(con)
+    duck = connect()
+    ensure_tables(duck)
 
     print("Obtendo sessão Cloudflare (abre Chrome uma vez)...")
     session = await get_cf_session()
@@ -436,14 +516,19 @@ async def run_sync(what):
     try:
         if what in ("all", "projetos"):
             print("\n[projetos]")
-            sync_projetos(session, con)
+            sync_projetos(session, duck)
 
         if what in ("all", "incentivos", "incentivadores", "entidades"):
             print("\n[incentivadores → entidades_api]")
-            sync_incentivadores(session, con)
+            sync_incentivadores(session, duck)
 
     finally:
-        con.close()
+        duck.close()
+
+    if "--publish" in sys.argv:
+        duck = connect()
+        publish(duck)
+        duck.close()
 
     print("\nSync concluído.")
 
@@ -458,6 +543,11 @@ if __name__ == "__main__":
 
     elif cmd == "sync":
         asyncio.run(run_sync(arg2))
+
+    elif cmd == "publish":
+        duck = connect()
+        publish(duck)
+        duck.close()
 
     elif cmd == "stats":
         stats()
