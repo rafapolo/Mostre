@@ -164,6 +164,21 @@ def sync_projetos(session, conn):
         if not items:
             break
 
+        # build cgccpf → entidade_id cache from this batch's cgccpfs
+        batch_cgccpfs = [
+            str(p.get("cgccpf") or p.get("cgc_cpf") or "")
+            for p in items
+            if p.get("cgccpf") or p.get("cgc_cpf")
+        ]
+        entidade_cache = {}
+        if batch_cgccpfs:
+            placeholders = ",".join("?" * len(batch_cgccpfs))
+            for r in conn.execute(
+                f"SELECT cnpjcpf, id FROM entidades WHERE cnpjcpf IN ({placeholders})",
+                batch_cgccpfs
+            ).fetchall():
+                entidade_cache[r[0]] = r[1]
+
         rows, stop = [], False
         for p in items:
             pronac = int(p.get("PRONAC") or p.get("pronac") or 0)
@@ -177,11 +192,23 @@ def sync_projetos(session, conn):
                 p.get("valor_apoiado") or p.get("valor_captado") or
                 p.get("valor_projeto") or 0
             )
+            cgccpf     = str(p.get("cgccpf") or p.get("cgc_cpf") or "")
+            entidade_id = entidade_cache.get(cgccpf)
+            seg_id     = _extract_id(p.get("segmento"), seg_map)
+            # resolve area from segmento when API doesn't return it directly
+            area_id    = _extract_id(p.get("area"), area_map)
+            if area_id is None and seg_id is not None:
+                area_id = conn.execute(
+                    "SELECT area_id FROM segmentos WHERE id=?", (seg_id,)
+                ).fetchone()
+                area_id = area_id[0] if area_id else None
+            ano = str(p.get("ano_projeto") or "")
+            created = f"20{ano}-01-01" if len(ano) == 2 else None
 
             rows.append((
                 pronac,
                 nome,
-                None,
+                entidade_id,
                 str(pronac),
                 uf_code,
                 p.get("mecanismo") or "",
@@ -196,11 +223,11 @@ def sync_projetos(session, conn):
                 apoiado,
                 None,
                 estado_map.get(uf_code),
+                created,
+                created,
+                seg_id,
                 None,
-                None,
-                _extract_id(p.get("segmento"), seg_map),
-                None,
-                _extract_id(p.get("area"), area_map),
+                area_id,
                 _urlize(nome),
             ))
 

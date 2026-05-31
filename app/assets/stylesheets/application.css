@@ -172,6 +172,7 @@ hr.small { margin: 8px; }
   font-size: 13px;
   padding: 10px;
   padding-bottom: 30px;
+  max-width: 80vw;
 }
 
 /* Sidebar styling */
@@ -434,6 +435,7 @@ nav.pagy-bootstrap {
 
   #meio {
     padding: 8px 6px !important;
+    max-width: 100% !important;
   }
 
   .x1 { font-size: 36px; }
