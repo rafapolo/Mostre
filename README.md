@@ -18,6 +18,8 @@ mostre.me/:atalho → qualquer URL na web
 - Stats por link via `/links/stats`
 - Sem cookies, sem identificação de usuário
 
+**1.495 links criados — 34.981 cliques registrados**
+
 ---
 
 ### Cultura — desde 2010
@@ -26,20 +28,42 @@ Mineração e navegação dos dados do **SalicNet** (sistema oficial do Ministé
 
 **O que está mapeado:**
 
-| Entidade | Descrição |
+| Entidade | Total | Descrição |
+|---|---|---|
+| `Projetos` | 126.969 | Nome, UF, área cultural, segmento, mecanismo, situação, valores |
+| `Projetos aprovados` | 24.441 | Apoiados com valor > 0 |
+| `Entidades` | 102.448 | Proponentes e patrocinadores, com CNPJ/CPF, estado, cidade |
+| `Patrocinadores` | 50.344 | Empresas e pessoas que incentivaram projetos |
+| `Proponentes` | 52.072 | Entidades que submeteram projetos |
+| `Incentivos` | 138.095 | Quem patrocinou qual projeto e quanto |
+| `Recibos` | 216.499 | Comprovantes de repasse de cada incentivo |
+| `Áreas` | 7 | Taxonomia cultural oficial do MinC |
+| `Segmentos` | 106 | Subdivisões por área |
+| `Cidades` | 5.599 | Geolocalização de projetos e entidades |
+
+**Total incentivado: R$ 8,6 bilhões**
+
+**Projetos aprovados por área:**
+
+| Área | Projetos |
 |---|---|
-| `Projetos` | Nome, UF, área cultural, segmento, mecanismo, situação, valores |
-| `Entidades` | Proponentes e patrocinadores, com CNPJ/CPF, estado, cidade |
-| `Incentivos` | Quem patrocinou qual projeto e quanto |
-| `Recibos` | Comprovantes de repasse de cada incentivo |
-| `Áreas / Segmentos` | Taxonomia cultural oficial do MinC |
-| `Cidades / Estados` | Geolocalização dos projetos e entidades |
+| Música | 5.014 |
+| Artes Cênicas | 4.819 |
+| Humanidades | 4.105 |
+| Artes Integradas | 3.474 |
+| Audiovisual | 3.104 |
+| Patrimônio Cultural | 2.305 |
+| Artes Visuais | 1.620 |
 
-**Dados relevantes extraídos:**
+**Top 5 patrocinadores:**
 
-- A **Petrobras** aparece como maior patrocinadora cultural individual, com mais de **R$ 1,32 bilhão** em incentivos acumulados
-- A **Orquestra Petrobras Sinfônica** recebeu projetos consecutivos entre 2006 e 2012, cada um na faixa de **R$ 10 milhões**
-- Os dados permitem rastrear toda a cadeia: patrocinador → projeto → proponente → valores → recibos
+| Patrocinador | Total incentivado |
+|---|---|
+| Petróleo Brasileiro S.A — Petrobrás | R$ 1,31 bilhão |
+| Vale S/A | R$ 299 milhões |
+| Banco do Brasil S.A | R$ 259 milhões |
+| Eletrobrás | R$ 191 milhões |
+| BNDES | R$ 178 milhões |
 
 **Visualizações geradas:**
 
@@ -80,13 +104,13 @@ Dados do **TSE** (Tribunal Superior Eleitoral) sobre financiamento de campanha.
 
 | Camada | Tecnologia |
 |---|---|
-| Framework | Ruby on Rails 6.0 |
-| Banco de dados | MySQL |
-| Frontend | HAML, SASS, Bootstrap 2, jQuery |
+| Framework | Ruby on Rails 8.1 |
+| Banco de dados | SQLite (dev/prod) |
+| Frontend | HAML, Slim, Bootstrap 5, Stimulus |
+| Paginação | Pagy 9 |
 | Crawler | Mechanize |
 | Jobs | Sidekiq |
 | Rastreamento | Impressionist |
-| Paginação | will_paginate |
 | Servidor | Puma |
 
 ---
