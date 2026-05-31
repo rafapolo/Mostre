@@ -14,6 +14,10 @@ DB  = Path("storage/development.sqlite3")
 BKP = Path("db/bkp")
 BATCH = 500
 
+NOT_NULL_DEFAULTS = {
+    "clicks": {"url": ""},
+}
+
 def load_csv(conn, table, path):
     try:
         with gzip.open(path, "rt", encoding="utf-8") as f:
@@ -21,6 +25,9 @@ def load_csv(conn, table, path):
                              low_memory=False)
         df = df.where(pd.notna(df), None)
         df = df.map(lambda v: None if v == "NULL" else v)
+        for col, default in NOT_NULL_DEFAULTS.get(table, {}).items():
+            if col in df.columns:
+                df[col] = df[col].fillna(default)
 
         cols = ",".join(df.columns)
         ph = ",".join("?" for _ in df.columns)
