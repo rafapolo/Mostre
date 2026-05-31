@@ -19,27 +19,29 @@ class LinksController < ApplicationController
   def show
     param = params[:link]
     @link = Link.find_by_atalho(param)
-    redirect_to "/links", notice: "Link não existe. Crie!" unless @link
 
-    # salva click
+    unless @link
+      redirect_to "/links", notice: "Link não existe. Crie!" and return
+    end
+
     href = request.referer
-    if @link && href
+    if href
       @click = Click.new({link: @link, url: href})
       @click.save!
       @link.update_attribute(:last_referer_at, Time.now)
     end
-    redirect_to @link.para
+    redirect_to @link.para, allow_other_host: true
   end
 
   def create
    # params[:link][:ip] = request.remote_ip
-    @link = Link.new(params[:link].permit!)
+    @link = Link.new(params.require(:link).permit(:titulo, :para, :ip))
     respond_to do |format|
       if @link.save
         flash[:notice] = 'Link criado com sucesso.'
         format.html { redirect_to("/links/info/#{@link.atalho}") }
       else
-        format.html { render :action => "index" }
+        format.html { render :action => "index", status: :unprocessable_entity }
       end
     end
   end

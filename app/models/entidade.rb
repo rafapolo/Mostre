@@ -29,9 +29,9 @@ class Entidade < ApplicationRecord
 		# todo: incentivadores_count // filtra entidades/empresas por incentivos
 		self.incentivos_count = self.incentivos.count
 		self.incentivos_sum = self.incentivos.map(&:valor).sum.to_f
-		self.last_incentivo = self.incentivos.sort_by{:last_recibo_at}.first.last_recibo_at if self.patrocinador
+		self.last_incentivo = self.incentivos.sort_by(&:last_recibo_at).first&.last_recibo_at if self.patrocinador
 
-		self.logradouro = self.logradouro.clean_extra_spaces
+		self.logradouro = self.logradouro.clean_extra_spaces if self.logradouro
 		self.nome = self.nome.normalize if self.nome && !self.empresa
 		self.urlized = self.nome.urlize
 	end

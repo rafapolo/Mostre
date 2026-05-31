@@ -2,7 +2,6 @@ class EntidadesController < ApplicationController
   include ApplicationHelper
 
   before_action :set_entidade, only: [:show]
-  caches_page :show
   layout "cultura"
 
   def define_resumo! # nos índices (_list)
@@ -61,13 +60,12 @@ class EntidadesController < ApplicationController
 
   def patrocinadores
     @title = "Patrocinadores"
-    page = params[:page] || 1
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @entidades = Entidade.patrocinadores.includes(:estado).order(ordem).paginate(page: page, per_page: 35)
+	@pagy, @entidades = pagy(Entidade.patrocinadores.includes(:estado).order(ordem), items: 35)
     impor_filtros!
 
     unless params[:estado_id]
@@ -86,13 +84,12 @@ class EntidadesController < ApplicationController
 
   def proponentes
     @title = "Proponentes"
-    page = params[:page] || 1
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @entidades = Entidade.proponentes.includes(:estado).order(ordem).paginate(page: page, per_page: 35)
+	@pagy, @entidades = pagy(Entidade.proponentes.includes(:estado).order(ordem), items: 35)
     impor_filtros!
 
     unless params[:estado_id]

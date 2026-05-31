@@ -1,7 +1,6 @@
 class CandidatosController < ApplicationController
   include ApplicationHelper
 
-  caches_page :show
   layout "eleicoes"
 
   def impor_filtros!
@@ -25,14 +24,13 @@ class CandidatosController < ApplicationController
   end
 
   def index
-    page = params[:page] || 1
     @title = "Candidatos"
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @candidatos = Candidato.all.order(ordem).paginate(page: page, per_page: 35)
+	@pagy, @candidatos = pagy(Candidato.all.order(ordem), items: 35)
     impor_filtros!
 
     define_resumo!

@@ -2,10 +2,9 @@ class CursosController < ApplicationController
   layout "educacao"
 
   def index
-    page = params[:page] || 1
     @title = "Cursos"
     @topo = "#{Curso.count} Cursos"
-    @cursos = Curso.all.paginate(page: page, per_page: 35)
+	@pagy, @cursos = pagy(Curso.all, items: 35)
   end
 
   private

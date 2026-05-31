@@ -15,7 +15,7 @@ class GraphsController < ApplicationController
   	nodes.uniq!
   	edges.uniq!
    	#render json: {nodes: nodes, edges: edges}
-   	render text: '{
+   	render plain: '{
   "nodes": [
     {
       "id": "n0",

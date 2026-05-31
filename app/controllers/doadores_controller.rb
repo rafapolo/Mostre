@@ -1,7 +1,6 @@
 class DoadoresController < ApplicationController
   include ApplicationHelper
 
-  caches_page :show
   layout "eleicoes"
 
   def impor_filtros!
@@ -25,14 +24,13 @@ class DoadoresController < ApplicationController
   end
 
   def index
-    page = params[:page] || 1
     @title = "Doadores"
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @doadores = Doador.all.paginate(page: page, per_page: 35)
+	@pagy, @doadores = pagy(Doador.all, items: 35)
     impor_filtros!
 
     define_resumo!

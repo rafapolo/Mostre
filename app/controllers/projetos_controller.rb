@@ -1,6 +1,5 @@
 class ProjetosController < ApplicationController
   before_action :set_projeto, only: [:show]
-  caches_page :show
   layout "cultura"
 
   def resumo
@@ -63,18 +62,17 @@ class ProjetosController < ApplicationController
 
   def index
     @title = "Projetos"
-    page = params[:page] || 1
 
     if ordem = params[:ordem]
       ordem = "#{ordem} DESC"
     end
 
-    @projetos = Projeto.includes(:entidade).order(ordem).paginate(page: page, per_page: 35)
+	@pagy, @projetos = pagy(Projeto.includes(:entidade).order(ordem), items: 35)
     impor_filtros!
 
     unless params[:estado_id]
       #todo: benchmark group(:estado)
-      por_estados = @projetos.includes(:estado).select('estado.nome, count(estado_id) DESC as count').group('estados.id').order('count(estado_id) DESC').references(:estados)
+      por_estados = @projetos.includes(:estado).select('estados.nome, count(projetos.estado_id) as count').group('estados.id').order('count(projetos.estado_id) DESC').references(:estados)
       @estados = {}
       Estado.all.each{|e| @estados[e] = por_estados.count[e.id] || 0}
       @estados = @estados.sort_by{|k, v| v}.reverse

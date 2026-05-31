@@ -1,4 +1,5 @@
 module ApplicationHelper
+	include Pagy::Frontend
 	include ActionView::Helpers::NumberHelper
 
 
@@ -6,14 +7,6 @@ module ApplicationHelper
 		txt.gsub(Regexp.new("(#{termo})", Regexp::IGNORECASE) , '<b class=highlight>\1</b>').html_safe
 	end
 	alias_method(:hl, :highlight)
-
-	def pagination(collection, options = {})
-		options[:renderer] ||= BootstrapPaginationHelper::LinkRenderer
-		options[:class] ||= 'pagination pagination-centered'
-		options[:inner_window] ||= 2
-		options[:outer_window] ||= 1
-		will_paginate(collection, options)
-	end
 
 	def link_to_image(path)
 		 link_to image_tag(path), asset_path(path), target: '_blank'

@@ -5,7 +5,7 @@ class Projeto < ApplicationRecord
 	belongs_to :area
 
 	has_many :incentivos
-	# has_many :apoiadores, :source => :entidade, :through => :incentivos
+	has_many :entidades_apoiadoras, source: :entidade, through: :incentivos
 
 	is_impressionable :counter_cache => true, :unique => true
 

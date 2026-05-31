@@ -1,6 +1,5 @@
 class CulturaController < ApplicationController
-	 skip_before_filter :verify_authenticity_token, :only => [:inscrever]
-	 caches_page :cidade
+	 skip_before_action :verify_authenticity_token, :only => [:inscrever]
 
 	def root
 		render layout: false
@@ -23,9 +22,9 @@ class CulturaController < ApplicationController
 		if email != ""
 			session[:email] = true
 			Newsletter.find_or_create_by(email: email)
-			render text: "Ok. #{email} cadastrado. Até breve, e obrigado.", layout: false
+			render plain: "Ok. #{email} cadastrado. Até breve, e obrigado.", layout: false
 		else
-			render text: "Opz. Email inválido.", layout: false
+			render plain: "Opz. Email inválido.", layout: false
 		end
 	end
 
@@ -39,7 +38,7 @@ class CulturaController < ApplicationController
 		proponentes_sum = view_context.number_to_currency(@entidades.sum(:projetos_sum), :unit => "R$")
 		incentivos_sum = view_context.number_to_currency(@entidades.sum(:incentivos_sum), :unit => "R$")
 		@resumo = "#{proponentes_count} Proponentes captaram #{proponentes_sum} e #{patrocinadores_count} Patrocinadores incentivaram #{incentivos_sum} na cidade"
-		impressionist @cidade
+		impressionist(@cidade) rescue nil
 	end
 
 	def visu
