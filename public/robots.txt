@@ -1,2 +1,1 @@
-User-agent: *
-Disallow: /entidades/21648-emmanuel-teixeira-funghi-de-salles-barbosa
+# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file

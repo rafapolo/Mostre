@@ -16,3 +16,7 @@ public/assets
 public/cache
 public/cultura
 .DS_Store
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+

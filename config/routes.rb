@@ -1,12 +1,16 @@
-require 'sidekiq/web' if Rails.env.development?
+if Rails.env.development?
+  require "sidekiq/web"
+  Sidekiq::Web.use Rack::Auth::Basic do |u, p|
+    u == "admin" && p == "admin"
+  end
+end
 
-Mostre::Application.routes.draw do
+Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq" if Rails.env.development?
 
-  mount Sidekiq::Web, at: "/sidekiq" if Rails.env.development?
-
-  scope '/cultura' do
-    get '', to: "cultura#index"
-    post '/inscrever', to: "cultura#inscrever"
+  scope "/cultura" do
+    get "/", to: "cultura#index"
+    post "/inscrever", to: "cultura#inscrever"
     resources :incentivos
     resources :entidades
     resources :projetos
@@ -15,34 +19,25 @@ Mostre::Application.routes.draw do
     get "/patrocinadores", to: "entidades#patrocinadores"
     get "/salicnet/:numero", to: "cultura#salicnet"
   end
-  get 'visu.json', to: "cultura#visu"
+  get "visu.json", to: "cultura#visu"
 
-  scope '/educacao' do
-    get '', to: "educacao#index"
+  scope "/educacao" do
+    get "/", to: "educacao#index"
     resources :cursos
     resources :mantenedoras
     resources :instituicaos
-    get "/mantenedoras", to: "mantenedoras#index"
-    get "/instituicoes", to: "instituicaos#index"
-    get "/cursos", to: "cursos#index"
   end
 
-  scope '/eleicoes' do
-      get '', to: "eleicoes#index"
-      get "/doadores", to: "doadores#index"
-      get "/doadores/:id", to: "doadores#show"      
-      # get "/partidos", to: "partidos#index"
-      # get "/partidos/:partido", to: "partidos#show"
-      get "/candidatos", to: "candidatos#index"
-      get "/candidatos/:id", to: "candidatos#show"
-      #get "/comites", to: "eleicoes#comites"
-    end
+  scope "/eleicoes" do
+    get "/", to: "eleicoes#index"
+    resources :doadores, only: [:index, :show]
+    resources :candidatos, only: [:index, :show]
+  end
 
-  get '/links', to: "links#index"
-  get '/links/stats', to: "links#stats"
-  get '/links/info/:link', to: "links#info"
-  get '/:link', to: "links#show"
+  get "/links/stats", to: "links#stats"
+  get "/links/info/:link", to: "links#info"
   resources :links
+  get "/:link", to: "links#show"
 
-  root to: 'cultura#root'
+  root to: "cultura#root"
 end

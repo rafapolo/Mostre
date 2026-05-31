@@ -1,3 +1,3 @@
-require File.expand_path('../config/application', __FILE__)
+require_relative "config/application"
 
-Mostre::Application.load_tasks
+Rails.application.load_tasks

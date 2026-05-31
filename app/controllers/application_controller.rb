@@ -1,7 +1,8 @@
-class ApplicationController < ActionController::Base  
+class ApplicationController < ActionController::Base
+  include Pagy::Backend
   protect_from_forgery with: :exception
 
-  before_filter :set_cache_buster
+  before_action :set_cache_buster
 
   def set_cache_buster
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"

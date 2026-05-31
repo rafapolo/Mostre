@@ -1,39 +1,39 @@
 source 'https://rubygems.org'
-# ruby "2.7.1"
+ruby '>= 3.2.0'
 
-gem 'rails', '5.0.1'
-gem 'puma'
-gem 'mysql2', '< 0.5'
-gem 'bundler', '< 2'
-gem 'actionpack-page_caching'
+gem 'rails', '~> 8.0'
+gem 'nokogiri', '>= 1.18'
+gem 'puma', '>= 6.5'
+
 gem 'slim-rails'
-gem 'sass-rails'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem 'uglifier'
-gem 'therubyracer'
+gem 'propshaft'
 gem 'oj'
-gem 'friendly_id'
-gem 'will_paginate'
-gem 'haml-rails'
-gem 'twitter-bootstrap-rails', '2.2.8'
-gem 'impressionist'
 gem 'colored'
-gem 'closure-compiler'
+gem 'friendly_id'
+gem 'pagy', '~> 9.0'
+gem 'haml-rails'
+gem 'impressionist'
 gem 'mechanize'
 gem 'geocoder'
-
-#gem 'airbrake'
+gem 'turbo-rails'
+gem 'stimulus-rails'
+gem 'importmap-rails'
+gem 'solid_cache'
+gem 'solid_queue'
+gem 'thruster'
+gem 'sqlite3'
 
 group :development do
   gem 'sidekiq'
   gem 'sinatra', require: false
   gem 'web-console'
   gem 'byebug'
-  gem 'sqlite3'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'erd'
   gem 'bundler-audit'
+  gem 'listen'
 end
 
+group :development, :test do
+  gem 'brakeman'
+end
