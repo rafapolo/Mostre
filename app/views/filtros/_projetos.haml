@@ -1,56 +1,53 @@
 = javascript_include_tag "filtros"
 
-#filtros
-	= form_for '/cultura/projetos/', :method=>'get' do	
+%form{action: "/cultura/projetos/", method: "get"}
+  .mb-3
+    %label.form-label.small.text-muted Nome contém
+    = text_field_tag :nome, params[:nome], class: "form-control form-control-sm"
 
-		%p{:style=>'margin: 0px 2px 6px 2px'} Nome contém
-		.input
-			= text_field_tag :nome, params[:nome]
+  .mb-3
+    %label.form-label.small.text-muted Síntese contém
+    = text_field_tag :sintese, params[:sintese], class: "form-control form-control-sm"
 
-		%p{:style=>'margin: 0px 2px 6px 2px'} Síntese contém
-		.input
-			= text_field_tag :sintese, params[:sintese]
+  .mb-3
+    %label.form-label.small.text-muted Providência contém
+    = text_field_tag :providencia, params[:providencia], class: "form-control form-control-sm"
 
-		%p{:style=>'margin: 0px 2px 6px 2px'} Providência contém
-		.input
-			= text_field_tag :providencia, params[:providencia]	
+  %hr.small
 
-		.input
-			= check_box_tag :liberados, 1
-		%p.rotulo Somente Liberados
+  .form-check.mb-2
+    = check_box_tag :liberados, 1, false, class: "form-check-input", id: "liberados"
+    %label.form-check-label.small{:for => "liberados"} Somente Liberados
 
-		.input
-			= check_box_tag :apoiado_maior_zero, 1
-		%p.rotulo Apoiado > 0
+  .form-check.mb-2
+    = check_box_tag :apoiado_maior_zero, 1, false, class: "form-check-input", id: "apoiado_maior_zero"
+    %label.form-check-label.small{:for => "apoiado_maior_zero"} Apoiado > 0
 
-		.input
-			= check_box_tag :apoiado_maior_aprovado, 1
-		%p.rotulo Apoiado > Aprovado
+  .form-check.mb-2
+    = check_box_tag :apoiado_maior_aprovado, 1, false, class: "form-check-input", id: "apoiado_maior_aprovado"
+    %label.form-check-label.small{:for => "apoiado_maior_aprovado"} Apoiado > Aprovado
 
-		.input
-			= check_box_tag :recurso_tesouro, 1
-		%p.rotulo Recurso do Tesouro
+  .form-check.mb-2
+    = check_box_tag :recurso_tesouro, 1, false, class: "form-check-input", id: "recurso_tesouro"
+    %label.form-check-label.small{:for => "recurso_tesouro"} Recurso do Tesouro
 
-		.input
-			= check_box_tag :fnc, 1
-		%p.rotulo Fundo Nacional de Cultura		
+  .form-check.mb-2
+    = check_box_tag :fnc, 1, false, class: "form-check-input", id: "fnc"
+    %label.form-check-label.small{:for => "fnc"} Fundo Nacional de Cultura
 
-		.input
-			= check_box_tag :apoiadores_maior_20, 1
-		%p.rotulo Apoiadores > 20
+  .form-check.mb-2
+    = check_box_tag :apoiadores_maior_20, 1, false, class: "form-check-input", id: "apoiadores_maior_20"
+    %label.form-check-label.small{:for => "apoiadores_maior_20"} Apoiadores > 20
 
-		/ %button.btn.btn-mini{href: "#"}
-		/ 	%i.icon-zoom-in
-		/ 	Mostrar
+  %hr.small
 
-		%hr.small
-		#subsub			
-			- if @estado
-				%p.selectable{type: 'estado', type_id: @estado.id, filtering: 1}
-					%span.rotulo= @estado.nome
-					%span.badge.badge-right X
+  #subsub
+    - if @estado
+      %p.selectable{type: "estado", type_id: @estado.id, filtering: 1}
+        %span.rotulo= @estado.nome
+        %span.badge.badge-right X
 
-			- if @area
-				%p.selectable{type: 'area', type_id: @area.id, filtering: 1}
-					%span.rotulo= @area.nome
-					%span.badge.badge-right X
+    - if @area
+      %p.selectable{type: "area", type_id: @area.id, filtering: 1}
+        %span.rotulo= @area.nome
+        %span.badge.badge-right X
