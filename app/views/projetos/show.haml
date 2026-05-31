@@ -11,10 +11,11 @@
     = @projeto.nome
 
 .card.center.borda
-  #title{style:"font-size:15px"}
-    %a{href: '/cultura/entidades/' + @projeto.entidade.to_param}
-      %i.bi.bi-briefcase-fill
-      = "#{@projeto.entidade.nome} (#{@projeto.entidade.projetos_count})"
+  - if @projeto.entidade
+    #title{style:"font-size:15px"}
+      %a{href: '/cultura/entidades/' + @projeto.entidade.to_param}
+        %i.bi.bi-briefcase-fill
+        = "#{@projeto.entidade.nome} (#{@projeto.entidade.projetos_count})"
 
 .center{style: "padding-bottom:10px"}
   - solicitou = @projeto.solicitado > 0 ? (reais @projeto.solicitado) : "nada"
