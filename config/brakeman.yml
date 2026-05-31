@@ -1,0 +1,8 @@
+---
+:ignore:
+  - :note: Link shortener intentionally redirects to external URLs
+    :file: app/controllers/links_controller.rb
+    :line: 33
+  - :note: Intentional - displaying referrer URLs from click tracking
+    :file: app/views/links/info.haml
+    :line: 30
