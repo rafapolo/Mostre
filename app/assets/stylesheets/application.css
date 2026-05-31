@@ -332,7 +332,12 @@ text {
 /* Hide empty ad placeholder */
 #ad:empty { display: none; }
 
-/* Carousel caption fix */
+/* Carousel */
+#nav-analises {
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .carousel-caption {
   position: relative;
   left: auto;
@@ -343,6 +348,25 @@ text {
 
 .carousel-inner {
   padding-bottom: 50px;
+}
+
+/* Sidebar filtro_estados: area/state facets moved here by JS */
+#filtro_estados {
+  min-height: 0;
+}
+#filtro_estados .selectable {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+#filtro_estados .selectable:hover {
+  background: #f5f5f5;
+  text-decoration: none;
 }
 
 /* Chart text in foreignObject */
