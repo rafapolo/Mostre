@@ -3,14 +3,14 @@
 %table.table.table-striped.table-bordered.table-condensed.borda
   %thead
     %tr
-      %th{style: 'width: 420px'} Cod
+      %th{style: 'width: 420px'} Nome
       %th Natureza
       %th#situacao_at.reorder Representante
-      %th#cursos.reorder Cursos
+      %th#cursos.reorder Instituições
   %tbody
     - @mantenedoras.each do |mant|
       %tr
-        %td= mant.cod_mec #todo: hightlight
+        %td{style:'text-align:left'}= link_to_mantenedora mant
         %td{style: "width: 250px"}= mant.natureza
         %td{style: "width: 400px"}= mant.representante
         %td= mant.instituicaos.count

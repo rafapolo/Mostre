@@ -1,86 +1,23 @@
-:javascript
-  $(document).ready(function(){
-    $('th').removeClass('reorder')
-  })
-
 .card.status.borda
   .titulo
-    %i.bi.bi-grid-fill.afastado
-    = @projeto.nome
-
-.card.center.borda
-  - if @projeto.entidade
-    #title{style:"font-size:15px"}
-      %a{href: '/cultura/entidades/' + @projeto.entidade.to_param}
-        %i.bi.bi-briefcase-fill
-        = "#{@projeto.entidade.nome} (#{@projeto.entidade.projetos_count})"
+    %i.bi.bi-mortarboard-fill.afastado
+    = @curso.nome
 
 .center{style: "padding-bottom:10px"}
-  - solicitou = @projeto.solicitado > 0 ? (reais @projeto.solicitado) : "nada"
-  .badge.bg-warning= "Solicitou #{solicitou}"
-  - if @projeto.aprovado > 0
-    .badge.bg-info= "Aprovaram #{reais @projeto.aprovado}"
-  - else
-    - if !especial(@projeto)
-      .badge.bg-danger= "Sem aprovação"
+  .badge.bg-light.text-dark= "#{@curso.instituicaos.count} instituições"
+  - if primeiro = @curso.primeiro_em
+    .badge.bg-success= "Desde #{primeiro.liberado_at}"
 
-  - if @projeto.apoiado > 0
-    .badge.bg-success= "Conseguiu #{reais @projeto.apoiado}"
-  - else
-    - if !especial(@projeto)
-      .badge.bg-danger= "Conseguiu nada"
-
-.card.status
-  = @resumo
-
-.alert.alert-info.borda
-  %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
-  %i.bi.bi-pencil
-  = @projeto.sintese
-
-#infos.borda{style:"margin-top:8px"}
-  - if @projeto.liberado_at
-    .alert.alert-success
-      %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
-      %i.bi.bi-check-circle-fill
-      = "Liberado em #{@projeto.liberado_at}"
-
-.alert.borda
-  %button.close{"data-bs-dismiss" => "alert", type: "button"} ×
-  %i.icon-exclamation-sign
-  %strong= @projeto.situacao_at
-  - enquadramento = "» #{@projeto.enquadramento}" if @projeto.enquadramento
-  = " #{enquadramento} » #{@projeto.situacao} » #{@projeto.providencia}"
-
-
-- if @projeto.apoiadores && @projeto.apoiadores > 0
+- if @curso.instituicaos.any?
   %table.table.table-striped.borda
     %thead
       %tr
-        %th
-        %th{style:'text-align:left'} Patrocinador
-        %th Valor Total
-        %th Depósitos
-        %th Último
+        %th{style:'text-align:left'} Instituição
+        %th Categoria
+        %th Desde
     %tbody
-      - @projeto.incentivos.each do |i|
+      - @curso.instituicaos.each do |instituicao|
         %tr
-          %td
-            - if i.entidade.empresa
-              %i.bi.bi-briefcase-fill
-            - else
-              %i.bi.bi-person-fill
-          %td{style:'text-align:left'}= link_to_entidade i.entidade
-          %td= reais i.valor
-          %td= i.recibos_count
-          - if last_recibo_at = i.last_recibo_at
-            %td= to_date last_recibo_at
-          - else
-            %td -
-
-.center
-  %a.btn{href: "/cultura/salicnet/#{@projeto.numero}", target:"_blank"}
-    %i.bi.bi-info-circle-fill
-    Ver no SalicNet
-  %br
-  %br
+          %td{style:'text-align:left'}= link_to_instituicao instituicao
+          %td= instituicao.categoria
+          %td= instituicao.liberada_at ? instituicao.liberada_at.year : "-"

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get "/", to: "cultura#index"
     post "/inscrever", to: "cultura#inscrever"
     resources :incentivos
-    resources :entidades
+    resources :entidades, except: [:index]
     resources :projetos
     get "/cidades/:uf/:nome", to: "cultura#cidade"
     get "/proponentes", to: "entidades#proponentes"

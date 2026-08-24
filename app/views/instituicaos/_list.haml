@@ -12,10 +12,10 @@
   %tbody
     - @instituicaos.each do |inst|
       %tr
-        %td= inst.nome #todo: hightlight
+        %td{style:'text-align:left'}= link_to_instituicao inst
         %td= inst.sigla
         %td= inst.cursos.count
-        %td= inst.liberada_at.year
+        %td= inst.liberada_at&.year
         %td= inst.categoria
         / %td= mant.segmento.nome
         / %td

@@ -11,7 +11,7 @@
 .center{style: "padding-bottom:10px"}
   .label.label-error= @candidato.cargo
   .badge.bg-warning= @candidato.ano
-  .badge.bg-info= "#{@candidato.doacoes_count} doações"
+  .badge.bg-info= "#{@candidato.doacoes_count.to_i} doações"
   .badge.bg-warning= "#{@candidato.doadores.uniq.count} doadores"
   .badge.bg-success= "Recebeu #{reais @candidato.valor_total}"
   -# .badge.bg-danger= "Sem aprovação"
@@ -39,7 +39,7 @@
 -#   = " #{enquadramento} » #{@candidato.situacao} » #{@candidato.providencia}"
 
 
-- if @candidato.doacoes_count > 0
+- if @candidato.doacoes_count.to_i > 0
   %table.table.table-striped.borda
     %thead
       %tr

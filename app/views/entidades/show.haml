@@ -59,9 +59,10 @@
 
 	- # Labels
 	.center{style: "padding-bottom:10px"}
-		.badge.bg-dark
-			%a{href: cidade_path(@entidade.cidade), style: 'color: white' }
-				= "#{@entidade.cidade&.nome} - #{@entidade.cidade&.estado&.sigla}"
+		- if cidade_path(@entidade.cidade)
+			.badge.bg-dark
+				%a{href: cidade_path(@entidade.cidade), style: 'color: white' }
+					= "#{@entidade.cidade&.nome} - #{@entidade.cidade&.estado&.sigla}"
 
 		.badge.bg-light.text-dark= "#{@entidade.projetos_count} projetos"
 		- if @entidade.projetos_liberados > 0
@@ -97,6 +98,7 @@
 
 			%tbody
 				- @entidade.incentivos.sort_by{ |i| i.valor }.each do |incentivo|
+					- next unless incentivo.projeto
 					%tr
 						%td= link_to_projeto incentivo.projeto
 						%td= incentivo.projeto.segmento&.nome

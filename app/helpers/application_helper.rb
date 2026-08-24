@@ -25,6 +25,7 @@ module ApplicationHelper
 	end
 
 	def cidade_path c
+		return nil unless c&.estado
 		"/cultura/cidades/#{c.estado.urlized}/#{c.urlized}"
 	end
 
@@ -54,6 +55,18 @@ module ApplicationHelper
 
 	def link_to_doador doador
 			link_to doador.doador, "/eleicoes/doadores/#{doador.to_param}"
+	end
+
+	def link_to_curso curso
+		link_to curso.nome, "/educacao/cursos/#{curso.to_param}"
+	end
+
+	def link_to_mantenedora mantenedora
+		link_to mantenedora.nome, "/educacao/mantenedoras/#{mantenedora.to_param}"
+	end
+
+	def link_to_instituicao instituicao
+		link_to instituicao.nome, "/educacao/instituicaos/#{instituicao.to_param}"
 	end
 
 	def especial projeto

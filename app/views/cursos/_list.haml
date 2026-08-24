@@ -13,7 +13,7 @@
     - @cursos.each do |curso|
       %tr
         - primeiro = curso.primeiro_em
-        %td= curso.nome #todo: hightlight
+        %td{style:'text-align:left'}= link_to_curso curso
         %td= curso.instituicaos.count
         %td{style: "width: 100px"}= primeiro ? primeiro.liberado_at : ""
         %td= primeiro ? primeiro.instituicao.nome : ""
