@@ -1,0 +1,26 @@
+incentivo_um:
+  id: 1
+  projeto_id: 1
+  entidade_id: 2
+  valor: 10000.0
+  last_recibo_at: "2024-01-15"
+  recibos_count: 1
+
+incentivo_dois:
+  id: 2
+  projeto_id: 1
+  entidade_id: 2
+  valor: 50000.0
+  last_recibo_at: "2024-02-20"
+  recibos_count: 2
+
+# Reflete incentivos reais com projeto_id órfão (~8% dos registros
+# importados apontam para um projeto inexistente). Antes do guard em
+# entidades/show.haml, isso derrubava a página com NoMethodError.
+incentivo_orfao:
+  id: 3
+  projeto_id: 999999
+  entidade_id: 2
+  valor: 1000.0
+  last_recibo_at: "2024-03-01"
+  recibos_count: 1

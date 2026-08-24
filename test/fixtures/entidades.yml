@@ -1,0 +1,52 @@
+proponente:
+  id: 1
+  nome: "Associação Cultural Exemplo"
+  cnpjcpf: "12345678901234"
+  uf: "SP"
+  estado_id: 1
+  cidade_id: 1
+  proponente: true
+  patrocinador: false
+  empresa: true
+  urlized: "associacao-cultural-exemplo"
+  projetos_liberados: 2
+  projetos_sum: 50000.0
+  projetos_count: 2
+  incentivos_sum: 0
+  incentivos_count: 0
+
+patrocinador:
+  id: 2
+  nome: "Empresa Patrocinadora S.A."
+  cnpjcpf: "98765432109876"
+  uf: "RJ"
+  estado_id: 2
+  cidade_id: 2
+  proponente: false
+  patrocinador: true
+  empresa: true
+  urlized: "empresa-patrocinadora"
+  projetos_liberados: 0
+  projetos_sum: 0
+  projetos_count: 0
+  incentivos_sum: 100000.0
+  incentivos_count: 3
+
+# Reflete entidades reais importadas sem cidade_id (edge case que
+# quebrava a página de detalhe antes do guard em cidade_path).
+sem_cidade:
+  id: 3
+  nome: "Entidade Sem Cidade"
+  cnpjcpf: "11122233344455"
+  uf: "MG"
+  estado_id: 1
+  cidade_id:
+  proponente: true
+  patrocinador: false
+  empresa: false
+  urlized: "entidade-sem-cidade"
+  projetos_liberados: 0
+  projetos_sum: 0
+  projetos_count: 0
+  incentivos_sum: 0
+  incentivos_count: 0

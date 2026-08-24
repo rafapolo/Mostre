@@ -1,0 +1,22 @@
+doador_ativo:
+  id: 1
+  doador: "Maria Doadora"
+  cpf_cnpj: "111.111.111-11"
+  uf: "SP"
+  is_empresa: false
+  doacoes_count: 1
+  valor_total: 5000.0
+  urlized: "maria-doadora"
+
+# Reflete registros reais importados sem contadores preenchidos
+# (edge case que quebrava as views de doadores/candidatos antes do fix
+# de nil-safety em doacoes_count).
+doador_sem_contadores:
+  id: 2
+  doador: ""
+  cpf_cnpj: "222.222.222-22"
+  uf: "RJ"
+  is_empresa: false
+  doacoes_count:
+  valor_total:
+  urlized: ""

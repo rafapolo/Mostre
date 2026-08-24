@@ -1,0 +1,11 @@
+musica:
+  id: 1
+  nome: "Música"
+  area_id: 1
+  urlized: "musica"
+
+cinema:
+  id: 2
+  nome: "Cinema"
+  area_id: 2
+  urlized: "cinema"

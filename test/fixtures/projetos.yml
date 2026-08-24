@@ -1,0 +1,35 @@
+projeto_aprovado:
+  id: 1
+  nome: "Show de Música Popular"
+  entidade_id: 1
+  numero: "123456"
+  uf: "SP"
+  mecanismo: "Pronac"
+  processo: "12345/2024"
+  situacao: "Aprovado"
+  sintese: "Um show de música popular brasileira"
+  solicitado: 100000.0
+  aprovado: 80000.0
+  apoiado: 60000.0
+  estado_id: 1
+  segmento_id: 1
+  area_id: 1
+  urlized: "show-de-musica-popular"
+
+projeto_sem_apoio:
+  id: 2
+  nome: "Curta Metragem Experimental"
+  entidade_id: 1
+  numero: "789012"
+  uf: "SP"
+  mecanismo: "Pronac"
+  processo: "67890/2024"
+  situacao: "Aprovado"
+  sintese: "Um curta metragem experimental"
+  solicitado: 50000.0
+  aprovado: 30000.0
+  apoiado: 0
+  estado_id: 1
+  segmento_id: 2
+  area_id: 2
+  urlized: "curta-metragem-experimental"

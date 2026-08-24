@@ -1,0 +1,11 @@
+matematica_em_universidade_um:
+  id: 1
+  curso_id: 1
+  instituicao_id: 1
+  endereco_id: 1
+  cod_mec: 2001
+  grau: "Bacharelado"
+  modalidade: "Presencial"
+  # liberado_at é uma string "YYYY-MM-DD" (não datetime) nos dados
+  # importados do eMec - edge case encontrado em produção.
+  liberado_at: "2006-07-15"

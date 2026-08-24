@@ -1,0 +1,13 @@
+link_valido:
+  id: 1
+  titulo: "Site do Mostre"
+  atalho: "mostre-site"
+  para: "https://mostre.me"
+  created_at: "2024-01-01 12:00:00"
+
+link_exemplo:
+  id: 2
+  titulo: "Google"
+  atalho: "google"
+  para: "https://google.com"
+  created_at: "2024-01-02 12:00:00"

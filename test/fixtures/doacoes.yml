@@ -1,0 +1,17 @@
+doacao_para_candidato:
+  id: 1
+  doador_id: 1
+  candidato_id: 1
+  motivo: "Doação financeira"
+  partido: "PT"
+  quando: "2022-08-01"
+  valor: 5000.0
+
+doacao_para_comite:
+  id: 2
+  doador_id: 1
+  comite_id: 1
+  motivo: "Doação financeira"
+  partido: "PT"
+  quando: "2022-08-05"
+  valor: 2500.0

@@ -1,0 +1,23 @@
+candidato_eleito:
+  id: 1
+  nome: "Fulano Candidato"
+  partido: "PT"
+  cargo: "Deputado Federal"
+  ano: "2022"
+  uf: "SP"
+  doacoes_count: 1
+  valor_total: 5000.0
+  urlized: "fulano-candidato"
+
+# Reflete candidatos importados sem contadores preenchidos (mesmo
+# edge case encontrado nos doadores).
+candidato_sem_contadores:
+  id: 2
+  nome: "Ciclana Candidata"
+  partido: "PSDB"
+  cargo: "Vereador"
+  ano: "2020"
+  uf: "RJ"
+  doacoes_count:
+  valor_total:
+  urlized: "ciclana-candidata"

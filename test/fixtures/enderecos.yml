@@ -1,0 +1,13 @@
+endereco_um:
+  id: 1
+  endereco: "Rua Um"
+  numero: 100
+  bairro: "Centro"
+  cep: "01000-000"
+
+endereco_dois:
+  id: 2
+  endereco: "Avenida Dois"
+  numero: 200
+  bairro: "Jardins"
+  cep: "02000-000"

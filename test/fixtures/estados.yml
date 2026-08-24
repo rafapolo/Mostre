@@ -1,0 +1,9 @@
+sp:
+  id: 1
+  nome: "São Paulo"
+  sigla: "SP"
+
+rj:
+  id: 2
+  nome: "Rio de Janeiro"
+  sigla: "RJ"

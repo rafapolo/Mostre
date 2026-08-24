@@ -1,0 +1,15 @@
+saopaulo:
+  id: 1
+  estado_id: 1
+  nome: "São Paulo"
+  urlized: "sao-paulo"
+  latitude: -23.5505
+  longitude: -46.6333
+
+riodejaneiro:
+  id: 2
+  estado_id: 2
+  nome: "Rio de Janeiro"
+  urlized: "rio-de-janeiro"
+  latitude: -22.9068
+  longitude: -43.1729

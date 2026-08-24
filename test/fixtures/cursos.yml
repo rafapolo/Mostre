@@ -1,0 +1,9 @@
+matematica:
+  id: 1
+  nome: "Matemática"
+  urlized: "matematica"
+
+curso_sem_instituicao:
+  id: 2
+  nome: "Curso Sem Instituição"
+  urlized: "curso-sem-instituicao"

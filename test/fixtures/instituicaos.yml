@@ -1,0 +1,36 @@
+universidade_um:
+  id: 1
+  nome: "Universidade Exemplo"
+  cod_mec: 2001
+  sigla: "UNIEX"
+  categoria: "Universidade"
+  site: "https://uniex.example.edu"
+  emails: "contato@uniex.example.edu"
+  telefone: "(11) 4000-0000"
+  org: "Pública"
+  liberada_at: "2010-01-01"
+  mantenedora_id: 1
+  endereco_id: 1
+  urlized: "universidade-exemplo"
+
+instituicao_sem_mantenedora:
+  id: 2
+  nome: "Faculdade Sem Mantenedora"
+  cod_mec: 2002
+  sigla: "FSM"
+  categoria: "Faculdade"
+  # mantenedora_id intencionalmente ausente: reflete registros reais
+  # importados sem vínculo de mantenedora (edge case encontrado em produção)
+  endereco_id: 2
+  urlized: "faculdade-sem-mantenedora"
+
+instituicao_sem_data:
+  id: 3
+  nome: "Faculdade Sem Data de Liberação"
+  cod_mec: 2003
+  sigla: "FSD"
+  categoria: "Faculdade"
+  mantenedora_id: 2
+  # liberada_at intencionalmente ausente
+  endereco_id: 1
+  urlized: "faculdade-sem-data-de-liberacao"

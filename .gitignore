@@ -5,7 +5,6 @@ deploy.rb
 /.bundle
 /log
 /tmp
-/test
 /vendor
 /db/bkp
 
@@ -25,3 +24,4 @@ public/cultura
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+db/.cf_cookies.json

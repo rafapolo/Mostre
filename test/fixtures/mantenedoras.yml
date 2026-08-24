@@ -1,0 +1,15 @@
+fundacao_um:
+  id: 1
+  nome: "Fundação Educacional Exemplo"
+  cnpj: "11.111.111/0001-11"
+  cod_mec: 1001
+  natureza: "Privada sem fins lucrativos"
+  representante: "João da Silva"
+
+fundacao_dois:
+  id: 2
+  nome: "Instituto Educacional Modelo"
+  cnpj: "22.222.222/0001-22"
+  cod_mec: 1002
+  natureza: "Privada com fins lucrativos"
+  representante: "Maria Souza"
