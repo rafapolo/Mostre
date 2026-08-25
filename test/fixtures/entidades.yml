@@ -50,3 +50,41 @@ sem_cidade:
   projetos_count: 0
   incentivos_sum: 0
   incentivos_count: 0
+
+# Reflete entidades resolvidas pela API SALIC ao vivo sem UF reconhecível
+# (_get_or_create_entidade em db/mostre.py grava a entidade mesmo quando o
+# lookup de estado_id falha). cidade_id aponta pra São Paulo de propósito,
+# pra também aparecer na listagem de /cultura/cidades/sp/sao-paulo.
+proponente_sem_estado:
+  id: 4
+  nome: "Proponente Sem Estado"
+  cnpjcpf: "55566677788899"
+  uf: "SP"
+  estado_id:
+  cidade_id: 1
+  proponente: true
+  patrocinador: false
+  empresa: true
+  urlized: "proponente-sem-estado"
+  projetos_liberados: 1
+  projetos_sum: 1000.0
+  projetos_count: 1
+  incentivos_sum: 0
+  incentivos_count: 0
+
+patrocinador_sem_estado:
+  id: 5
+  nome: "Patrocinador Sem Estado"
+  cnpjcpf: "11122233344400"
+  uf: "RJ"
+  estado_id:
+  cidade_id: 2
+  proponente: false
+  patrocinador: true
+  empresa: true
+  urlized: "patrocinador-sem-estado"
+  projetos_liberados: 0
+  projetos_sum: 0
+  projetos_count: 0
+  incentivos_sum: 5000.0
+  incentivos_count: 1

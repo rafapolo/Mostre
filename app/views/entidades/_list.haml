@@ -18,7 +18,7 @@
 					- else
 						%i.bi.bi-person-fill
 				%td= link_to_entidade entidade
-				%td= entidade.estado.sigla
+				%td= entidade.estado&.sigla
 				%td
 					- if entidade.projetos_count > 0
 						%span.badge.bg-info= entidade.projetos_count

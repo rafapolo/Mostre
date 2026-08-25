@@ -33,3 +33,24 @@ projeto_sem_apoio:
   segmento_id: 2
   area_id: 2
   urlized: "curta-metragem-experimental"
+
+# Reflete o shape real dos projetos sincronizados pela API SALIC ao vivo
+# (db/mostre.py), que não populam entidade_id/area_id/segmento_id/processo/
+# situacao_at/liberado_at/apoiadores - colunas que o schema antigo (dump
+# MySQL) sempre preenchia. Ver plan/diff-schema.md.
+projeto_sync_api:
+  id: 3
+  nome: "Samba Chapecó"
+  numero: "266608"
+  uf: "SC"
+  mecanismo: "Mecenato"
+  enquadramento: "Artigo 18"
+  situacao: "Projeto em avaliação documental"
+  providencia: "Proposta transformada em projeto e encaminhado para assinatura."
+  sintese: "Apresentações de música ao vivo com grupos de samba."
+  solicitado: 303600.0
+  aprovado: 0
+  apoiado: 0
+  estado_id: 1
+  urlized: "samba-chapeco"
+  created_at: "2026-01-01 00:00:00"

@@ -20,7 +20,7 @@
       %tr        
         - nome = hl(params[:nome], proponente.nome) if params[:nome]
         %td= link_to (nome || proponente.nome), entidade_path(proponente)
-        %td= proponente.estado.sigla
+        %td= proponente.estado&.sigla
         %td
           %span.badge.bg-info
             = proponente.projetos_count

@@ -14,7 +14,7 @@
       %tr        
         - nome = hl(params[:nome], patrocinador.nome) if params[:nome]
         %td= link_to (nome || patrocinador.nome), entidade_path(patrocinador)
-        %td= patrocinador.estado.sigla
+        %td= patrocinador.estado&.sigla
         %td
           %span.badge.bg-info
             = patrocinador.incentivos_count

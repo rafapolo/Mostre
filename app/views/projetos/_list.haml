@@ -22,9 +22,10 @@
         %td
           = link_to (nome || projeto.nome), projeto_path(projeto)
           %br
-          = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'
-        %td= projeto.estado.sigla
-        %td= projeto.segmento.nome
+          - if projeto.entidade
+            = link_to projeto.entidade.nome, entidade_path(projeto.entidade), class: 'sub'
+        %td= projeto.estado&.sigla
+        %td= projeto.segmento&.nome
         %td
           - if projeto.situacao_at
             = projeto.situacao_at.year
