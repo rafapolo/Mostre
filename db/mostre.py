@@ -10,13 +10,26 @@ Uso:
     python3 db/mostre.py query "SELECT ..."
 """
 
-import sys, re, asyncio, time, sqlite3, requests
+import sys, re, asyncio, time, sqlite3, requests, json, subprocess
 from pathlib import Path
 
-SQLITE_DB = Path("storage/development.sqlite3")
-API_HOST  = "https://api.salic.cultura.gov.br"
-API_BASE  = f"{API_HOST}/api/v1"
-CHROME    = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+SQLITE_DB   = Path("storage/development.sqlite3")
+API_HOST    = "https://api.salic.cultura.gov.br"
+API_BASE    = f"{API_HOST}/api/v1"
+CHROME      = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+COOKIE_FILE = Path("db/.cf_cookies.json")  # sobrescrito por --worker
+INCENTIVADORES_STATE = Path("db/.incentivadores_offset.json")
+PROJETOS_STATE = Path("db/.projetos_offset.json")
+
+
+def _load_offset_state(path):
+    if path.exists():
+        return json.loads(path.read_text())
+    return {"offset": 0, "total": None}
+
+
+def _save_offset_state(path, offset, total):
+    path.write_text(json.dumps({"offset": offset, "total": total}))
 
 
 # ── banco ──────────────────────────────────────────────────────────────────
@@ -26,6 +39,12 @@ def connect():
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA synchronous=NORMAL")
     conn.execute("PRAGMA busy_timeout=30000")
+    # não existe no schema.rb (Rails nunca declarou o índice) — cria se faltar,
+    # usado no dedup por cnpjcpf em sync_incentivadores/_get_or_create_entidade
+    try:
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_entidades_cnpjcpf ON entidades(cnpjcpf)")
+    except sqlite3.OperationalError:
+        pass  # tabela ainda não existe (banco recém-criado, antes do schema:load)
     return conn
 
 
@@ -71,8 +90,28 @@ def stats():
 
 # ── cloudflare: pega cookie com Chrome real ─────────────────────────────────
 
-async def get_cf_session():
-    """Abre Chrome uma vez, resolve CF, devolve session requests com cookies."""
+def _build_session_from_saved(saved):
+    session = requests.Session()
+    session.headers.update({"User-Agent": saved["ua"], "Accept": "application/json"})
+    for c in saved["cookies"]:
+        session.cookies.set(c["name"], c["value"], domain=c["domain"])
+    return session
+
+def _save_cf_cookies(ua, cookies):
+    COOKIE_FILE.write_text(json.dumps({
+        "ua": ua,
+        "cookies": [{"name": c.name, "value": c.value, "domain": c.domain} for c in cookies],
+    }))
+
+async def get_cf_session(force=False):
+    """Devolve session requests com cookies CF. Reutiliza cache em disco se disponível."""
+    if not force and COOKIE_FILE.exists():
+        print("  usando cookies CF em cache...", end=" ", flush=True)
+        saved = json.loads(COOKIE_FILE.read_text())
+        session = _build_session_from_saved(saved)
+        print("ok")
+        return session
+
     import nodriver as uc
 
     browser = await uc.start(
@@ -94,6 +133,8 @@ async def get_cf_session():
     ua = await page.evaluate("navigator.userAgent")
     browser.stop()
 
+    _save_cf_cookies(ua, cookies)
+
     session = requests.Session()
     session.headers.update({"User-Agent": ua, "Accept": "application/json"})
     for c in cookies:
@@ -103,7 +144,30 @@ async def get_cf_session():
     return session
 
 
-def api_get(session, path, params, _retries=4):
+def _refresh_session_cookies(session):
+    """
+    Renova os cookies CF de um requests.Session já em uso, in-place.
+    get_cf_session é async (abre Chrome via nodriver) e é chamado de dentro de
+    sync_projetos/sync_incentivadores, que rodam sincronamente dentro do loop
+    asyncio já ativo em run_sync — nested asyncio.run()/novo event loop não
+    funciona com nodriver (ele mantém estado async global que vaza entre
+    loops e trava em "cannot call get() concurrently" num crash-loop sem
+    backoff — foi o que encheu o disco). Roda num subprocesso python
+    inteiramente separado, que faz seu próprio asyncio.run() limpo do zero;
+    o resultado só chega via COOKIE_FILE em disco.
+    """
+    subprocess.run(
+        [sys.executable, str(Path(__file__).resolve()), "_refresh_cf_session"],
+        check=True, timeout=120,
+    )
+    saved = json.loads(COOKIE_FILE.read_text())
+    session.cookies.clear()
+    for c in saved["cookies"]:
+        session.cookies.set(c["name"], c["value"], domain=c["domain"])
+    session.headers.update({"User-Agent": saved["ua"], "Accept": "application/json"})
+
+
+def api_get(session, path, params, _retries=6):
     for attempt in range(_retries):
         try:
             r = session.get(
@@ -111,6 +175,12 @@ def api_get(session, path, params, _retries=4):
                 params={**params, "format": "json"},
                 timeout=60,
             )
+            if r.status_code == 403:
+                print(f"\n  sessão CF expirou (403) — renovando (subprocesso, abre Chrome)...",
+                      end=" ", flush=True)
+                _refresh_session_cookies(session)
+                print("ok, retomando")
+                continue
             r.raise_for_status()
             return r.json()
         except Exception as e:
@@ -120,6 +190,7 @@ def api_get(session, path, params, _retries=4):
             print(f"\n  retry {attempt+1}/{_retries-1} ({e.__class__.__name__}) — aguardando {wait}s...",
                   end=" ", flush=True)
             time.sleep(wait)
+    raise RuntimeError(f"api_get: esgotou tentativas em {path}")
 
 
 # ── lookup maps ──────────────────────────────────────────────────────────────
@@ -155,18 +226,48 @@ def _urlize(s):
 # ── sync projetos ─────────────────────────────────────────────────────────────
 
 def sync_projetos(session, conn):
+    """
+    A API /projetos devolve os itens em ordem DECRESCENTE de PRONAC (não
+    ascendente — confirmado batendo offset=0 vs offset=total-1; parâmetros
+    sort/order são ignorados pela API). Como o offset=0 já é o mais novo, a
+    varredura para assim que encontra um PRONAC <= ao maior já salvo — sem
+    isso ela reprocessaria os ~60k projetos inteiros a cada execução.
+    """
     area_map, seg_map, estado_map = _build_maps(conn)
 
+    # numero mistura dois esquemas: PRONACs de verdade (6 dígitos, faixa atual
+    # na API 164380-266608) e códigos de 7 dígitos de um edital não-PRONAC
+    # ("Prêmio Pontos de Valor" 2009, até 1114959) herdados do dump antigo —
+    # sem o length(numero)<=6 o MAX() pega o código do edital e a sync acha
+    # que já tem tudo, sem inserir nada
     last = conn.execute(
         "SELECT MAX(CAST(numero AS INTEGER)) FROM projetos "
-        "WHERE numero GLOB '[0-9]*'"
+        "WHERE numero GLOB '[0-9]*' AND length(numero) <= 6"
     ).fetchone()[0] or 0
 
     first = api_get(session, "/projetos", {"limit": 1})
     total = first.get("total", 0)
     print(f"  último PRONAC no banco: {last}  |  total na API: {total}")
 
-    offset, inserted, t0 = 0, 0, time.time()
+    # checkpoint de offset: se um passe anterior foi interrompido no meio
+    # (crash, CF, etc.) o corte por "last" é inseguro pra retomar — como a
+    # ordem é decrescente, um passe parcial já traz o PRONAC mais alto pro
+    # banco, então reiniciar do zero pararia na primeira página achando que
+    # já tem tudo. Só confia no corte por "last" ao começar um passe do zero
+    # (offset 0, com o total ainda igual ao do passe anterior completo).
+    state = _load_offset_state(PROJETOS_STATE)
+    if state["total"] == total and state["offset"] >= total:
+        print("  total inalterado desde o último sync — nada a fazer")
+        return 0
+    if state["total"] == total:
+        offset = state["offset"]
+        use_last_cutoff = False
+        print(f"  retomando do offset {offset} (checkpoint anterior)")
+    else:
+        offset = 0
+        use_last_cutoff = True
+
+    inserted, t0 = 0, time.time()
     batch_size = 100
 
     while True:
@@ -196,7 +297,7 @@ def sync_projetos(session, conn):
         rows, stop = [], False
         for p in items:
             pronac = int(p.get("PRONAC") or p.get("pronac") or 0)
-            if pronac <= last:
+            if use_last_cutoff and pronac <= last:
                 stop = True
                 continue
 
@@ -225,8 +326,11 @@ def sync_projetos(session, conn):
                 entidade_id,
                 str(pronac),
                 uf_code,
-                p.get("mecanismo") or "",
-                p.get("enquadramento") or None,
+                # a API grafa esses dois campos errado (typo confirmado em produção:
+                # "mecanisnmo", "enquadradmento") — tenta a grafia correta primeiro
+                # pra não quebrar se um dia corrigirem
+                p.get("mecanismo") or p.get("mecanisnmo") or "",
+                p.get("enquadramento") or p.get("enquadradmento") or None,
                 p.get("processo") or None,
                 None,
                 (p.get("situacao") or "")[:255],
@@ -258,6 +362,7 @@ def sync_projetos(session, conn):
             inserted += len(rows)
 
         offset += batch_size
+        _save_offset_state(PROJETOS_STATE, offset, total)
         elapsed = time.time() - t0
         rate = inserted / elapsed if elapsed > 0 else 0
         eta  = (total - offset) / (offset / elapsed) if offset > 0 and elapsed > 0 else 0
@@ -265,6 +370,9 @@ def sync_projetos(session, conn):
               end="\r")
 
         if stop or offset >= total:
+            if stop:
+                # passe do zero bateu no corte de "last" — considera completo
+                _save_offset_state(PROJETOS_STATE, total, total)
             break
 
     print(f"\n  projetos: {inserted} novos inseridos")
@@ -274,18 +382,32 @@ def sync_projetos(session, conn):
 # ── sync incentivadores → entidades ──────────────────────────────────────────
 
 def sync_incentivadores(session, conn):
+    """
+    /incentivadores não tem id numérico (o único identificador estável é o
+    cgccpf) e a API ignora qualquer parâmetro de sort/order — a ordem de
+    paginação é fixa mas opaca. Sem um id comparável não dá pra "pular direto"
+    pro fim como em sync_projetos; em vez disso resolvemos por dedup em
+    cgccpf (INSERT OR IGNORE não ajuda aqui: id é autoincrement, não a chave
+    real) e persistimos o offset já processado em INCENTIVADORES_STATE pra
+    não reescanear do zero a cada execução. Só refaz o scan completo se o
+    total mudou desde a última vez (novos incentivadores podem ter entrado
+    em qualquer posição, já que a ordem não é cronológica).
+    """
     _, _, estado_map = _build_maps(conn)
 
     first = api_get(session, "/incentivadores", {"limit": 1})
     total = first.get("total", 0)
     print(f"  Total incentivadores na API: {total}")
 
-    max_id = conn.execute("SELECT MAX(id) FROM entidades").fetchone()[0] or 0
-    # rough skip: assume API returns in ascending id order
-    start_offset = max(0, max_id - 200)
-    print(f"  max entidade id no banco: {max_id}  |  começando no offset ~{start_offset}")
+    state = _load_offset_state(INCENTIVADORES_STATE)
+    if state["total"] == total and state["offset"] >= total:
+        print(f"  total inalterado desde o último sync ({total}) — nada a fazer")
+        return 0
+    offset = state["offset"] if state["total"] == total else 0
+    if offset:
+        print(f"  retomando do offset {offset} (checkpoint anterior)")
 
-    offset, inserted, t0 = start_offset, 0, time.time()
+    inserted, skipped, t0 = 0, 0, time.time()
 
     while offset < total:
         data = api_get(session, "/incentivadores", {"limit": 100, "offset": offset})
@@ -296,47 +418,47 @@ def sync_incentivadores(session, conn):
         if not items:
             break
 
+        cgccpfs = [str(iv.get("cgccpf") or iv.get("cgc_cpf") or "") for iv in items]
+        cgccpfs = [c for c in cgccpfs if c]
+        existing = set()
+        if cgccpfs:
+            placeholders = ",".join("?" * len(cgccpfs))
+            existing = {r[0] for r in conn.execute(
+                f"SELECT cnpjcpf FROM entidades WHERE cnpjcpf IN ({placeholders})",
+                cgccpfs
+            ).fetchall()}
+
         rows = []
         for iv in items:
-            eid = int(iv.get("id") or 0)
-            if not eid:
+            cgccpf = str(iv.get("cgccpf") or iv.get("cgc_cpf") or "")
+            if not cgccpf or cgccpf in existing:
+                skipped += 1
                 continue
             uf = (iv.get("UF") or iv.get("uf") or "").upper().strip()
             rows.append((
-                eid,
                 (iv.get("nome") or "")[:255],
-                iv.get("cgccpf") or iv.get("cgc_cpf") or "",
+                cgccpf,
                 iv.get("responsavel") or None,
-                None, None, None,
                 uf or None,
-                None, None, None, None, None,
-                None, None, None,
-                None, None, None,
-                None, None,
                 estado_map.get(uf),
-                None, None, None,
             ))
+            existing.add(cgccpf)  # evita duplicar dentro do mesmo batch
 
         if rows:
             conn.executemany("""
-                INSERT OR IGNORE INTO entidades
-                    (id, nome, cnpjcpf, responsavel, logradouro, cidade_nome,
-                     cep, uf, email, tel_res, tel_cel, tel_fax, tel_com,
-                     patrocinador, proponente, empresa,
-                     urlized, projetos_count, projetos_sum,
-                     incentivos_count, incentivos_sum, estado_id,
-                     projetos_liberados, last_incentivo, cidade_id)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                INSERT INTO entidades (nome, cnpjcpf, responsavel, uf, estado_id)
+                VALUES (?,?,?,?,?)
             """, rows)
             conn.commit()
         inserted += len(rows)
         offset += 100
+        _save_offset_state(INCENTIVADORES_STATE, offset, total)
 
         elapsed = time.time() - t0
-        print(f"  {offset:>6}/{total} | {inserted} inseridos | "
+        print(f"  {offset:>6}/{total} | +{inserted} novos | {skipped} já existiam | "
               f"{inserted/elapsed:.1f}/s  ", end="\r")
 
-    print(f"\n  incentivadores: {inserted} inseridos")
+    print(f"\n  incentivadores: {inserted} novos inseridos, {skipped} já existentes")
     return inserted
 
 
@@ -425,11 +547,12 @@ def _get_or_create_area(conn, nome, area_map):
     return new_id, area_map
 
 
-async def sync_por_projeto(session, conn, delay=0.2):
+async def sync_por_projeto(session, conn, delay=0.2, worker_idx=None, worker_total=None):
     """
     Para cada projeto novo sem metadados: busca /projetos/{pronac},
     preenche segmento_id, area_id, entidade_id, created_at e captações.
     Resumível: pula projetos que já têm entidade_id e area_id resolvidos.
+    Com --worker N/TOTAL divide os pendentes por módulo para rodar em paralelo.
     """
     area_map, seg_map, estado_map = _build_maps(conn)
 
@@ -439,6 +562,9 @@ async def sync_por_projeto(session, conn, delay=0.2):
           AND (area_id IS NULL OR entidade_id IS NULL)
         ORDER BY id
     """).fetchall()
+
+    if worker_idx is not None and worker_total is not None:
+        pending = [row for i, row in enumerate(pending) if i % worker_total == worker_idx]
 
     total = len(pending)
     print(f"  {total} projetos pendentes de detalhes")
@@ -454,7 +580,12 @@ async def sync_por_projeto(session, conn, delay=0.2):
             cf_failures += 1
             if cf_failures >= 5:
                 print(f"\n  CF session expirada — renovando...")
-                session = await get_cf_session()
+                COOKIE_FILE.unlink(missing_ok=True)
+                try:
+                    session = await get_cf_session(force=True)
+                except Exception:
+                    print("  sem browser disponível — rode manualmente para renovar cookies e reinicie.")
+                    return
                 cf_failures = 0
             done += 1
             await asyncio.sleep(delay)
@@ -577,7 +708,7 @@ def backfill(conn):
 
 # ── main ───────────────────────────────────────────────────────────────────
 
-async def run_sync(what):
+async def run_sync(what, worker_idx=None, worker_total=None):
     print("Obtendo sessão Cloudflare (abre Chrome uma vez)...")
     session = await get_cf_session()
 
@@ -596,8 +727,9 @@ async def run_sync(what):
             sync_captacoes(session, conn)
 
         if what in ("por_projeto",):
-            print("\n[captações + entidades por projeto (lento)]")
-            await sync_por_projeto(session, conn)
+            label = f" [worker {worker_idx}/{worker_total}]" if worker_idx is not None else ""
+            print(f"\n[captações + entidades por projeto (lento){label}]")
+            await sync_por_projeto(session, conn, worker_idx=worker_idx, worker_total=worker_total)
 
         if what == "all":
             print("\n[backfill campos deriváveis]")
@@ -612,8 +744,22 @@ if __name__ == "__main__":
     cmd  = sys.argv[1] if len(sys.argv) > 1 else "stats"
     arg2 = sys.argv[2] if len(sys.argv) > 2 else "all"
 
-    if cmd == "sync":
-        asyncio.run(run_sync(arg2))
+    # --worker N/TOTAL  ex: --worker 0/3
+    worker_idx, worker_total = None, None
+    for arg in sys.argv[3:]:
+        if arg.startswith("--worker"):
+            val = arg.split("=")[1] if "=" in arg else sys.argv[sys.argv.index(arg) + 1]
+            worker_idx, worker_total = int(val.split("/")[0]), int(val.split("/")[1])
+            globals()["COOKIE_FILE"] = Path(f"db/.cf_cookies_{worker_idx}.json")
+            break
+
+    if cmd == "_refresh_cf_session":
+        # subprocesso isolado usado por _refresh_session_cookies — roda seu
+        # próprio asyncio.run() do zero, sem estado herdado de outro loop
+        asyncio.run(get_cf_session(force=True))
+
+    elif cmd == "sync":
+        asyncio.run(run_sync(arg2, worker_idx=worker_idx, worker_total=worker_total))
 
     elif cmd == "backfill":
         conn = connect()

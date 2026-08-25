@@ -24,4 +24,7 @@ public/cultura
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
-db/.cf_cookies.json
+db/.cf_cookies*.json
+db/.projetos_offset.json
+db/.incentivadores_offset.json
+db/sync_all.log
