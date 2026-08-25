@@ -435,19 +435,25 @@ def sync_incentivadores(session, conn):
                 skipped += 1
                 continue
             uf = (iv.get("UF") or iv.get("uf") or "").upper().strip()
+            # tipo_pessoa vem só às vezes — cnpjcpf sem máscara aqui (14 dígitos
+            # = CNPJ/empresa, 11 = CPF/pessoa física) é o sinal mais confiável
+            empresa = 1 if (iv.get("tipo_pessoa") == "juridica" or len(cgccpf) == 14) else 0
             rows.append((
                 (iv.get("nome") or "")[:255],
                 cgccpf,
                 iv.get("responsavel") or None,
                 uf or None,
                 estado_map.get(uf),
+                1,        # patrocinador — é literalmente o que /incentivadores lista
+                empresa,
             ))
             existing.add(cgccpf)  # evita duplicar dentro do mesmo batch
 
         if rows:
             conn.executemany("""
-                INSERT INTO entidades (nome, cnpjcpf, responsavel, uf, estado_id)
-                VALUES (?,?,?,?,?)
+                INSERT INTO entidades
+                    (nome, cnpjcpf, responsavel, uf, estado_id, patrocinador, empresa)
+                VALUES (?,?,?,?,?,?,?)
             """, rows)
             conn.commit()
         inserted += len(rows)
