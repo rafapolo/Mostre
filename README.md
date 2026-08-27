@@ -1,102 +1,60 @@
 # Mostre!me
 
-Plataforma de dados abertos construída em Ruby on Rails que agrega, estrutura e expõe informações públicas do governo brasileiro — cultura, educação e eleições — com rastreamento de links desde 2009.
+Projeto pessoal em Ruby on Rails que junta dados públicos do governo brasileiro (cultura, educação e eleições) num único banco SQLite navegável, mais um encurtador de links que roda desde 2009.
+
+Não é uma "plataforma" no sentido de produto mantido — é um site antigo que ficou anos parado com a interface travada em 2014, e que voltou a receber atenção em 2026. Alguns módulos são sólidos e testados, outros são só uma tabela grande importada de um dump que ninguém terminou de explorar. As seções abaixo tentam deixar claro qual é qual.
 
 ---
 
 ## Módulos
 
-### Links — desde 2009
+### Links — desde 2009, o módulo mais maduro
 
-Criador de referências curtas no domínio `mostre.me`. Cada atalho registra **quando** e **de onde** o link foi clicado, sem armazenar dados do visitante, explorando os princípios nativos do protocolo HTTP.
+Criador de links curtos no domínio `mostre.me`. Cada clique registra IP, referrer e timestamp, sem cookies.
 
 ```
 mostre.me/:atalho → qualquer URL na web
 ```
 
-- Rastreamento por IP, referrer e timestamp
-- Stats por link via `/links/stats`
-- Sem cookies, sem identificação de usuário
-
-**1.495 links criados — 34.981 cliques registrados**
+**57.542 links criados — 835.917 cliques registrados** (contagem local, `storage/development.sqlite3`)
 
 ---
 
-### Cultura — desde 2010
+### Cultura — desde 2010, ativamente sincronizado, com um buraco de 7 anos
 
-Mineração e navegação dos dados do **SalicNet** (sistema oficial do Ministério da Cultura). Todos os projetos culturais aprovados via Lei Rouanet e mecanismos do FNC estão indexados e navegáveis.
+Dados do **SalicNet** (Ministério da Cultura) — projetos aprovados via Lei Rouanet, patrocinadores, incentivos, recibos.
 
-**O que está mapeado:**
-
-| Entidade | Total | Descrição |
-|---|---|---|
-| `Projetos` | 126.969 | Nome, UF, área cultural, segmento, mecanismo, situação, valores |
-| `Projetos aprovados` | 24.441 | Apoiados com valor > 0 |
-| `Entidades` | 102.448 | Proponentes e patrocinadores, com CNPJ/CPF, estado, cidade |
-| `Patrocinadores` | 50.344 | Empresas e pessoas que incentivaram projetos |
-| `Proponentes` | 52.072 | Entidades que submeteram projetos |
-| `Incentivos` | 138.095 | Quem patrocinou qual projeto e quanto |
-| `Recibos` | 216.499 | Comprovantes de repasse de cada incentivo |
-| `Áreas` | 7 | Taxonomia cultural oficial do MinC |
-| `Segmentos` | 106 | Subdivisões por área |
-| `Cidades` | 5.599 | Geolocalização de projetos e entidades |
-
-**Total incentivado: R$ 8,6 bilhões**
-
-**Projetos aprovados por área:**
-
-| Área | Projetos |
+| Entidade | Total |
 |---|---|
-| Música | 5.014 |
-| Artes Cênicas | 4.819 |
-| Humanidades | 4.105 |
-| Artes Integradas | 3.474 |
-| Audiovisual | 3.104 |
-| Patrimônio Cultural | 2.305 |
-| Artes Visuais | 1.620 |
+| `Projetos` | 165.657 |
+| `Entidades` (proponentes + patrocinadores) | 152.915 |
+| `Incentivos` | 173.754 |
+| `Recibos` | 245.640 |
+| `Cidades` | 5.599 |
 
-**Top 5 patrocinadores:**
+**Total incentivado (soma de `incentivos.valor`): ~R$ 10 bilhões**
 
-| Patrocinador | Total incentivado |
-|---|---|
-| Petróleo Brasileiro S.A — Petrobrás | R$ 1,31 bilhão |
-| Vale S/A | R$ 299 milhões |
-| Banco do Brasil S.A | R$ 259 milhões |
-| Eletrobrás | R$ 191 milhões |
-| BNDES | R$ 178 milhões |
+Área com mais projetos: Artes Integradas (35k), seguida de Música (27k) e Artes Cênicas (24k).
 
-**Visualizações geradas:**
+**Limitação conhecida:** os dados vêm de duas fontes diferentes que não se conversam bem —
 
-- Grafos em formato `.dot` (Graphviz) para análise de redes de patrocínio
-- Exportação em `.gexf` para visualização no Gephi
-- JSON para treemaps D3.js com distribuição por área cultural
+- Um dump MySQL legado cobrindo até ~2016 (a maior parte do volume histórico).
+- A API SALIC ao vivo, sincronizada por `db/mostre.py`, que hoje cobre 2024–2026.
+- **O período 2017–2023 ainda não foi sincronizado** (ver `plan/sync_cult_data.md`).
+- A API SALIC fica atrás de Cloudflare. O sync `por_projeto` precisa que alguém abra o Chrome localmente para resolver o desafio e salvar cookies em `db/.cf_cookies.json` a cada ~350 requisições — não dá pra rodar isso 100% desatendido.
+- O schema antigo (herdado do dump MySQL) e o payload da API não batem campo a campo — colunas como `situacao_at`, `liberado_at` e `apoiadores` estão mortas (nunca preenchidas pelo sync novo). Detalhes em `plan/diff-schema.md`.
 
 ---
 
-### Educação — desde 2015
+### Educação — desde 2015, snapshot estático (não é sincronizado)
 
-Mapeamento do **eMec** (sistema do Ministério da Educação), cobrindo todo o sistema nacional de educação pública e privada.
-
-**O que está mapeado:**
-
-| Entidade | Descrição |
-|---|---|
-| `Mantenedoras` | CNPJ, natureza jurídica, representante legal |
-| `Instituições` | Nome, sigla, categoria, site, telefone, data de credenciamento |
-| `Cursos` | Nome, grau, modalidade, código MEC |
-| `Endereços` | Localização completa de cada campus |
-
-O crawler percorre o eMec via Mechanize, extrai dados de cada instituição e seus cursos, e vincula tudo por código MEC.
+Crawl único do **eMec** via Mechanize: mantenedoras, instituições, cursos, endereços — **2.632 instituições, 1.038 cursos**. Isso é uma raspagem antiga, não há job rodando para atualizar; os números não refletem o eMec de hoje.
 
 ---
 
-### Eleições
+### Eleições — dados importados em massa, UI fina
 
-Dados do **TSE** (Tribunal Superior Eleitoral) sobre financiamento de campanha.
-
-- Candidatos, doadores, comitês
-- Rede de doações: quem doou, quanto, para quem
-- Geração de grafos de fluxo financeiro eleitoral
+Tabelas de **candidatos** (1.356.855 registros) e **doações** (10.350.196 registros) vieram de um dump e estão no banco, mas a maior parte não tem tela própria além de listagem/busca de candidatos com paginação. Não há, por exemplo, visualização de rede de doações fora do que existe para Cultura — é a área menos desenvolvida do site hoje.
 
 ---
 
@@ -108,18 +66,30 @@ Dados do **TSE** (Tribunal Superior Eleitoral) sobre financiamento de campanha.
 | Banco de dados | SQLite (dev/prod) |
 | Frontend | HAML, Slim, Bootstrap 5, Stimulus |
 | Paginação | Pagy 9 |
-| Crawler | Mechanize |
-| Jobs | Sidekiq |
-| Rastreamento | Impressionist |
+| Crawler legado (educação) | Mechanize |
+| Sync ativo (cultura) | `db/mostre.py` — script Python à parte, fora do Rails |
+| Jobs | Sidekiq (config presente, uso limitado) |
+| Rastreamento de links | Impressionist |
 | Servidor | Puma |
+
+---
+
+## Testes
+
+```bash
+bin/rails test        # 89 testes (minitest)
+bundle exec rspec     # 112 exemplos (rspec)
+```
+
+Ambas as suítes passam localmente hoje. Cobrem principalmente controllers e nil-safety — foram adicionadas em 2026 junto com a retomada do projeto, não existiam antes.
 
 ---
 
 ## Fontes de dados
 
-- **SalicNet** — `salicnet.cultura.gov.br` — projetos e incentivos culturais (Lei Rouanet)
-- **eMec** — `emec.mec.gov.br` — instituições e cursos de ensino superior
-- **TSE** — dados de prestação de contas eleitoral
+- **SalicNet / API SALIC** — `api.salic.cultura.gov.br` — projetos e incentivos culturais (Lei Rouanet). Atrás de Cloudflare; sync manual/semi-assistido.
+- **eMec** — `emec.mec.gov.br` — instituições e cursos de ensino superior. Raspagem única, desatualizada.
+- **TSE** — dados de prestação de contas eleitoral, origem de um dump antigo, não sincronizado com fonte viva.
 
 ---
 
@@ -131,48 +101,40 @@ rails db:create db:schema:load
 rails s
 ```
 
-Para atualizar os dados do MinC:
+Para sincronizar dados de cultura via API SALIC (requer Chrome local para passar pelo Cloudflare — ver `plan/sync_cult_data.md`):
+
+```bash
+python3 db/mostre.py sync              # projetos + incentivadores
+python3 db/mostre.py sync por_projeto  # captações + entidades por projeto (lento, resumível)
+python3 db/mostre.py stats
+```
+
+Existem também tasks Rake mais antigas que atuam sobre o mesmo banco, hoje redundantes com o script Python acima:
 
 ```bash
 rails minc:update:new       # novos projetos
 rails minc:update:projetos  # atualiza projetos existentes
 rails minc:update:recibos   # recibos dos incentivos
-```
-
-Para gerar grafos de rede:
-
-```bash
-rails minc:top100           # top 20 patrocinadores → projetos → proponentes
-rails minc:bellini          # grafo de uma entidade específica
+rails minc:top100           # grafo: top 20 patrocinadores → projetos → proponentes (sem desc no rake -T)
+rails minc:bellini           # grafo de uma entidade específica (sem desc no rake -T)
 ```
 
 ---
 
-## Dados de datas nos projetos culturais
+## Datas nos projetos culturais
 
-A coluna **Ano** na listagem de projetos exibe `situacao_at` — a data em que o governo atualizou o status do projeto no SalicWeb. Esse campo vem diretamente do HTML da fonte (`sistemas.cultura.gov.br`) e parou de ser preenchido pela fonte original por volta de 2014.
-
-Projetos rastreados após isso chegam sem data de status e aparecem como **"em avaliação"**. O campo `processo` também carrega o ano no formato `/YY-` (ex: `01400.000953/06-21` = 2006), mas igualmente ficou vazio nas raspagens mais recentes.
+A coluna **Ano** na listagem de projetos exibe `situacao_at` — data em que o governo atualizou o status do projeto no SalicWeb antigo. Esse campo parou de ser preenchido pela fonte por volta de 2014, e a API nova nunca teve equivalente, então está permanentemente `nil` para tudo sincronizado depois disso.
 
 | Campo | Cobertura | Origem |
 |---|---|---|
-| `situacao_at` | até jan/2014 | data da última mudança de status no MinC |
-| `processo` (`/YY-`) | até 2014 | número de processo governamental com ano embutido |
-| `created_at` | todos | data em que o projeto foi rastreado pelo crawler |
+| `situacao_at` | até ~2014 | data da última mudança de status, fonte HTML antiga |
+| `processo` (`/YY-`) | até ~2014 | número de processo com ano embutido, também parou de vir preenchido |
+| `created_at` | todos | data em que o projeto foi rastreado pelo crawler/sync — não a data real do MinC |
 
-Para projetos recentes, `created_at` é a única data disponível — representa quando entraram no sistema, não quando foram registrados no MinC.
+Projetos sem `situacao_at` aparecem como "em avaliação" mesmo quando já foram decididos há anos — é uma limitação de dado, não um bug de exibição.
 
 ---
 
-## 2026 — Retomada com auxílio de LLMs
+## 2026 — retomada com apoio de LLMs
 
-Depois de anos com a interface essencialmente congelada no design de 2014, em maio de 2026 iniciamos uma retomada do projeto com apoio de modelos de linguagem (LLMs). As melhorias foram conduzidas em uma única sessão de trabalho e cobriram:
-
-- **Navegação**: estado ativo no menu lateral por página; largura do sidebar fixada para não oscilar entre páginas
-- **Tipografia**: tamanho base aumentado de 13px para 15px; sombras de texto suavizadas do estilo "2px 3px gray" para valores modernos
-- **Tabelas**: remoção do `min-width: 880px` fixo; estado vazio explícito ("Nenhum resultado encontrado") em todas as listagens
-- **Componentes**: spinner de carregamento migrado do GIF `load.gif` para o spinner nativo do Bootstrap 5; ícones de chevron removidos de links simples de navegação
-- **Gráfico treemap**: container corrigido de `<p>` para `<div>`; dimensões fixas (`880×580px`) removidas para renderização responsiva via `viewBox`
-- **Rodapé**: altura fixa de 21px substituída por altura automática com padding; anos atualizados
-- **Cores**: `bg-info` customizado para `#4183c4` (azul já usado nos links); cursor `crosshair` removido de elementos não-interativos
-- **CSS**: regras do sidebar migradas de `#lado` (legado) para `#sidebar`; `#ad` com dimensões movidas do inline para a folha de estilos
+Depois de anos com a interface essencialmente congelada em 2014, em maio de 2026 começou uma retomada com apoio de modelos de linguagem, numa única sessão de trabalho: estado ativo no menu lateral, tipografia maior (13px → 15px), remoção do `min-width: 880px` fixo nas tabelas, estado vazio nas listagens, spinner nativo do Bootstrap no lugar de um GIF, treemap D3 responsivo via `viewBox`, rodapé e cores atualizados. É retoque de superfície — os problemas de dado descritos acima (buraco de sync, schema desencontrado, eleições incompleta) continuam abertos.
