@@ -1,5 +1,15 @@
 # Mostre!me
 
+**Dados públicos de cultura, educação e eleições do Brasil num só banco navegável, mais um encurtador de links desde 2009.**
+
+![Grafo de relações entre incentivadores e projetos](doc/images/grafo.png)
+
+*As cores representam os estados.*
+
+![Grafo dos projetos aprovados no RJ](doc/images/grafo-rj.png)
+
+*Projetos aprovados no RJ, com Petrobras e Banco do Brasil como grandes financiadores no centro.*
+
 Projeto pessoal em Ruby on Rails que junta dados públicos do governo brasileiro (cultura, educação e eleições) num único banco SQLite navegável, mais um encurtador de links que roda desde 2009.
 
 Não é uma "plataforma" no sentido de produto mantido — é um site antigo que ficou anos parado com a interface travada em 2014, e que voltou a receber atenção em 2026. Alguns módulos são sólidos e testados, outros são só uma tabela grande importada de um dump que ninguém terminou de explorar. As seções abaixo tentam deixar claro qual é qual.
