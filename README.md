@@ -30,7 +30,7 @@ mostre.me/:atalho → qualquer URL na web
 
 ---
 
-### Cultura — desde 2010, ativamente sincronizado, com um buraco de 7 anos
+### Cultura — desde 2010, ativamente sincronizado, com um buraco de 2 anos
 
 Dados do **SalicNet** (Ministério da Cultura) — projetos aprovados via Lei Rouanet, patrocinadores, incentivos, recibos.
 
@@ -48,9 +48,9 @@ Dados do **SalicNet** (Ministério da Cultura) — projetos aprovados via Lei Ro
 
 **Limitação conhecida:** os dados vêm de duas fontes diferentes que não se conversam bem —
 
-- Um dump MySQL legado cobrindo até ~2016 (a maior parte do volume histórico).
-- A API SALIC ao vivo, sincronizada por `db/mostre.py`, que hoje cobre 2024–2026.
-- **O período 2017–2023 ainda não foi sincronizado** (ver `plan/sync_cult_data.md`).
+- Um dump MySQL legado cobrindo 2000–2016 (a maior parte do volume histórico).
+- A API SALIC ao vivo, sincronizada por `db/mostre.py`, que hoje cobre 2019–2026.
+- **O período 2017–2018 praticamente não existe** em nenhuma das duas fontes (ver `plan/sync_cult_data.md` e a seção *Cobertura temporal*).
 - A API SALIC fica atrás de Cloudflare. O sync `por_projeto` precisa que alguém abra o Chrome localmente para resolver o desafio e salvar cookies em `db/.cf_cookies.json` a cada ~350 requisições — não dá pra rodar isso 100% desatendido.
 - O schema antigo (herdado do dump MySQL) e o payload da API não batem campo a campo — colunas como `situacao_at`, `liberado_at` e `apoiadores` estão mortas (nunca preenchidas pelo sync novo). Detalhes em `plan/diff-schema.md`.
 
@@ -65,6 +65,30 @@ Crawl único do **eMec** via Mechanize: mantenedoras, instituições, cursos, en
 ### Eleições — dados importados em massa, UI fina
 
 Tabelas de **candidatos** (1.356.855 registros) e **doações** (10.350.196 registros) vieram de um dump e estão no banco, mas a maior parte não tem tela própria além de listagem/busca de candidatos com paginação. Não há, por exemplo, visualização de rede de doações fora do que existe para Cultura — é a área menos desenvolvida do site hoje.
+
+---
+
+## Cobertura temporal
+
+Datas mínima e máxima de cada base, medidas em 2026-11-05. Links, Educação e Eleições vêm de `storage/development.sqlite3`. Cultura vem do dataset `br_minc_salic` no projeto rodado (`~/Projetos/rodado`), a versão organizada mais recente dos dados do MinC: as tabelas de Cultura não estão mais no SQLite local.
+
+| Módulo | Tabela.campo | Mín | Máx | Observação |
+|---|---|---|---|---|
+| Links | `links.created_at` | 2009-09-07 | 2017-06-04 | nenhum link novo desde 2017 |
+| Links | `clicks.created_at` | 2009-09-07 | 2017-06-04 | 40.999 cliques |
+| Links | `impressions.created_at` | 2015-01-04 | 2017-05-30 | 835.917 impressões |
+| Cultura (legado) | `projetos.processo` (ano `/YY-`) | 2000 | 2016 | 2016 só tem 1.711 projetos; alguns processos de 1992–1999 |
+| Cultura (legado) | `projetos.situacao_at` | 2000 | 2016-05-16 | 60 mil projetos sem data; há datas `1900-01-01` |
+| Cultura (legado) | `recibos.data` | 2000 | 2014-12-30 | 2013–2014 já esparsos (9.675 e 760) |
+| Cultura (legado) | `incentivos.last_recibo_at` | 2000-01-29 | 2014-12-30 | |
+| Cultura (API) | `projetos_api.ano_projeto` (PRONAC) | 2019 | 2026 | 63.350 projetos; 2016 e 2018 com 1 cada |
+| Cultura (API) | `captacoes.data_recibo` | 2019 | 2026-10-22 | 194.557 recibos; 2012–2018 só 10 avulsos |
+| Cultura (API) | `pagamentos.data_pagamento` | 2019 | 2026 | 2,8 mi pagamentos; há datas lixo (`1900`, `9093`) |
+| Educação | `instituicaos/cursos/mantenedoras.created_at` | 2015-02-07 | 2015-02-11 | uma única raspagem de 4 dias |
+| Eleições | `candidatos.ano` | 2002 | 2016 | 8 eleições, só anos pares |
+| Eleições | `doacoes.quando` | 2002 | 2016 | ~1% com data lixo (`0001-01-01`, `9200-10-10`) ou nula |
+
+Resumindo: **Links** vai de 2009 a 2017, **Educação** é um retrato de fevereiro de 2015, **Eleições** cobre as eleições de 2002 a 2016 e **Cultura** tem 2000–2016 (legado) + 2019–2026 (API), com o buraco em 2017–2018.
 
 ---
 
